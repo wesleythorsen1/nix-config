@@ -1,0 +1,3 @@
+#!/bin/sh
+
+home-manager switch --flake /home/wes/nix-config/flake.nix#wes@thinkpad

@@ -68,6 +68,7 @@ in {
       # powerline-fonts
       # terraform
       tree
+      vim
       wget
       yank
       yazi
@@ -103,10 +104,11 @@ in {
 
     git = {
       enable = true;
-      userName  = "wesleythorsen1";
+      userName  = "wes";
       userEmail = "wesley.thorsen@gmail.com";
       aliases = {
         co = "checkout";
+        logl = "log --all --decorate --oneline --graph";
       };
       extraConfig = {
         credential.helper = "${
@@ -140,7 +142,7 @@ in {
     };
 
     wezterm = {
-      enable = false;
+      enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
       #extraConfig = ''
