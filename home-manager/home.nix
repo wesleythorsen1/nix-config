@@ -114,13 +114,15 @@ in {
       extraConfig = {
         push = { autoSetupRemote = true; };
         credential = {
-          helper = "manager";
-          "https://github.com".username = "wesleythorsen1";
-          credentialStore = "cache";
+
+          helper = "${
+              pkgs.git.override { withLibsecret = true; }
+            }/bin/git-credential-libsecret";
+          # helper = "libsecret";
+          # "https://github.com".username = "wesleythorsen1";
+          # credentialStore = "cache";
         };
-        # credential.helper = "${
-        #     pkgs.git.override { withLibsecret = true; }
-        #   }/bin/git-credential-libsecret";
+        # credential.
       };
     };
 
