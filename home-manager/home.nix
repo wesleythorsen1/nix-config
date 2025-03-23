@@ -16,6 +16,56 @@ in {
     # ./nvim.nix
   ];
 
+  # wayland.windowManager.hyprland.enable = true; # enable Hyprland
+  wayland.windowManager.hyprland = {
+    enable = true;
+    # # set the flake package
+    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
+  wayland.windowManager.hyprland.settings = {
+    "$mod" = "SUPER";
+    "$mods" = "SUPERSHIFT";
+    bind =
+      [
+        # "$mod, Return, exec, ${pkgs.${vars.terminal}}/bin/${vars.terminal}"
+        "$mod, Q, killactive, "
+        "$mod, Escape, exit, "
+        "$mod, S, exec, ${pkgs.systemd}/bin/systemctl suspend"
+        "$mod, F, togglefloating, "
+        ", F11, fullscreen"
+        "$mod, R, forcerendererreload"
+        "$mod, left, movefocus, l"
+        "$mod, right, movefocus, r"
+        "$mod, up, movefocus, u"
+        "$mod, down, movefocus, d"
+        "$mod SHIFT, left, movewindow, l"
+        "$mod SHIFT, right, movewindow, r"
+        "$mod SHIFT, up, movewindow, u"
+        "$mod SHIFT, down, movewindow, d"
+        # "$mod ALT, left, workspace, l"
+        # "$mod ALT, right, workspace, r"
+        "$mod ALT, left, exec, hyprctl dispatch workspace $(expr $(hyprctl activeworkspace -j | jq '.id' -r) - 1)"
+        "$mod ALT, right, exec, hyprctl dispatch workspace $(expr $(hyprctl activeworkspace -j | jq '.id' -r) + 1)"
+        "$mod, Return, exec, kitty"
+        "$mod, T, exec, wezterm"
+        "$mod, B, exec, brave"
+        ", Print, exec, grimblast copy area"
+      ]
+      ++ (
+        # workspaces
+        # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+        builtins.concatLists (builtins.genList (i:
+            let ws = i + 1;
+            in [
+              "$mod, code:1${toString i}, workspace, ${toString ws}"
+              "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+            ]
+          )
+          9)
+      );
+  };
+
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -66,6 +116,7 @@ in {
       nodejs_20
       # nodejs_22
       # powerline-fonts
+      qutebrowser
       rsclock
       # terraform
       tree
@@ -180,8 +231,9 @@ in {
 
     vscode = {
       enable = true;
-
     };
+
+    kitty.enable = true; # required for the default Hyprland config
   };
 
   # Nicely reload system units when changing configs
