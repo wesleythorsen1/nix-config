@@ -66,9 +66,11 @@ in {
       nodejs_20
       # nodejs_22
       # powerline-fonts
+      rsclock
       # terraform
       tree
       vim
+      vlc
       wget
       yank
       yazi

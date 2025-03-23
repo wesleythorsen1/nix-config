@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo nixos-rebuild switch --flake /home/wes/nix-config/flake.nix#thinkpad
+home-manager switch --flake /home/wes/nix-config/flake.nix#wes@thinkpad
