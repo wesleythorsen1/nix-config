@@ -64,6 +64,11 @@ in {
           )
           9)
       );
+    monitor = [
+      ",preferred,auto,1,mirror,LVDS-2"
+      "LVDS-2,1600x900@60.22200,0x0,1"
+      "DP-1,1920x1080@60.00000,1600x0,1"
+    ];
   };
 
   nixpkgs = {
@@ -223,6 +228,7 @@ in {
       package = pkgs.brave;
       extensions = [
         { id = "nngceckbapebfimnlniiiahkandclblb"; } # bitwarden
+        { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium
       ];
       commandLineArgs = [
         "--disable-features=WebRtcAllowInputVolumeAdjustment"
