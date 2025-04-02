@@ -13,7 +13,7 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
+    nixpkgs-unstable, 
     nixpkgs-a71323f,
     home-manager,
     hyprland,
@@ -48,7 +48,7 @@
     };
 
     homeConfigurations = {
-      "wes@thinkpad" = home-manager.lib.homeManagerConfiguration {
+      "wes@bbetty" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
@@ -57,12 +57,21 @@
         ];
       };
 
-      "wesley@Wesleys-MacBook-Pro.local" = home-manager.lib.homeManagerConfiguration {
+      "wesley@crackbook" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
           { nixpkgs.overlays = [ unstable-overlay a71323f-overlay ]; }
           ./hosts/crackbook/home.nix
+        ];
+      };
+
+      "wthorsen@MacBookPro" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        extraSpecialArgs = { inherit inputs outputs; };
+        modules = [
+          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay ]; }
+          ./hosts/homie/home.nix
         ];
       };
     };
