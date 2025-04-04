@@ -1,0 +1,123 @@
+{
+  // General editor settings
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.inlineSuggest.enabled": true,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "window.title": "${rootName}",
+  "debug.onTaskErrors": "debugAnyway",
+
+  // Language-specific editor settings
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.enable": true,
+    "eslint.format.enable": true,
+    "eslint.useFlatConfig": true,
+    "prettier.enable": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.enable": true,
+    "eslint.format.enable": true,
+    "eslint.useFlatConfig": true,
+    "prettier.enable": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.enable": true,
+    "eslint.format.enable": true,
+    "eslint.useFlatConfig": true,
+    "prettier.enable": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[csharp]": {
+    "editor.tabSize": 4
+  },
+
+  // Language-scoped VSCode settings (file management, imports, etc.)
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "debug.javascript.autoAttachFilter": "smart",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "yaml.schemas": {
+    "file:///Users/wesley/.vscode/extensions/atlassian.atlascode-2.10.12/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+  },
+  "yaml.customTags": [
+    "!And",
+    "!And sequence",
+    "!If",
+    "!If sequence",
+    "!Not",
+    "!Not sequence",
+    "!Equals",
+    "!Equals sequence",
+    "!Or",
+    "!Or sequence",
+    "!FindInMap",
+    "!FindInMap sequence",
+    "!Base64",
+    "!Join",
+    "!Join sequence",
+    "!Cidr",
+    "!Ref",
+    "!Sub",
+    "!Sub sequence",
+    "!GetAtt",
+    "!GetAZs",
+    "!ImportValue",
+    "!ImportValue sequence",
+    "!Select",
+    "!Select sequence",
+    "!Split",
+    "!Split sequence"
+  ],
+  "csharp.experimental.debug.hotReload": true,
+
+  // Extension-wide/global settings (not language-specific)
+  "jest.runMode": "on-demand",
+  "jest.coverageColors": {
+    "covered": "rgba(9, 156, 65, 0.4)",
+    "uncovered": "rgba(121, 31, 10, 0.4)",
+    "partially-covered": "rgba(235, 198, 52, 0.4)"
+  },
+  "jest.coverageFormatter": "GutterFormatter",
+  "omnisharp.enableAsyncCompletion": true,
+  "vs-kubernetes": {
+    "vscode-kubernetes.minikube-path-mac": "/Users/wesley/.vs-kubernetes/tools/minikube/darwin-arm64/minikube"
+  },
+  "openapi.defaultPreviewRenderer": "redoc",
+  "cSpell.enabled": true,
+  "cSpell.userWords": [
+    "atlascode",
+    "AWSXRay",
+    "bodyparser",
+    "codeartifact",
+    "converages",
+    "dropoff",
+    "esbenp",
+    "healthcheck",
+    "kinetik",
+    "luxon",
+    "nixpkgs",
+    "nodemon",
+    "omnisharp",
+    "ONDEMAND",
+    "pkgs",
+    "premajor",
+    "preminor",
+    "prepatch",
+    "thinkpad",
+    "Thorsen",
+    "tsyringe",
+    "typebox",
+    "typemoq",
+    "WILLCALL"
+  ],
+  "cSpell.customDictionaries": {
+
+  }
+}

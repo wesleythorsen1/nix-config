@@ -8,6 +8,7 @@
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     hyprland.url = "github:hyprwm/Hyprland";
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
   outputs = {
@@ -17,6 +18,7 @@
     nixpkgs-a71323f,
     home-manager,
     hyprland,
+    nix-vscode-extensions,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -27,6 +29,8 @@
         config.allowUnfree = true;
       };
     };
+    
+    vscode-overlay = nix-vscode-extensions.overlays.default;
 
     a71323f-overlay = final: prev: {
       a71323f = import inputs.nixpkgs-a71323f {
@@ -52,16 +56,16 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
-          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay ]; }
+          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ]; }
           ./hosts/bbetty/home.nix
         ];
       };
 
-      "wesley@crackbook" = home-manager.lib.homeManagerConfiguration {
+      "wesleyg@crackbook" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
-          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay ]; }
+          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ]; }
           ./hosts/crackbook/home.nix
         ];
       };
@@ -70,7 +74,7 @@
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
-          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay ]; }
+          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ]; }
           ./hosts/homie/home.nix
         ];
       };

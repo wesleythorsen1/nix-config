@@ -1,0 +1,33 @@
+#!/bin/sh
+
+set -e
+
+# Optional parameter: BRANCH_NAME
+BRANCH_NAME=$1
+
+# confirm current dir is a git repo
+if ! git rev-parse --abbrev-ref HEAD >/dev/null 2>&1; then
+  echo "Error: Not a git repository."
+  exit 1
+fi
+
+if [ -z "$BRANCH_NAME" ]; then
+  # if BRANCH_NAME is not provided, use the current branch
+  BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+fi
+
+echo "Archiving $BRANCH_NAME."
+
+read -p "Do you want to delete the source branch after archiving? (Y/n): " answer
+
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+  # echo "Archiving and moving $BRANCH_NAME to archive/$BRANCH_NAME using git-mv."
+  git-mv $BRANCH_NAME archive/$BRANCH_NAME
+else
+  # echo "Archiving $BRANCH_NAME to archive/$BRANCH_NAME using git-cp."
+  git-cp $BRANCH_NAME archive/$BRANCH_NAME
+fi
+
+git fetch --all --prune
+
+echo "Branch '$BRANCH_NAME' has been archived."
