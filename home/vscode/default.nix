@@ -16,7 +16,7 @@
       continue.continue
       dbaeumer.vscode-eslint
       denoland.vscode-deno
-      dotjoshjohnson.xml
+      # dotjoshjohnson.xml
       # eamodio.gitlens
       esbenp.prettier-vscode
       heaths.vscode-guid
@@ -26,9 +26,9 @@
       mohsen1.prettify-json
       # mongodb.mongodb-vscode
       # ms-azuretools.vscode-docker
-      ms-dotnettools.csdevkit
-      ms-dotnettools.csharp
-      ms-dotnettools.vscode-dotnet-runtime
+      # ms-dotnettools.csdevkit
+      # ms-dotnettools.csharp
+      # ms-dotnettools.vscode-dotnet-runtime
       # ms-kubernetes-tools.vscode-kubernetes-tools
       # ms-python.debugpy
       # ms-python.isort
@@ -42,9 +42,8 @@
       redhat.vscode-yaml
       rvest.vs-code-prettier-eslint
       shd101wyy.markdown-preview-enhanced
-      # # snyk-security.snyk-vulnerability-scanner
       streetsidesoftware.code-spell-checker
-      threadheap.serverless-ide-vscode
+      # threadheap.serverless-ide-vscode
       tim-koehler.helm-intellisense
       visualstudioexptteam.intellicode-api-usage-examples
       visualstudioexptteam.vscodeintellicode

@@ -2,7 +2,7 @@
 
 {
   imports = [
-    # ./chromium
+    ./chromium
     ./dotnet
     ./fd
     ./fzf
@@ -10,7 +10,7 @@
     ./nvim
     ./oh-my-zsh
     ./tree
-    # ./vscode
+    ./vscode
     ./wezterm
     ./zsh
   ];
@@ -55,7 +55,7 @@
       # a71323f.nodejs_16
       neofetch
       nix-tree
-      nodejs_20
+      # nodejs_20
       pipes-rs
       ripgrep
       rsclock

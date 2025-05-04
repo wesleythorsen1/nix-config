@@ -9,6 +9,11 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     hyprland.url = "github:hyprwm/Hyprland";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };    
   };
 
   outputs = {
@@ -19,6 +24,7 @@
     home-manager,
     hyprland,
     nix-vscode-extensions,
+    nix-darwin,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -51,6 +57,24 @@
       };
     };
 
+    darwinConfigurations = {
+      crackbookpro = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+
+        modules = [
+          ./hosts/crackbookpro/darwin.nix
+
+          home-manager.darwinModules.home-manager {
+            home-manager.useGlobalPkgs    = true;
+            home-manager.useUserPackages  = true;
+            home-manager.users.wes        = import ./hosts/crackbookpro/home.nix;
+          }
+        ];
+  
+        specialArgs = { inherit inputs outputs unstable-overlay a71323f-overlay vscode-overlay; };
+      };
+    };
+    
     homeConfigurations = {
       "wes@bbetty" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
@@ -58,15 +82,6 @@
         modules = [
           { nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ]; }
           ./hosts/bbetty/home.nix
-        ];
-      };
-
-      "wesley@Wesley's-MacBook-Pro-(Cracked-Screen)" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        extraSpecialArgs = { inherit inputs outputs; };
-        modules = [
-          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ]; }
-          ./hosts/crackbook/home.nix
         ];
       };
 

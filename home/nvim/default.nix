@@ -20,7 +20,7 @@ in {
     vimAlias = true;
     vimdiffAlias = true;
 
-    withNodeJs = true;
+    withNodeJs = false; # temp disable, nodejs 20.19 issue
 
     extraPackages = with pkgs; [
       wl-clipboard
