@@ -5,15 +5,17 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-a71323f.url = "github:nixos/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c";
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland.url = "github:hyprwm/Hyprland";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-
+    hyprland.url = "github:hyprwm/Hyprland";
+    mac-app-util.url = "github:hraban/mac-app-util";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
-    };    
+    };
   };
 
   outputs = {
@@ -25,6 +27,7 @@
     hyprland,
     nix-vscode-extensions,
     nix-darwin,
+    mac-app-util,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -64,10 +67,15 @@
         modules = [
           ./hosts/crackbookpro/darwin.nix
 
+          mac-app-util.darwinModules.default
+
           home-manager.darwinModules.home-manager {
-            home-manager.useGlobalPkgs    = true;
-            home-manager.useUserPackages  = true;
-            home-manager.users.wes        = import ./hosts/crackbookpro/home.nix;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.wes = import ./hosts/crackbookpro/home.nix;
+            home-manager.sharedModules = [
+              mac-app-util.homeManagerModules.default
+            ];
           }
         ];
   
