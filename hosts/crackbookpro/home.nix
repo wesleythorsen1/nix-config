@@ -12,4 +12,8 @@
   programs.git.userName  = "wesleythorsen1";
   programs.git.userEmail = "wesley.thorsen@gmail.com";
   programs.git.extraConfig.credential.helper = "osxkeychain";
+
+  home.packages = with pkgs; [
+    unstable.slack
+  ];
 }

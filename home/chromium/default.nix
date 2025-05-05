@@ -4,7 +4,7 @@
   programs.chromium = {
     enable = true;
 
-    package = pkgs.brave;
+    package = pkgs.unstable.brave;
 
     extensions = [
       { id = "nngceckbapebfimnlniiiahkandclblb"; } # bitwarden
@@ -12,6 +12,7 @@
     ];
     
     commandLineArgs = [
+      "--disable-component-update" # disables auto update check
       "--disable-features=WebRtcAllowInputVolumeAdjustment"
     ];
   };

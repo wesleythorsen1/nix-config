@@ -1,6 +1,13 @@
 { inputs, lib, config, pkgs, ... }:
 
 {
+  programs.home-manager.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = _: true;
+
+  systemd.user.startServices = "sd-switch";
+
   imports = [
     ./chromium
     ./dotnet
@@ -15,15 +22,9 @@
     ./zsh
   ];
 
-  programs.home-manager.enable = true;
-  home.stateVersion = "24.11";
-
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = _: true;
-
-  systemd.user.startServices = "sd-switch";
-
   home = {
+    stateVersion = "24.11";
+
     sessionVariables = {
       EDITOR = "code";
     };
