@@ -55,6 +55,7 @@
       ];
 
       shellAliases = {
+        c = "clear";
         l = "eza -la";
         lt = "eza -laT -I=.git";
         v = "nvim";
@@ -64,6 +65,7 @@
       packages = with pkgs; [
         awscli2
         btop
+        unstable.dbeaver-bin
         deno
         docker
         doppler
@@ -72,11 +74,14 @@
         gum
         jq
         kubernetes-helm
+        mysql80
         # a71323f.nodejs_16
         neofetch
         nix-tree
         unstable.nodejs_20
         pipes-rs
+        unstable.postman
+        python3
         ripgrep
         rsclock
         # terraform
