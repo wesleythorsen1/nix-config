@@ -75,7 +75,7 @@
         # a71323f.nodejs_16
         neofetch
         nix-tree
-        # nodejs_20
+        unstable.nodejs_20
         pipes-rs
         ripgrep
         rsclock
