@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   unstable-overlay,
   a71323f-overlay,
@@ -12,6 +11,8 @@
   # Apply overlays and allow unfree packages
   nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ];
   nixpkgs.config.allowUnfree = true;
+
+  networking.hostName = "crackbookpro";
 
   # Configure the user account
   users.users.wes = {

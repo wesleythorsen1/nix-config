@@ -1,12 +1,25 @@
-{ inputs, lib, config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  programs.home-manager.enable = true;
+  options.homeConfig = {
+    nixBuildTool = lib.mkOption {
+      type        = lib.types.str;
+      description = "Command to rebuild/reload your Nix config (e.g. darwin-rebuild or nixos-rebuild)";
+      default     = throw "Error: homeConfig.buildTool must be set in your configuration.";
+    };
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = _: true;
+    nixConfigPath = lib.mkOption {
+      type        = lib.types.str;
+      description = "Path to your flake-based Nix config directory (e.g. $HOME/.config/nix-config)";
+      default     = throw "Error: homeConfig.nixConfigPath must be set in your configuration.";
+    };
 
-  systemd.user.startServices = "sd-switch";
+    hostName = lib.mkOption {
+      type        = lib.types.str;
+      description = "System host name, same as config.networking.hostName";
+      default     = throw "Error: homeConfig.hostName must be set in your configuration.";
+    };
+  };
 
   imports = [
     ./chromium
@@ -22,49 +35,56 @@
     ./zsh
   ];
 
-  home = {
-    stateVersion = "24.11";
+  config = {
+    programs.home-manager.enable = true;
 
-    sessionVariables = {
-      EDITOR = "code";
+    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnfreePredicate = _: true;
+
+    systemd.user.startServices = "sd-switch";
+
+    home = {
+      stateVersion = "24.11";
+
+      sessionVariables = {
+        EDITOR = "code";
+      };
+
+      sessionPath = [
+        "$HOME/bin"
+      ];
+
+      shellAliases = {
+        l = "eza -la";
+        lt = "eza -laT -I=.git";
+        v = "nvim";
+        switch = "${config.homeConfig.nixBuildTool} switch --flake ${config.homeConfig.nixConfigPath}#${config.homeConfig.hostName}";
+      };
+
+      packages = with pkgs; [
+        awscli2
+        btop
+        deno
+        docker
+        doppler
+        eza
+        glow
+        gum
+        jq
+        kubernetes-helm
+        # a71323f.nodejs_16
+        neofetch
+        nix-tree
+        # nodejs_20
+        pipes-rs
+        ripgrep
+        rsclock
+        # terraform
+        wget
+        yank
+        yazi
+        zip
+      ];
     };
-
-    sessionPath = [
-      "$HOME/bin"
-    ];
-
-    shellAliases = {
-      la = "ls -la";
-      l = "eza -l --git-ignore";
-      lt = "eza -lT --git-ignore";
-      v = "nvim";
-      hm = "home-manager";
-      hms = "home-manager switch --flake ~/nix";
-    };
-
-    packages = with pkgs; [
-      awscli2
-      btop
-      deno
-      docker
-      doppler
-      eza
-      glow
-      gum
-      jq
-      kubernetes-helm
-      # a71323f.nodejs_16
-      neofetch
-      nix-tree
-      # nodejs_20
-      pipes-rs
-      ripgrep
-      rsclock
-      # terraform
-      wget
-      yank
-      yazi
-      zip
-    ];
   };
 }
