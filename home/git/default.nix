@@ -7,6 +7,7 @@
     aliases = {
       co = "checkout";
       logl = "log --all --decorate --oneline --graph";
+      pushf = "push --force-with-lease";
     };
 
     extraConfig = {
