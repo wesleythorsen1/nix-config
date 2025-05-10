@@ -6,22 +6,26 @@ CAFFEINATE_PID=$!   # Store the caffeinate process ID to stop it later
 
 # Function to switch to Slack
 activate_slack() {
+    echo "Switching to Slack..."
     osascript -e 'tell application "Slack" to activate'
 }
 
 # Function to switch to the browser
 activate_browser() {
+    echo "Switching to Brave Browser..."
     osascript -e 'tell application "Brave Browser" to activate'
 }
 
 # Function to switch to the vscode
 activate_vscode() {
+    echo "Switching to Visual Studio Code..."
     osascript -e 'tell application "Visual Studio Code" to activate'
 }
 
-# Function to switch to the iterm
-activate_iterm() {
-    osascript -e 'tell application "iTerm" to activate'
+# Function to switch to the wezterm
+activate_wezterm() {
+    echo "Switching to WezTerm..."
+    osascript -e 'tell application "WezTerm" to activate'
 }
 
 # Cleanup function to stop caffeinate on exit
@@ -33,19 +37,15 @@ trap cleanup EXIT
 
 # Loop to alternate between Slack and browser every 60 seconds
 while true; do
-    echo "Switching to iTerm..."
-    activate_iterm
+    activate_wezterm
     sleep 30  # Stay on Slack for 30 seconds
 
-    echo "Switching to VSCode..."
     activate_vscode
     sleep 30  # Stay on Slack for 30 seconds
 
-    echo "Switching to Slack..."
     activate_slack
     sleep 30  # Stay on Slack for 30 seconds
 
-    echo "Switching to browser..."
     activate_browser
     sleep 30  # Stay on browser for 30 seconds
 done

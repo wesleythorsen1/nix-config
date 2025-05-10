@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>PayloadType</key>
+  <string>com.apple.TCC.configuration-profile-policy</string>
+  <key>PayloadVersion</key>
+  <integer>1</integer>
+  <key>PayloadIdentifier</key>
+  <string>com.yourorg.tcc-pppc</string>
+  <key>PayloadUUID</key>
+  <string>01234567-89AB-CDEF-0123-456789ABCDEF</string>
+  <key>PayloadDisplayName</key>
+  <string>Allow Screen Recording for Brave & Slack</string>
+  <key>Services</key>
+  <dict>
+    <key>ScreenCapture</key>
+    <array>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>com.brave.Browser</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>com.tinyspeck.slackmacgap</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+    </array>
+  </dict>
+</dict>
+</plist>
