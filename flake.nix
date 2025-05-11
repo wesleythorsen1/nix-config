@@ -2,12 +2,29 @@
   description = "nix config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-a71323f.url = "github:nixos/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c";
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-    hyprland.url = "github:hyprwm/Hyprland";
-    mac-app-util.url = "github:hraban/mac-app-util";
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-24.11";
+    };
+    nixpkgs-unstable = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixpkgs-a71323f = {
+      url = "github:nixos/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,28 +49,40 @@
   } @ inputs: let
     inherit (self) outputs;
     
-    unstable-overlay = final: prev: {
-      unstable = import inputs.nixpkgs-unstable {
-        system = prev.system;
-        config.allowUnfree = true;
-      };
-    };
-    
-    vscode-overlay = nix-vscode-extensions.overlays.default;
+    overlays = [
+      nix-vscode-extensions.overlays.default
 
-    a71323f-overlay = final: prev: {
-      a71323f = import inputs.nixpkgs-a71323f {
-        system = prev.system;
-        config.allowUnfree = true;
-        config.permittedInsecurePackages = [
-          "nodejs-16.20.2"
-        ];
-      };
-    };
+      (
+        final: prev: let 
+          unstable = import inputs.nixpkgs-unstable {
+            inherit (prev) system;
+            config.allowUnfree = true;
+          };
+        in {
+          brave = unstable.brave;
+          dbeaver-bin = unstable.dbeaver-bin;
+          nodejs_20 = unstable.nodejs_20;
+          postman = unstable.postman;
+          slack = unstable.slack;
+        }
+      )
+
+      (
+        final: prev: {
+          nodejs_16 = (import inputs.nixpkgs-a71323f {
+            inherit (prev) system;
+            config.permittedInsecurePackages = [
+              "nodejs-16.20.2"
+            ];
+          }).nodejs_16;
+        }
+      )
+    ];
   in {
     nixosConfigurations = {
       "bbetty" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; };
+
         modules = [
           ./hosts/bbetty/configuration.nix
         ];
@@ -63,6 +92,8 @@
     darwinConfigurations = {
       crackbookpro = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
+
+        specialArgs = { inherit inputs outputs overlays; };
 
         modules = [
           ./hosts/crackbookpro/darwin.nix
@@ -78,27 +109,18 @@
             ];
           }
         ];
-  
-        specialArgs = { inherit inputs outputs unstable-overlay a71323f-overlay vscode-overlay; };
       };
     };
     
     homeConfigurations = {
       "wes@bbetty" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs; };
-        modules = [
-          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ]; }
-          ./hosts/bbetty/home.nix
-        ];
-      };
 
-      "wthorsen@MacBookPro" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        extraSpecialArgs = { inherit inputs outputs; };
+        specialArgs = { inherit inputs outputs overlays; };
+        # extraSpecialArgs = { inherit inputs outputs; };
+        
         modules = [
-          { nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ]; }
-          ./hosts/homie/home.nix
+          ./hosts/bbetty/home.nix
         ];
       };
     };

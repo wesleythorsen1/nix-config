@@ -1,13 +1,11 @@
 {
   pkgs,
-  unstable-overlay,
-  a71323f-overlay,
-  vscode-overlay,
+  overlays,
   ...
 }:
 
 {
-  nixpkgs.overlays = [ unstable-overlay a71323f-overlay vscode-overlay ];
+  nixpkgs.overlays = overlays;
   nixpkgs.config.allowUnfree = true;
 
   networking.hostName = "crackbookpro";
@@ -16,7 +14,7 @@
     home  = "/Users/wes";
     shell = pkgs.zsh;
   };
-  
+
   services.nix-daemon.enable = true; # Ensure the Nix daemon runs on startup
 
   system.stateVersion = 5;

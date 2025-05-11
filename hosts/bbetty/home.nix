@@ -1,6 +1,13 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  overlays,
+  ...
+}:
 
 {
+  nixpkgs.overlays = overlays;
+
   home.username = "wes";
   homeDirectory = "/home/wes";
   home.homeDirectory = "/home/wes"; # ?

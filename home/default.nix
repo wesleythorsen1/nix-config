@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   options.homeConfig = {
@@ -65,7 +70,7 @@
       packages = with pkgs; [
         awscli2
         btop
-        unstable.dbeaver-bin
+        dbeaver-bin
         deno
         docker
         doppler
@@ -75,12 +80,11 @@
         jq
         kubernetes-helm
         mysql80
-        # a71323f.nodejs_16
         neofetch
         nix-tree
-        unstable.nodejs_20
+        nodejs_20
         pipes-rs
-        unstable.postman
+        postman
         python3
         ripgrep
         rsclock
