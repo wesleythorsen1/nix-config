@@ -25,7 +25,7 @@
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "bbetty"; # Define your hostname.
+  networking.hostName = "thinkpad"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
@@ -113,8 +113,10 @@
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "wes";
+  # services.xserver.displayManager.autoLogin.enable = true;
+  # services.xserver.displayManager.autoLogin.user = "wes";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user   = "wes";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

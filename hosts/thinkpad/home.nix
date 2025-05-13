@@ -9,20 +9,19 @@
   nixpkgs.overlays = overlays;
 
   home.username = "wes";
-  homeDirectory = "/home/wes";
-  home.homeDirectory = "/home/wes"; # ?
+  home.homeDirectory = "/home/wes";
 
   programs.git.userName  = "wesleythorsen1";
   programs.git.userEmail = "wesley.thorsen@gmail.com";
   programs.git.extraConfig.credential.helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
 
-  homeConfig.nixBuildTool  = "nixos-rebuild";
+  homeConfig.nixBuildTool  = "home-manager";
   homeConfig.nixConfigPath = "${config.home.homeDirectory}/nix-config";
-  homeConfig.hostName  = "bbetty";
+  homeConfig.hostName  = "thinkpad";
 
   imports = [
     ../../home
-    ../../home/wayland
+    ../../home/hyprland
   ];
 
   home.packages = with pkgs; [

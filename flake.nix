@@ -80,11 +80,11 @@
     ];
   in {
     nixosConfigurations = {
-      "bbetty" = nixpkgs.lib.nixosSystem {
+      "thinkpad" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; };
 
         modules = [
-          ./hosts/bbetty/configuration.nix
+          ./hosts/thinkpad/configuration.nix
         ];
       };
     };
@@ -113,14 +113,14 @@
     };
     
     homeConfigurations = {
-      "wes@bbetty" = home-manager.lib.homeManagerConfiguration {
+      "wes@thinkpad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
-        specialArgs = { inherit inputs outputs overlays; };
-        # extraSpecialArgs = { inherit inputs outputs; };
+        # specialArgs = { inherit inputs outputs overlays; };
+        extraSpecialArgs = { inherit inputs outputs overlays; };
         
         modules = [
-          ./hosts/bbetty/home.nix
+          ./hosts/thinkpad/home.nix
         ];
       };
     };
