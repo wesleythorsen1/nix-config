@@ -94,6 +94,7 @@
         yank
         yazi
         zip
+        zoom-us
       ];
     };
   };
