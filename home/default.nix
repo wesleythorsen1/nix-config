@@ -88,6 +88,7 @@
         python3
         ripgrep
         rsclock
+        slack
         # terraform
         wget
         yank

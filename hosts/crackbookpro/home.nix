@@ -15,8 +15,4 @@
   imports = [
     ../../home
   ];
-
-  home.packages = with pkgs; [
-    slack
-  ];
 }

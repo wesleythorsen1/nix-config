@@ -11,6 +11,10 @@
         "DP-1,1920x1080@60.00000,1600x0,1"
       ];
 
+      exec-once = [
+        "waybar"
+      ];
+
       general = {
         allow_tearing = true;
       };
@@ -22,6 +26,7 @@
       "$mod" = "SUPER";
       "$mods" = "SUPERSHIFT";
       bind = [
+        "$mod, Space, exec, wofi --show drun"
         # "$mod, Return, exec, ${pkgs.${vars.terminal}}/bin/${vars.terminal}"
         "$mod, Q, killactive, "
         "$mod, Escape, exit, "
