@@ -27,6 +27,10 @@
   };
 
   imports = [
+    ./accounts/email
+    ./accounts/email/personal
+    ./accounts/email/take2
+
     ./chromium
     ./dotnet
     ./fd
@@ -34,6 +38,7 @@
     ./git
     ./nvim
     ./oh-my-zsh
+    ./thunderbird
     ./tree
     ./vscode
     ./wezterm
