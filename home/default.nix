@@ -38,6 +38,7 @@
     ./git
     ./nvim
     ./oh-my-zsh
+    ./python3
     ./thunderbird
     ./tree
     ./vscode
@@ -90,7 +91,6 @@
         nodejs_20
         pipes-rs
         postman
-        python3
         ripgrep
         rsclock
         slack
