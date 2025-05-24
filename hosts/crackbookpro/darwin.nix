@@ -42,6 +42,17 @@
         /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
       '';
 
+      podmanMachineInit = {
+        deps = [ pkgs.podman pkgs.grep ];
+        text = ''
+          # if no default machine exists yet, create it
+          if ! podman machine list --format "{{.Name}}" \
+            | grep -q "^default$"; then
+            podman machine init
+          fi
+        '';
+      };
+
       # postUserActivation.text = ''
       #   profiles install -type configuration -path ${config.environment.etc."tcc-pppc.mobileconfig".source}
       # '';
@@ -52,6 +63,14 @@
     wes = {
       home  = "/Users/wes";
       shell = pkgs.zsh;
+    };
+  };
+
+  launchd.user.agents.podman-machine-start = {
+    command = "${pkgs.podman}/bin/podman machine start";
+    serviceConfig = {
+      RunAtLoad = true;
+      KeepAlive = true;
     };
   };
 
