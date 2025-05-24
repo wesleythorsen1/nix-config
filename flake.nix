@@ -60,12 +60,14 @@
           };
         in {
           brave = unstable.brave;
-          "dbeaver-bin" = unstable."dbeaver-bin";
+          dbeaver-bin = unstable.dbeaver-bin;
           nodejs_20 = unstable.nodejs_20;
           postman = unstable.postman;
           slack = unstable.slack;
           thunderbird = unstable.thunderbird;
           vscode = unstable.vscode;
+          podman = unstable.podman;
+          podman-desktop = unstable.podman-desktop;
           # zoom-us = unstable.zoom-us;
         }
       )

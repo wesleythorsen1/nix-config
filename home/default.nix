@@ -15,7 +15,7 @@
 
     nixConfigPath = lib.mkOption {
       type        = lib.types.str;
-      description = "Path to your flake-based Nix config directory (e.g. $HOME/.config/nix-config)";
+      description = "Path to your flake-based Nix config directory (e.g. $HOME/nix-config)";
       default     = throw "Error: homeConfig.nixConfigPath must be set in your configuration.";
     };
 

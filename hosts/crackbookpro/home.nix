@@ -9,7 +9,7 @@
   programs.git.extraConfig.credential.helper = "osxkeychain";
 
   homeConfig.nixBuildTool  = "darwin-rebuild";
-  homeConfig.nixConfigPath = "${config.home.homeDirectory}/.config/nix-config";
+  homeConfig.nixConfigPath = "${config.home.homeDirectory}/nix-config";
   homeConfig.hostName  = "crackbookpro";
 
   imports = [
