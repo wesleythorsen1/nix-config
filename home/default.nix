@@ -38,7 +38,7 @@
     ./git
     ./nvim
     ./oh-my-zsh
-    ./podman
+    # ./podman
     ./python3
     ./thunderbird
     ./tree
@@ -79,7 +79,7 @@
         btop
         dbeaver-bin
         deno
-        # docker
+        docker
         doppler
         eza
         glow
