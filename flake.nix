@@ -7,11 +7,9 @@
     };
     nixpkgs-unstable = {
       url = "github:nixos/nixpkgs/nixos-unstable";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-a71323f = {
       url = "github:nixos/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";

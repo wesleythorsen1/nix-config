@@ -36,11 +36,12 @@
     ./fd
     ./fzf
     ./git
+    ./nodejs
     ./nvim
     ./oh-my-zsh
     # ./podman
     ./python3
-    ./thunderbird
+    # ./thunderbird
     ./tree
     ./vscode
     ./wezterm
@@ -82,6 +83,7 @@
         docker
         doppler
         eza
+        gh
         glow
         gum
         jq
@@ -89,7 +91,7 @@
         mysql80
         neofetch
         nix-tree
-        nodejs_20
+        # nodejs_20
         pipes-rs
         postman
         ripgrep
