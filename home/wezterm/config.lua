@@ -8,6 +8,8 @@ return {
   front_end = "WebGpu",
   webgpu_preferred_adapter = gpus[2],
   color_scheme = 'Catppuccin Macchiato',
+  -- disable contextual alternates, classic ligatures, and discretionary ligatures (will stop “!=” becoming “≠”):
+  harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
   enable_tab_bar = false,
   inactive_pane_hsb = {
     saturation = 0.9,
