@@ -16,10 +16,6 @@
   programs.git.userEmail = "wesley.thorsen@gmail.com";
   programs.git.extraConfig.credential.helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
 
-  homeConfig.nixBuildTool  = "home-manager";
-  homeConfig.nixConfigPath = "${config.home.homeDirectory}/nix-config";
-  homeConfig.hostName  = "thinkpad";
-
   imports = [
     ../../home
     ../../home/hyprland

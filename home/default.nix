@@ -5,24 +5,16 @@
   ...
 }:
 
-{
+let
+  inherit (pkgs) stdenv;
+  
+  nixApplyCommand = if stdenv.isDarwin then "darwin-rebuild switch" else "home-manager switch";
+in{
   options.homeConfig = {
-    nixBuildTool = lib.mkOption {
-      type        = lib.types.str;
-      description = "Command to rebuild/reload your Nix config (e.g. darwin-rebuild or nixos-rebuild)";
-      default     = throw "Error: homeConfig.buildTool must be set in your configuration.";
-    };
-
     nixConfigPath = lib.mkOption {
       type        = lib.types.str;
-      description = "Path to your flake-based Nix config directory (e.g. $HOME/nix-config)";
-      default     = throw "Error: homeConfig.nixConfigPath must be set in your configuration.";
-    };
-
-    hostName = lib.mkOption {
-      type        = lib.types.str;
-      description = "System host name, same as config.networking.hostName";
-      default     = throw "Error: homeConfig.hostName must be set in your configuration.";
+      description = "Path to your flake-based Nix config directory (e.g. ~/repos/wesleythorsen1/nix-config)";
+      default     = "${config.home.homeDirectory}/repos/wesleythorsen1/nix-config";
     };
   };
 
@@ -72,7 +64,15 @@
         l = "eza -la";
         lt = "eza -laT -I=.git";
         v = "nvim";
-        switch = "${config.homeConfig.nixBuildTool} switch --flake ${config.homeConfig.nixConfigPath}#${config.homeConfig.hostName}";
+        nix-apply = "${nixApplyCommand}";
+        anc = "${nixApplyCommand} --flake ${config.homeConfig.nixConfigPath}"; # apply-nix-config
+      };
+
+      file = {
+        ".nix-config" = {
+          source = config.lib.file.mkOutOfStoreSymlink "${config.homeConfig.nixConfigPath}";
+          recursive = true;
+        };
       };
 
       packages = with pkgs; [
