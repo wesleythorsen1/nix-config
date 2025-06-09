@@ -90,6 +90,7 @@ in{
         kubernetes-helm
         mysql80
         neofetch
+        ngrok
         nix-tree
         # nodejs_20
         pipes-rs
