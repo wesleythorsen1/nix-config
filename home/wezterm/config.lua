@@ -3,17 +3,21 @@ local act = wezterm.action
 local gpus = wezterm.gui.enumerate_gpus()
 
 return {
-  enable_wayland = true,
+  enable_wayland = false,
   prefer_egl = true,
   front_end = "WebGpu",
   webgpu_preferred_adapter = gpus[2],
-  color_scheme = 'Catppuccin Macchiato',
+  color_scheme = 'Batman',
+  -- color_scheme = 'Catppuccin Mocha',
+  -- color_scheme = 'Catppuccin Macchiato',
+  -- color_scheme = 'Catppuccin Frappe',
+  -- color_scheme = 'Catppuccin Latte',
   -- disable contextual alternates, classic ligatures, and discretionary ligatures (will stop “!=” becoming “≠”):
   harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
-  enable_tab_bar = false,
+  enable_tab_bar = true,
   inactive_pane_hsb = {
-    saturation = 0.9,
-    brightness = 0.7,
+    saturation = 0.8,
+    brightness = 0.6,
   },
   -- enable_scroll_bar = true,
   -- background = {

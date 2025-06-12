@@ -1,6 +1,14 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
+  # symlink vscode settings files so changes get saved in nix-config
+  home.activation.linkVSCodeSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''${./link-vscode-config.sh}'';
+
   programs.vscode = {
     enable = true;
 

@@ -64,8 +64,10 @@ in{
         l = "eza -la";
         lt = "eza -laT -I=.git";
         v = "nvim";
-        nix-apply = "${nixApplyCommand}";
-        anc = "${nixApplyCommand} --flake ${config.homeConfig.nixConfigPath}"; # apply-nix-config
+        apply-nix = "${nixApplyCommand}"; # usage: `apply-nix --flake .#thinkpad@wes`
+        an = "apply-nix";
+        apply-nix-config = "${nixApplyCommand} --flake ${config.homeConfig.nixConfigPath}"; # apply-nix-config
+        anc = "apply-nix-config"; # apply-nix-config
       };
 
       file = {
