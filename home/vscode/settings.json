@@ -44,7 +44,21 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "file:///Users/wesley/.vscode/extensions/atlassian.atlascode-2.10.12/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+    "/Users/wes/.vscode/extensions/continue.continue/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.42-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.44-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.45-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.47-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ]
   },
   "yaml.customTags": [
     "!And",
@@ -92,32 +106,47 @@
   "openapi.defaultPreviewRenderer": "redoc",
   "cSpell.enabled": true,
   "cSpell.userWords": [
+    "ashby",
     "atlascode",
-    "AWSXRay",
+    "awsxray",
     "bodyparser",
+    "bussin",
+    "cass",
     "codeartifact",
     "converages",
+    "crackbookpro",
+    "deepgram",
+    "dotenv",
     "dropoff",
     "esbenp",
+    "filemode",
     "healthcheck",
     "kinetik",
+    "ldclient",
     "luxon",
+    "mytake",
+    "nixos",
     "nixpkgs",
     "nodemon",
     "omnisharp",
-    "ONDEMAND",
+    "ondemand",
     "pkgs",
     "premajor",
     "preminor",
     "prepatch",
+    "rgba",
     "thinkpad",
-    "Thorsen",
+    "thorsen",
     "tsyringe",
     "typebox",
     "typemoq",
-    "WILLCALL"
+    "venv",
+    "wesleythorsen",
+    "wezterm",
+    "willcall"
   ],
   "cSpell.customDictionaries": {
 
-  }
+  },
+  "continue.showInlineTip": false
 }

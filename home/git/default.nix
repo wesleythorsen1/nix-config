@@ -8,6 +8,7 @@
       co = "checkout";
       logl = "log --all --decorate --oneline --graph";
       pushf = "push --force-with-lease";
+      acane = "!git add -A && git commit --amend --no-edit";
     };
 
     extraConfig = {
