@@ -28,6 +28,7 @@ in{
     ./fd
     ./fzf
     ./git
+    ./http-log-server
     ./nodejs
     ./nvim
     ./oh-my-zsh

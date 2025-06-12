@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+eval : '; exec "npx -p express -p body-parser node" -- "$0" "$@"'
+
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+
+app.use(bodyParser.raw({ type: "*/*" }));
+
+app.all("*", (req, res) => {
+  console.log("=== Incoming Webhook ===");
+  console.log("→", req.method, req.url);
+  console.log("Headers:", req.headers);
+  console.log("Body:", req.body.toString());
+  res.sendStatus(200);
+});
+
+const port = parseInt(process.argv[2], 10) || 3005;
+app.listen(port, () => console.log(`Listening on http://localhost:${port}`));
