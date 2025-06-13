@@ -7,7 +7,10 @@ return {
   prefer_egl = true,
   front_end = "WebGpu",
   webgpu_preferred_adapter = gpus[2],
-  color_scheme = 'Batman',
+  -- color_scheme = 'Batman',
+  -- color_scheme = 'Matrix (terminal.sexy)',
+  -- color_scheme = 'Tango Adapted',
+  color_scheme = 'Material (terminal.sexy)',
   -- color_scheme = 'Catppuccin Mocha',
   -- color_scheme = 'Catppuccin Macchiato',
   -- color_scheme = 'Catppuccin Frappe',
@@ -155,6 +158,17 @@ return {
       key = 'Enter',
       mods = 'ALT',
       action = wezterm.action.DisableDefaultAssignment,
+    },
+    -- Rebind OPT-Left, OPT-Right as ALT-b, ALT-f respectively to match Terminal.app behavior
+    {
+      key = 'LeftArrow',
+      mods = 'OPT',
+      action = act.SendKey { key = 'b', mods = 'ALT' },
+    },
+    {
+      key = 'RightArrow',
+      mods = 'OPT',
+      action = act.SendKey { key = 'f', mods = 'ALT' },
     },
   },
 }
