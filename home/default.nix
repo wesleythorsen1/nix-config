@@ -49,7 +49,7 @@ in{
     systemd.user.startServices = "sd-switch";
 
     home = {
-      stateVersion = "24.11";
+      stateVersion = "25.05";
 
       sessionVariables = {
         EDITOR = "code";
@@ -66,7 +66,7 @@ in{
         v = "nvim";
         apply-nix = "${nixApplyCommand}"; # usage: `apply-nix --flake .#thinkpad@wes`
         an = "apply-nix";
-        apply-nix-config = "${nixApplyCommand} --flake ${config.homeConfig.nixConfigPath}"; # apply-nix-config
+        apply-nix-config = "sudo ${nixApplyCommand} --flake ${config.homeConfig.nixConfigPath}"; # apply-nix-config
         anc = "apply-nix-config"; # apply-nix-config
       };
 

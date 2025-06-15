@@ -6,6 +6,10 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # TODO: these two lines conflict with `home-manager.useGlobalPkgs = true;`.
+  # useGlobalPkgs tell home-manager to use the global config (overlays, allowUnfree, etc.).
+  # need to figure out how to properly inject the relevant nixpkgs config and use it here,
+  # so that I can remove useGlobalPkgs.
   nixpkgs.overlays = overlays;
   nixpkgs.config.allowUnfree = true;
 
@@ -13,6 +17,8 @@
 
   system = {
     stateVersion = 5;
+
+    primaryUser = "wes";
 
     defaults = {
       NSGlobalDomain = {
@@ -36,27 +42,27 @@
       # swapLeftCtrlAndFn         = false; # Swap left Control and Fn/Globe
     };
 
-    activationScripts = {
-      # Apply any changed defaults immediately (no login/logout)
-      postUserActivation.text = ''
-        /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-      '';
+    # activationScripts = {
+    #   # Apply any changed defaults immediately (no login/logout)
+    #   postUserActivation.text = ''
+    #     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    #   '';
 
-      # podmanMachineInit = {
-      #   deps = [ pkgs.podman pkgs.grep ];
-      #   text = ''
-      #     # if no default machine exists yet, create it
-      #     if ! podman machine list --format "{{.Name}}" \
-      #       | grep -q "^default$"; then
-      #       podman machine init
-      #     fi
-      #   '';
-      # };
+    #   # podmanMachineInit = {
+    #   #   deps = [ pkgs.podman pkgs.grep ];
+    #   #   text = ''
+    #   #     # if no default machine exists yet, create it
+    #   #     if ! podman machine list --format "{{.Name}}" \
+    #   #       | grep -q "^default$"; then
+    #   #       podman machine init
+    #   #     fi
+    #   #   '';
+    #   # };
 
-      # postUserActivation.text = ''
-      #   profiles install -type configuration -path ${config.environment.etc."tcc-pppc.mobileconfig".source}
-      # '';
-    };
+    #   # postUserActivation.text = ''
+    #   #   profiles install -type configuration -path ${config.environment.etc."tcc-pppc.mobileconfig".source}
+    #   # '';
+    # };
   };
 
   users.users = {
@@ -75,7 +81,7 @@
   # };
 
   services = {
-    nix-daemon.enable             = true; # Ensure the Nix daemon runs on startup
+    # nix-daemon.enable             = true; # Ensure the Nix daemon runs on startup
 
     # launchd = {
     #   userAgents."remap-command-control" = {

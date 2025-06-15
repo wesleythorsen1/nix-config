@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-nix flake update nixpkgs-unstable
+nix flake update
+# nix flake update nixpkgs-unstable

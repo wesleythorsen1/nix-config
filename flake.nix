@@ -2,10 +2,13 @@
   description = "nix config";
 
   inputs = {
+    # nixpkgs = {
+    #   url = "github:nixos/nixpkgs/nixos-24.11";
+    # };
+    # nixpkgs-unstable = {
+    #   url = "github:nixos/nixpkgs/nixos-unstable";
+    # };
     nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-24.11";
-    };
-    nixpkgs-unstable = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
     nixpkgs-a71323f = {
@@ -24,11 +27,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -36,7 +39,7 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable, 
+    # nixpkgs-unstable, 
     nixpkgs-a71323f,
     home-manager,
     hyprland,
@@ -50,26 +53,26 @@
     overlays = [
       nix-vscode-extensions.overlays.default
 
-      (
-        final: prev: let 
-          unstable = import inputs.nixpkgs-unstable {
-            inherit (prev) system;
-            config.allowUnfree = true;
-          };
-        in {
-          brave = unstable.brave;
-          dbeaver-bin = unstable.dbeaver-bin;
-          docker = unstable.docker;
-          nodejs_20 = unstable.nodejs_20;
-          postman = unstable.postman;
-          slack = unstable.slack;
-          thunderbird = unstable.thunderbird;
-          vscode = unstable.vscode;
-          podman = unstable.podman;
-          podman-desktop = unstable.podman-desktop;
-          # zoom-us = unstable.zoom-us;
-        }
-      )
+      # (
+      #   final: prev: let 
+      #     unstable = import inputs.nixpkgs-unstable {
+      #       inherit (prev) system;
+      #       config.allowUnfree = true;
+      #     };
+      #   in {
+      #     brave = unstable.brave;
+      #     dbeaver-bin = unstable.dbeaver-bin;
+      #     docker = unstable.docker;
+      #     nodejs_20 = unstable.nodejs_20;
+      #     postman = unstable.postman;
+      #     slack = unstable.slack;
+      #     thunderbird = unstable.thunderbird;
+      #     vscode = unstable.vscode;
+      #     podman = unstable.podman;
+      #     podman-desktop = unstable.podman-desktop;
+      #     # zoom-us = unstable.zoom-us;
+      #   }
+      # )
 
       (
         final: prev: {

@@ -145,8 +145,7 @@
     "wezterm",
     "willcall"
   ],
-  "cSpell.customDictionaries": {
-
-  },
-  "continue.showInlineTip": false
+  "cSpell.customDictionaries": {},
+  "continue.showInlineTip": false,
+  "extensions.ignoreRecommendations": true
 }
