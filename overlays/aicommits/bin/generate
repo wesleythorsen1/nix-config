@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# idempotent if package.json and package.lock already exist
+npm init -y
+
+# idempotent if no version specified and package already installed
+npm install "aicommits${1:+@$1}" --package-lock-only --save-exact
+
+npx node2nix --input ./package.json --lock ./package-lock.json

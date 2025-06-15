@@ -13,6 +13,8 @@
         shellAliases = {
             serverless = "npx serverless@3";
             sls = "serverless";
+            # aicommits = "npx aicommits";
+            # aic = "aicommits";
         };
     };
 }

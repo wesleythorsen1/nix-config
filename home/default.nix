@@ -76,6 +76,7 @@ in{
       };
 
       packages = with pkgs; [
+        aicommits
         awscli2
         btop
         dbeaver-bin

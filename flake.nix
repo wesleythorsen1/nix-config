@@ -81,6 +81,18 @@
           }).nodejs_16;
         }
       )
+
+      (
+        final: prev: let
+          aicPkgs = import ./overlays/aicommits {
+            pkgs   = prev;
+            system = prev.system;
+            nodejs = prev.nodejs_16;
+          };
+        in {
+          aicommits = aicPkgs.package;
+        }
+      )
     ];
   in {
     nixosConfigurations = {
