@@ -8,8 +8,8 @@
 let
   inherit (pkgs) stdenv;
   
-  nixApplyCommand = if stdenv.isDarwin then "darwin-rebuild switch" else "home-manager switch";
-in{
+  activationCommand = if stdenv.isDarwin then "darwin-rebuild switch" else "home-manager switch";
+in {
   options.homeConfig = {
     nixConfigPath = lib.mkOption {
       type        = lib.types.str;
@@ -53,10 +53,11 @@ in{
 
       sessionVariables = {
         EDITOR = "code";
+        NIX_ACTIVE_CONFIG_DIR = "${config.homeConfig.nixConfigPath}";
       };
 
       sessionPath = [
-        "$HOME/bin"
+        "${config.home.homeDirectory}/bin"
       ];
 
       shellAliases = {
@@ -64,16 +65,25 @@ in{
         l = "eza -la";
         lt = "eza -laT -I=.git";
         v = "nvim";
-        apply-nix = "${nixApplyCommand}"; # usage: `apply-nix --flake .#thinkpad@wes`
-        an = "apply-nix";
-        apply-nix-config = "sudo ${nixApplyCommand} --flake ${config.homeConfig.nixConfigPath}"; # apply-nix-config
-        anc = "apply-nix-config"; # apply-nix-config
+        na = "nix-activate"; # see "bin/nix-activate" script below
       };
 
       file = {
         ".nix-config" = {
+          # symlink "~/.nix-config" to physical repo location
           source = config.lib.file.mkOutOfStoreSymlink "${config.homeConfig.nixConfigPath}";
           recursive = true;
+        };
+        "bin/nix-activate" = {
+          # usage:
+          #   `nix-activate`                            - defaults to $NIX_ACTIVE_CONFIG_DIR if set, otherwise last value of ${config.homeConfig.nixConfigPath}
+          #   `nix-activate ./nix/config/dir#host@user` - with path (hostname and username optional, default to current)
+          executable = true;
+          text = ''
+            #!/usr/bin/env bash
+            flakePath="''${1:-''${NIX_ACTIVE_CONFIG_DIR:-${config.homeConfig.nixConfigPath}}}"
+            exec sudo ${activationCommand} --flake "$flakePath"
+          '';
         };
       };
 
