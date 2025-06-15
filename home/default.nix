@@ -19,6 +19,8 @@ in {
   };
 
   imports = [
+    ./nix-aliases
+
     ./accounts/email
     ./accounts/email/personal
     ./accounts/email/take2
