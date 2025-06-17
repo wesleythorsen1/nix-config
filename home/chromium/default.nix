@@ -16,4 +16,15 @@
       "--disable-features=WebRtcAllowInputVolumeAdjustment"
     ];
   };
+
+  programs.brave = {
+    enable = true;
+
+    package = pkgs.brave;
+
+    extensions = [
+      { id = "nngceckbapebfimnlniiiahkandclblb"; } # bitwarden
+      { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium
+    ];
+  };
 }

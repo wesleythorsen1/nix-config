@@ -2,44 +2,44 @@
   description = "nix config";
 
   inputs = {
-    # nixpkgs = {
-    #   url = "github:nixos/nixpkgs/nixos-24.11";
-    # };
-    # nixpkgs-unstable = {
-    #   url = "github:nixos/nixpkgs/nixos-unstable";
-    # };
     nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-25.05";
+    };
+    nixpkgs-unstable = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
+    # nixpkgs = {
+    #   url = "github:nixos/nixpkgs/nixos-unstable";
+    # };
     nixpkgs-a71323f = {
       url = "github:nixos/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c";
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     mac-app-util = {
       url = "github:hraban/mac-app-util";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nix-darwin = {
-      url = "github:nix-darwin/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-darwin/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
   outputs = {
     self,
     nixpkgs,
-    # nixpkgs-unstable, 
+    nixpkgs-unstable,
     nixpkgs-a71323f,
     home-manager,
     hyprland,
@@ -53,26 +53,26 @@
     overlays = [
       nix-vscode-extensions.overlays.default
 
-      # (
-      #   final: prev: let 
-      #     unstable = import inputs.nixpkgs-unstable {
-      #       inherit (prev) system;
-      #       config.allowUnfree = true;
-      #     };
-      #   in {
-      #     brave = unstable.brave;
-      #     dbeaver-bin = unstable.dbeaver-bin;
-      #     docker = unstable.docker;
-      #     nodejs_20 = unstable.nodejs_20;
-      #     postman = unstable.postman;
-      #     slack = unstable.slack;
-      #     thunderbird = unstable.thunderbird;
-      #     vscode = unstable.vscode;
-      #     podman = unstable.podman;
-      #     podman-desktop = unstable.podman-desktop;
-      #     # zoom-us = unstable.zoom-us;
-      #   }
-      # )
+      (
+        final: prev: let 
+          unstable = import inputs.nixpkgs-unstable {
+            inherit (prev) system;
+            config.allowUnfree = true;
+          };
+        in {
+          brave = unstable.brave;
+          dbeaver-bin = unstable.dbeaver-bin;
+          docker = unstable.docker;
+          nodejs_20 = unstable.nodejs_20;
+          postman = unstable.postman;
+          slack = unstable.slack;
+          thunderbird = unstable.thunderbird;
+          vscode = unstable.vscode;
+          podman = unstable.podman;
+          podman-desktop = unstable.podman-desktop;
+          # zoom-us = unstable.zoom-us;
+        }
+      )
 
       (
         final: prev: {
@@ -86,16 +86,6 @@
       )
     ];
   in {
-    nixosConfigurations = {
-      "thinkpad" = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; };
-
-        modules = [
-          ./hosts/thinkpad/configuration.nix
-        ];
-      };
-    };
-
     darwinConfigurations = {
       crackbookpro = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -119,6 +109,16 @@
       };
     };
     
+    nixosConfigurations = {
+      "thinkpad" = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs outputs; };
+
+        modules = [
+          ./hosts/thinkpad/configuration.nix
+        ];
+      };
+    };
+
     homeConfigurations = {
       "wes@thinkpad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;

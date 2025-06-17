@@ -58,6 +58,9 @@
     ],
     "/Users/wes/.vscode/extensions/continue.continue-1.1.47-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.48-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
     ]
   },
   "yaml.customTags": [
@@ -112,6 +115,7 @@
     "bodyparser",
     "bussin",
     "cass",
+    "Chandan",
     "codeartifact",
     "converages",
     "crackbookpro",
@@ -121,9 +125,11 @@
     "esbenp",
     "filemode",
     "healthcheck",
+    "Kaushik",
     "kinetik",
     "ldclient",
     "luxon",
+    "Meenal",
     "mytake",
     "nixos",
     "nixpkgs",
@@ -143,7 +149,8 @@
     "venv",
     "wesleythorsen",
     "wezterm",
-    "willcall"
+    "willcall",
+    "Yaniv"
   ],
   "cSpell.customDictionaries": {},
   "continue.showInlineTip": false,
