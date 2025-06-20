@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: 
+{ config, pkgs, ... }:
 
 let
   toLua = str: "lua << EOF\n${str}\nEOF\n";
@@ -12,10 +12,11 @@ let
       cp -r * $out/
     '';
   };
-in {
+in
+{
   programs.neovim = {
     enable = true;
-    
+
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
@@ -29,7 +30,7 @@ in {
     # extraConfig = ''
     #   ${builtins.readFile ./.nvimrc}
     # '';
-    
+
     # search all vimPlugins: nix-env -f '<nixpkgs>' -qaP -A vimPlugins
     plugins = with pkgs.vimPlugins; [
       {

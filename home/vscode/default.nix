@@ -7,7 +7,7 @@
 
 {
   # symlink vscode settings files so changes get saved in nix-config
-  home.activation.linkVSCodeSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.linkVSCodeSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     #!/usr/bin/env bash
     set -euo pipefail
     CODE_DIR="${config.home.homeDirectory}/Library/Application Support/Code/User"

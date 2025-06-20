@@ -6,7 +6,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
@@ -70,7 +71,10 @@
   services.desktopManager.plasma6.enable = false;
   programs.hyprland.enable = true;
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-hyprland
+    pkgs.xdg-desktop-portal-gtk
+  ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -104,11 +108,14 @@
   users.users.wes = {
     isNormalUser = true;
     description = "Wesley Thorsen";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -116,7 +123,7 @@
   # services.xserver.displayManager.autoLogin.enable = true;
   # services.xserver.displayManager.autoLogin.user = "wes";
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user   = "wes";
+  services.displayManager.autoLogin.user = "wes";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -124,11 +131,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
   ];
 
-   programs = {
+  programs = {
     zsh.enable = true;
     # hyprland = {
     #   enable = true;
@@ -144,7 +151,7 @@
     #   enable = true;
     #   enableSSHSupport = true;
     # };
-   };
+  };
 
   # List services that you want to enable:
 
@@ -166,8 +173,11 @@
   system.stateVersion = "25.05"; # Did you read the comment?
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
   };
 }

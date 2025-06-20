@@ -8,9 +8,9 @@
 {
   options.homeConfig = {
     nixConfigPath = lib.mkOption {
-      type        = lib.types.str;
+      type = lib.types.str;
       description = "Path to your flake-based Nix config directory (e.g. ~/code/wesleythorsen1/nix-config)";
-      default     = "${config.home.homeDirectory}/code/wesleythorsen1/nix-config";
+      default = "${config.home.homeDirectory}/code/wesleythorsen1/nix-config";
     };
   };
 
@@ -64,6 +64,7 @@
         neofetch
         ngrok
         nix-tree
+        nixd
         nixfmt-rfc-style
         # nodejs_20
         pipes-rs

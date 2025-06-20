@@ -10,7 +10,7 @@
   home.packages = with pkgs; [
     waybar
   ];
-  
+
   programs.waybar = {
     enable = true;
 
@@ -20,7 +20,7 @@
     #   mainBar = (builtins.fromJSON (builtins.readFile ./config.json));
     # };
     # style = (builtins.readFile ./style.css);
-    # 
+    #
     # systemd.enable = true;
     # style = ''
     #   ${builtins.readFile "${pkgs.waybar}/etc/xdg/waybar/style.css"}

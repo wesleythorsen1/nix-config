@@ -5,7 +5,10 @@
 }:
 
 {
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # TODO: these two lines conflict with `home-manager.useGlobalPkgs = true;`.
   # useGlobalPkgs tell home-manager to use the global config (overlays, allowUnfree, etc.).
   # need to figure out how to properly inject the relevant nixpkgs config and use it here,
@@ -22,24 +25,24 @@
 
     defaults = {
       NSGlobalDomain = {
-        AppleShowAllExtensions    = true;  # Show file extensions
-        AppleShowAllFiles         = true;  # Show hidden folders in finder
-        InitialKeyRepeat          = 15;    # default 25 
-        KeyRepeat                 = 2;     # 
+        AppleShowAllExtensions = true; # Show file extensions
+        AppleShowAllFiles = true; # Show hidden folders in finder
+        InitialKeyRepeat = 15; # default 25
+        KeyRepeat = 2;
       };
 
       dock = {
-        autohide                  = true;  # Auto-hide the Dock
-        mru-spaces                = false; # Don’t “Automatically rearrange Spaces based on most recent use”
+        autohide = true; # Auto-hide the Dock
+        mru-spaces = false; # Don’t “Automatically rearrange Spaces based on most recent use”
       };
 
       WindowManager = {
-        GloballyEnabled           = true;  # Enable "Stage Manager"
+        GloballyEnabled = true; # Enable "Stage Manager"
       };
     };
 
     keyboard = {
-      enableKeyMapping            = true;  # Turn on nix-darwin’s key-mapping support
+      enableKeyMapping = true; # Turn on nix-darwin’s key-mapping support
       # swapLeftCommandAndLeftAlt = true;  # Swap the left Command (⌘) and left Option (⌥) keys
       # remapCapsLockToControl    = true;  # Remap Caps Lock to Control
       # swapLeftCtrlAndFn         = false; # Swap left Control and Fn/Globe
@@ -70,7 +73,7 @@
 
   users.users = {
     wes = {
-      home  = "/Users/wes";
+      home = "/Users/wes";
       shell = pkgs.zsh;
     };
   };

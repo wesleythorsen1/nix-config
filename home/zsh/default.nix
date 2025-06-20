@@ -5,12 +5,16 @@
 }:
 
 let
-  denoCompletions = pkgs.runCommand "deno-completions" {
-    buildInputs = [ pkgs.deno ];
-  } ''
-    deno completions zsh > $out
-  '';
-in {
+  denoCompletions =
+    pkgs.runCommand "deno-completions"
+      {
+        buildInputs = [ pkgs.deno ];
+      }
+      ''
+        deno completions zsh > $out
+      '';
+in
+{
   programs.zsh = {
     enable = true;
 

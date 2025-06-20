@@ -3,7 +3,7 @@
 {
   accounts = {
     email = {
-      maildirBasePath        = "maildir";
+      maildirBasePath = "maildir";
       # certificatesFile       = "/etc/ssl/certs/ca-certificates.crt";
     };
   };

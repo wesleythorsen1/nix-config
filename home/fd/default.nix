@@ -5,7 +5,7 @@
     enable = true;
 
     hidden = true;
-    
+
     ignores = [
       ".git/"
       "node_modules/"

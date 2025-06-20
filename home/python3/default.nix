@@ -4,11 +4,13 @@
 }:
 
 let
-  pythonWithPip = pkgs.python3.withPackages (ps: with ps; [
-    pip
-    setuptools
-    wheel
-  ]);
+  pythonWithPip = pkgs.python3.withPackages (
+    ps: with ps; [
+      pip
+      setuptools
+      wheel
+    ]
+  );
 in
 {
   home = {
