@@ -7,7 +7,15 @@
 
 {
   # symlink vscode settings files so changes get saved in nix-config
-  home.activation.linkVSCodeSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''${./link-vscode-config.sh}'';
+  home.activation.linkVSCodeSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    #!/usr/bin/env bash
+    set -euo pipefail
+    CODE_DIR="${config.home.homeDirectory}/Library/Application Support/Code/User"
+    NIX_CONFIG_DIR="${config.home.homeDirectory}/.nix-config/home/vscode"
+    mkdir -p "$CODE_DIR"
+    ln -sf "$NIX_CONFIG_DIR/settings.json" "$CODE_DIR/settings.json"
+    ln -sf "$NIX_CONFIG_DIR/keybindings.json" "$CODE_DIR/keybindings.json"
+  '';
 
   programs.vscode = {
     enable = true;
@@ -29,7 +37,9 @@
         # dotjoshjohnson.xml
         # eamodio.gitlens
         esbenp.prettier-vscode
+        gruntfuggly.todo-tree
         heaths.vscode-guid
+        jnoortheen.nix-ide
         johnpapa.winteriscoming
         jsynowiec.vscode-insertdatestring
         # mhutchie.git-graph

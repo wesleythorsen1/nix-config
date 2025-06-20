@@ -7,5 +7,24 @@
   {
     "key": "ctrl+shift+n",
     "command": "explorer.newFolder"
-  }
+  },
+  {
+    "key": "shift+cmd+[",
+    "command": "-guid.insert",
+    "when": "editorTextFocus"
+  },
+  { // Unbind unconditional default using "minus" (-) before command
+    "key": "cmd+0",
+    "command": "-workbench.action.focusSideBar"
+  },
+  { // Move focus to the SideBar if not (!) there
+    "key": "cmd+0",
+    "when": "!sideBarFocus",
+    "command": "workbench.action.focusSideBar"
+  },
+  { // Move focus to the Editor, if currently in the SideBar
+    "key": "cmd+0",
+    "when": "sideBarFocus",
+    "command": "workbench.action.focusActiveEditorGroup"
+  },
 ]

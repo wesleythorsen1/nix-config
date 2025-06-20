@@ -23,6 +23,9 @@
     defaults = {
       NSGlobalDomain = {
         AppleShowAllExtensions    = true;  # Show file extensions
+        AppleShowAllFiles         = true;  # Show hidden folders in finder
+        InitialKeyRepeat          = 15;    # default 25 
+        KeyRepeat                 = 2;     # 
       };
 
       dock = {

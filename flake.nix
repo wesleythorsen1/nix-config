@@ -8,9 +8,6 @@
     nixpkgs-unstable = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
-    # nixpkgs = {
-    #   url = "github:nixos/nixpkgs/nixos-unstable";
-    # };
     nixpkgs-a71323f = {
       url = "github:nixos/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c";
     };
@@ -123,7 +120,6 @@
       "wes@thinkpad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
-        # specialArgs = { inherit inputs outputs overlays; };
         extraSpecialArgs = { inherit inputs outputs overlays; };
         
         modules = [
