@@ -57,6 +57,7 @@
         eza
         gh
         glow
+        goose-cli
         gum
         jq
         kubernetes-helm
