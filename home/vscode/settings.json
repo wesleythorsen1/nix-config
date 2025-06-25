@@ -129,6 +129,7 @@
     "esbenp",
     "filemode",
     "healthcheck",
+    "icims",
     "Kaushik",
     "kinetik",
     "ldclient",
@@ -144,6 +145,7 @@
     "premajor",
     "preminor",
     "prepatch",
+    "readhosts",
     "rgba",
     "thinkpad",
     "thorsen",
@@ -154,6 +156,7 @@
     "wesleythorsen",
     "wezterm",
     "willcall",
+    "writehost",
     "Yaniv",
     "yeet"
   ],
