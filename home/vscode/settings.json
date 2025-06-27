@@ -45,25 +45,13 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "/Users/wes/.vscode/extensions/continue.continue/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.42-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.44-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.45-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.47-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
     "/Users/wes/.vscode/extensions/continue.continue-1.1.48-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ],
     "/Users/wes/.vscode/extensions/continue.continue-1.1.49-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.52-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
@@ -118,11 +106,13 @@
     "bamboohr",
     "bodyparser",
     "bussin",
+    "cand",
     "cass",
     "Chandan",
     "codeartifact",
     "converages",
     "crackbookpro",
+    "davinci",
     "deepgram",
     "dotenv",
     "dropoff",
@@ -133,6 +123,7 @@
     "Kaushik",
     "kinetik",
     "ldclient",
+    "livekit",
     "luxon",
     "Meenal",
     "mytake",
@@ -145,6 +136,7 @@
     "premajor",
     "preminor",
     "prepatch",
+    "qualysec",
     "readhosts",
     "rgba",
     "thinkpad",

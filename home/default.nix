@@ -50,6 +50,7 @@
       packages = with pkgs; [
         awscli2
         btop
+        # davinci-resolve
         dbeaver-bin
         deno
         docker
@@ -79,6 +80,7 @@
         yazi
         zip
         zoom-us
+        zulu24
       ];
     };
   };
