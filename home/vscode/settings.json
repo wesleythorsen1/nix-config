@@ -53,6 +53,12 @@
     ],
     "/Users/wes/.vscode/extensions/continue.continue-1.1.52-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.53-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.54-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
     ]
   },
   "yaml.customTags": [
@@ -119,6 +125,7 @@
     "esbenp",
     "filemode",
     "healthcheck",
+    "hsts",
     "icims",
     "Kaushik",
     "kinetik",
