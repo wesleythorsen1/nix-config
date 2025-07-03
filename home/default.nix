@@ -58,6 +58,7 @@
         eza
         gh
         glow
+        gnupg
         goose-cli
         gum
         jq
