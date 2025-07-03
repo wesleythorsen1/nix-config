@@ -14,9 +14,10 @@
 
     aliases = {
       co = "checkout";
-      logl = "log --all --decorate --oneline --graph";
-      pushf = "push --force-with-lease";
-      acane = "!git add -A && git commit --amend --no-edit";
+      logl = "log --oneline --graph --all"; # [l]og [o]ne-line [g]raph a[l]l
+      pfwl = "push --force-with-lease"; # [p]ush [f]orce [w]ith [l]ease
+      aacane = "!git add -A && git commit --amend --no-edit"; # [a]dd [a]ll [c]ommit [a]mend [n]o-[e]dit
+      bcu = "!f() { git branch -D \"$1\" && git branch -D --remote \"origin/$1\" && git push origin --delete \"$1\"; }; f"; # [b]ranch [c]lean [u]p
     };
 
     extraConfig = {
