@@ -21,6 +21,8 @@
     };
 
     extraConfig = {
+      user.signingkey = "FAE484F021AE49E5"; # FIXME: Use variable for Git GPG signing key
+      commit.gpgsign = true;
       push = {
         autoSetupRemote = true;
       };
