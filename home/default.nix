@@ -50,6 +50,7 @@
       packages = with pkgs; [
         awscli2
         btop
+        # burpsuite
         # davinci-resolve
         dbeaver-bin
         deno

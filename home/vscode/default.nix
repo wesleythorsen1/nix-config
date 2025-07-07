@@ -31,7 +31,7 @@
         amih90.to
         # aws-scripting-guy.cform
         bbenoist.nix
-        continue.continue
+        # continue.continue
         dbaeumer.vscode-eslint
         denoland.vscode-deno
         # dotjoshjohnson.xml

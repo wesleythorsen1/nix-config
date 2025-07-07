@@ -14,8 +14,10 @@
 
     aliases = {
       co = "checkout";
+      loga = "log --oneline --graph --all"; # [l]og [o]ne-line [g]raph [a]ll
       logl = "log --oneline --graph --all"; # [l]og [o]ne-line [g]raph a[l]l
-      pfwl = "push --force-with-lease"; # [p]ush [f]orce [w]ith [l]ease
+      logp = "log --oneline --graph --all --abbrev-commit --date=relative --pretty=format:'%C(auto)%h%Creset -%C(auto)%d%Creset %s %C(bold blue)<%an>%Creset %C(bold white)(%cr)'";
+      pf = "push --force-with-lease"; # [p]ush [f]orce-with-lease
       aacane = "!git add -A && git commit --amend --no-edit"; # [a]dd [a]ll [c]ommit [a]mend [n]o-[e]dit
       bcu = "!f() { git branch -D \"$1\" && git branch -D --remote \"origin/$1\" && git push origin --delete \"$1\"; }; f"; # [b]ranch [c]lean [u]p
     };

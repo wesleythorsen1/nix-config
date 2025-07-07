@@ -59,6 +59,9 @@
     ],
     "/Users/wes/.vscode/extensions/continue.continue-1.1.54-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
+    ],
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.57-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
     ]
   },
   "yaml.customTags": [
