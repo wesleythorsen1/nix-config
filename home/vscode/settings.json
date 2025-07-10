@@ -45,22 +45,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.48-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.49-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.52-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.53-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.54-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.57-darwin-arm64/config-yaml-schema.json": [
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.59-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },

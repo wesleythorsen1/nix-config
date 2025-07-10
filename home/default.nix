@@ -81,7 +81,7 @@
         yank
         yazi
         zip
-        zoom-us
+        # zoom-us
         zulu24
       ];
     };
