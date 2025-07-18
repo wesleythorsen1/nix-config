@@ -57,6 +57,7 @@
         docker
         doppler
         eza
+        ffmpeg_6-headless
         gh
         glow
         gnupg
