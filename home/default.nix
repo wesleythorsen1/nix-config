@@ -64,6 +64,7 @@
         goose-cli
         gum
         jq
+        jwt-cli
         kubernetes-helm
         mysql80
         neofetch

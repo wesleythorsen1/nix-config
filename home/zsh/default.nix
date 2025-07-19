@@ -13,6 +13,15 @@ let
       ''
         deno completions zsh > $out
       '';
+  jwtCliCompletions =
+    pkgs.runCommand "jwt-cli-completions"
+      {
+        buildInputs = [ pkgs.jwt-cli ];
+      }
+      ''
+        mkdir -p $out/share/zsh/site-functions
+        jwt completion zsh > $out/share/zsh/site-functions/_jwt
+      '';
 in
 {
   programs.zsh = {
@@ -28,7 +37,10 @@ in
       # theme = "agnoster"; # like oh-my-posh
       # theme = "amuse";
       # theme = "apple";
-      plugins = [ "git-open" ];
+      plugins = [
+        "git-open"
+        "deno"
+      ];
     };
 
     autosuggestion = {
@@ -39,6 +51,14 @@ in
     syntaxHighlighting = {
       enable = true;
     };
+
+    plugins = [
+      {
+        name = "jwt-cli";
+        src = jwtCliCompletions;
+        completions = [ "share/zsh/site-functions" ];
+      }
+    ];
   };
 
   home.file = {

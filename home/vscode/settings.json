@@ -45,7 +45,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.65-darwin-arm64/config-yaml-schema.json": [
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.66-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
