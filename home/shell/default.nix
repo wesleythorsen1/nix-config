@@ -15,7 +15,7 @@ in
 
     sessionVariables = {
       EDITOR = "code";
-      NIX_ACTIVE_CONFIG_DIR = "${config.home.homeDirectory}/.nix-config";
+      NIX_ACTIVE_CONFIG_DIR = "${config.home.homeDirectory}/nix";
     };
 
     sessionPath = [
@@ -32,19 +32,19 @@ in
 
     file =
       {
-        ".nix-config" = {
-          # symlink "~/.nix-config" to physical repo location
+        "nix" = {
+          # symlink "~/nix" to physical repo location
           source = config.lib.file.mkOutOfStoreSymlink "${config.homeConfig.nixConfigPath}";
           recursive = true;
         };
         "bin/nix-activate" = {
           # usage:
-          #   `nix-activate`                            - defaults to $NIX_ACTIVE_CONFIG_DIR if set, otherwise "~/.nix-config"
+          #   `nix-activate`                            - defaults to $NIX_ACTIVE_CONFIG_DIR if set, otherwise "~/nix"
           #   `nix-activate ./nix/config/dir#host@user` - with path (hostname and username optional, default to current)
           executable = true;
           text = ''
             #!/usr/bin/env bash
-            flakePath="''${1:-''${NIX_ACTIVE_CONFIG_DIR:-"${config.home.homeDirectory}/.nix-config"}}"
+            flakePath="''${1:-''${NIX_ACTIVE_CONFIG_DIR:-"${config.home.homeDirectory}/nix"}}"
             exec sudo ${activationCommand} --flake "$flakePath"
           '';
         };
