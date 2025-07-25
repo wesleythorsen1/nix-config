@@ -74,6 +74,7 @@
         nixfmt-rfc-style
         # nodejs_20
         pipes-rs
+        pnpm
         postman
         ripgrep
         rsclock

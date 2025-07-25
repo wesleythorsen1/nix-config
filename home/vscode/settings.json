@@ -16,6 +16,13 @@
     "eslint.useFlatConfig": true,
     "prettier.enable": true
   },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.enable": true,
+    "eslint.format.enable": true,
+    "eslint.useFlatConfig": true,
+    "prettier.enable": true
+  },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "eslint.enable": true,
@@ -45,7 +52,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.66-darwin-arm64/config-yaml-schema.json": [
+    "/Users/wes/.vscode/extensions/continue.continue-1.1.67-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
