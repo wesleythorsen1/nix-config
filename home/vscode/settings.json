@@ -11,31 +11,15 @@
   // Language-specific editor settings
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "eslint.enable": true,
-    "eslint.format.enable": true,
-    "eslint.useFlatConfig": true,
-    "prettier.enable": true
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "eslint.enable": true,
-    "eslint.format.enable": true,
-    "eslint.useFlatConfig": true,
-    "prettier.enable": true
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "eslint.enable": true,
-    "eslint.format.enable": true,
-    "eslint.useFlatConfig": true,
-    "prettier.enable": true
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "eslint.enable": true,
-    "eslint.format.enable": true,
-    "eslint.useFlatConfig": true,
-    "prettier.enable": true
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
@@ -52,7 +36,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "/Users/wes/.vscode/extensions/continue.continue-1.1.67-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/wes/.vscode/extensions/continue.continue-1.1.73-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
@@ -122,10 +106,13 @@
     "healthcheck",
     "hsts",
     "icims",
+    "ISOLVED",
     "Kaushik",
     "kinetik",
     "ldclient",
+    "linq",
     "livekit",
+    "lookback",
     "luxon",
     "Meenal",
     "mytake",
@@ -138,6 +125,7 @@
     "premajor",
     "preminor",
     "prepatch",
+    "Promisable",
     "qualysec",
     "readhosts",
     "rgba",
@@ -164,7 +152,7 @@
     "typescript",
     "typescriptreact"
   ],
-  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreview": true,
   "todo-tree.tree.autoRefresh": true,
   "todo-tree.highlights.customHighlight": {
     "WARN": {
@@ -185,7 +173,8 @@
       "foreground": "#FFFFFF",
       "background": "#FF0000",
       "iconColour": "#FF0000",
-      "icon": "flame"
+      "icon": "flame",
+      "type": "text"
     },
     "REVIEW": {
       "foreground": "#000000",
