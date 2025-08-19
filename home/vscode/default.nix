@@ -2,9 +2,21 @@
   config,
   pkgs,
   lib,
+  inputs,
+  overlays,
   ...
 }:
 
+let
+  overlayedPkgs = import inputs.nixpkgs {
+    system = pkgs.system;
+    overlays = overlays;
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = _: true;
+    };
+  };
+in
 {
   # symlink vscode settings files so changes get saved in nix-config
   home.activation.linkVSCodeSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -25,7 +37,7 @@
       enableUpdateCheck = true;
 
       # extensions = with pkgs.nix-vscode-extensions.vscode-marketplace; [
-      extensions = with pkgs.vscode-marketplace; [
+      extensions = with overlayedPkgs.vscode-marketplace; [
         # 42crunch.vscode-openapi # check "vscode-utils.extensionsFromVscodeMarketplace" https://www.reddit.com/r/NixOS/comments/115s2gi/how_do_i_reference_a_package_name_that_begins/
         alefragnani.bookmarks
         amih90.to

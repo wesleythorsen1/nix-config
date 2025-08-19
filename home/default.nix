@@ -66,7 +66,7 @@
         jq
         jwt-cli
         kubernetes-helm
-        mysql80
+        # mysql80
         neofetch
         ngrok
         nix-tree

@@ -36,7 +36,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "file:///Users/wes/.vscode/extensions/continue.continue-1.1.73-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/wes/.vscode/extensions/continue.continue-1.1.77-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
@@ -85,6 +85,7 @@
   "openapi.defaultPreviewRenderer": "redoc",
   "cSpell.enabled": true,
   "cSpell.userWords": [
+    "Apploi",
     "ashby",
     "atlascode",
     "awsxray",
@@ -152,7 +153,6 @@
     "typescript",
     "typescriptreact"
   ],
-  "workbench.editor.enablePreview": true,
   "todo-tree.tree.autoRefresh": true,
   "todo-tree.highlights.customHighlight": {
     "WARN": {
@@ -246,5 +246,12 @@
       //   },
       // },
     }
-  }
+  },
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "workbench.editor.enablePreview": false
 }

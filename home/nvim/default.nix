@@ -23,14 +23,6 @@ in
 
     withNodeJs = false; # temp disable, nodejs 20.19 issue
 
-    extraPackages = with pkgs; [
-      wl-clipboard
-    ];
-
-    # extraConfig = ''
-    #   ${builtins.readFile ./.nvimrc}
-    # '';
-
     # search all vimPlugins: nix-env -f '<nixpkgs>' -qaP -A vimPlugins
     plugins = with pkgs.vimPlugins; [
       {

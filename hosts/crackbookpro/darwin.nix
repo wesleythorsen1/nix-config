@@ -9,12 +9,11 @@
     "nix-command"
     "flakes"
   ];
-  # TODO: these two lines conflict with `home-manager.useGlobalPkgs = true;`.
-  # useGlobalPkgs tell home-manager to use the global config (overlays, allowUnfree, etc.).
-  # need to figure out how to properly inject the relevant nixpkgs config and use it here,
-  # so that I can remove useGlobalPkgs.
   nixpkgs.overlays = overlays;
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnfreePredicate = _: true;
+  };
 
   networking.hostName = "crackbookpro";
 
