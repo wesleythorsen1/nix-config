@@ -23,6 +23,8 @@
     ./dotnet
     ./fd
     ./fzf
+    ./ghq # Git HQ
+    ./gcd # Git HQ CD
     ./git
     ./nodejs
     ./nvim
@@ -87,6 +89,18 @@
         # zoom-us
         zulu24
       ];
+    };
+
+    ghq.enable = true;
+    gcd = {
+      enable = true;
+      key = "^g";
+      fzfOptions = [
+        "--height=50%"
+        "--reverse"
+        "--border"
+      ];
+      addCodeHelper = true;
     };
   };
 }
