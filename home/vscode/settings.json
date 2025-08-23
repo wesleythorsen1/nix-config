@@ -36,7 +36,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "file:///Users/wes/.vscode/extensions/continue.continue-1.1.77-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/wes/.vscode/extensions/continue.continue-1.2.0-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
@@ -253,5 +253,8 @@
     "markdown": false,
     "scminput": false
   },
-  "workbench.editor.enablePreview": false
+  "workbench.editor.enablePreview": false,
+  "terminal.integrated.automationProfile.osx": {
+    "path": "/bin/bash"
+  }
 }
