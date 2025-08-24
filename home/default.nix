@@ -9,8 +9,8 @@
   options.homeConfig = {
     nixConfigPath = lib.mkOption {
       type = lib.types.str;
-      description = "Path to your flake-based Nix config directory (e.g. ~/code/wesleythorsen1/nix-config)";
-      default = "${config.home.homeDirectory}/code/wesleythorsen1/nix-config";
+      description = "Path to your flake-based Nix config directory (e.g. ~/repos/github.com/wesleythorsen1/nix-config)";
+      default = "${config.home.homeDirectory}/repos/github.com/wesleythorsen1/nix-config";
     };
   };
 
