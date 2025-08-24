@@ -53,6 +53,7 @@
         awscli2
         btop
         # burpsuite
+        claude-code
         # davinci-resolve
         dbeaver-bin
         deno
