@@ -70,7 +70,7 @@
         jwt-cli
         kubernetes-helm
         # mysql80
-        neofetch
+        fastfetch
         ngrok
         nix-tree
         nixd
