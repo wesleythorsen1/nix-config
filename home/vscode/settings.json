@@ -36,7 +36,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "file:///Users/wes/.vscode/extensions/continue.continue-1.2.0-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/wes/.vscode/extensions/continue.continue-1.2.1-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
@@ -100,6 +100,7 @@
     "crackbookpro",
     "davinci",
     "deepgram",
+    "DELETEME",
     "dotenv",
     "dropoff",
     "esbenp",
@@ -156,43 +157,52 @@
   "todo-tree.tree.autoRefresh": true,
   "todo-tree.highlights.customHighlight": {
     "WARN": {
-      "foreground": "#FFFFFF",
-      "background": "#FF0000",
-      "iconColour": "#FF0000",
+      "foreground": "#2A1F1A",
+      "background": "#FFD166",
+      "iconColour": "#D19A66",
       "icon": "alert",
-      "type": "text"
+      "type": "tag"
     },
     "TODO": {
-      "foreground": "#000000",
-      "background": "#00FF00",
-      "iconColour": "#00FF00",
+      "foreground": "#98F379",
+      "background": "#2A3A2A",
+      "iconColour": "#7CB668",
       "icon": "check",
-      "type": "text"
+      "type": "tag"
     },
     "FIXME": {
-      "foreground": "#FFFFFF",
-      "background": "#FF0000",
-      "iconColour": "#FF0000",
+      "foreground": "#FD7D8D",
+      "background": "#4A2C2C",
+      "iconColour": "#BE5046",
       "icon": "flame",
-      "type": "text"
+      "type": "tag"
     },
     "REVIEW": {
-      "foreground": "#000000",
-      "background": "#00FFFF",
-      "iconColour": "#00AAFF",
-      "icon": "eye"
+      "foreground": "#56B6C2",
+      "background": "#2A3A3A",
+      "iconColour": "#4B9AA6",
+      "icon": "eye",
+      "type": "tag"
     },
     "HACK": {
-      "foreground": "#000000",
-      "background": "#FFA500",
-      "iconColour": "#FFA500",
-      "icon": "alert"
+      "foreground": "#E5C07B",
+      "background": "#3A3A2A",
+      "iconColour": "#D19A66",
+      "icon": "alert",
+      "type": "tag"
     },
     "REF": {
-      "foreground": "#000000",
-      "background": "#888888",
-      "iconColour": "#888888",
+      "foreground": "#ABB2BF",
+      "background": "#333333",
+      "iconColour": "#777777",
       "icon": "link",
+      "type": "tag"
+    },
+    "DELETEME": {
+      "foreground": "#CF3030",
+      "background": "#4A2828",
+      "iconColour": "#C73E1D",
+      "icon": "trash",
       "type": "tag"
     }
   },
@@ -205,7 +215,8 @@
     "REVIEW",
     "HACK",
     "REF",
-    "WARN"
+    "WARN",
+    "DELETEME"
   ],
   "security.workspace.trust.untrustedFiles": "open",
   "nix.enableLanguageServer": true,
@@ -253,8 +264,13 @@
     "markdown": false,
     "scminput": false
   },
-  "workbench.editor.enablePreview": false,
   "terminal.integrated.automationProfile.osx": {
     "path": "/bin/bash"
-  }
+  },
+  "workbench.editor.enablePreview": false,
+  "hediet.vscode-drawio.resizeImages": null,
+  "markdown-preview-enhanced.previewTheme": "solarized-dark.css",
+  "markdown-preview-enhanced.enablePreviewZenMode": true,
+  "markdown-preview-enhanced.revealjsTheme": "none.css",
+  "markdown-preview-enhanced.codeBlockTheme": "funky.css"
 }
