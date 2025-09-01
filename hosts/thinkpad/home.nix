@@ -23,7 +23,7 @@
   ];
 
   home.packages = with pkgs; [
-    googleearth-pro
+    # googleearth-pro
     vlc
     wl-clipboard
     wofi

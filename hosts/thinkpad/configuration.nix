@@ -10,9 +10,9 @@
     # ./nvidia.nix
   ];
 
-  # Bootloader - Basic system settings
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # # Bootloader - Basic system settings
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
   # # old, delete if not needed:
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
@@ -47,7 +47,7 @@
   };
 
   # Enable sound
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
