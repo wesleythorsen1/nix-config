@@ -9,9 +9,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
-  vim.keymap.set("n", "<leader>f", function()
-    vim.lsp.buf.format({ async = true })
-  end, opts)
+  -- Format keymap removed - now handled by conform.nvim
 
   -- Normal mode: comment current line with Ctrl-k then c
   vim.keymap.set("n", "<C-k>c", function()

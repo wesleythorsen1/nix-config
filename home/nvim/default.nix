@@ -7,9 +7,9 @@ let
   toLua = str: "lua << EOF\n${str}\nEOF\n";
   toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
 
-  myConfig = pkgs.stdenv.mkDerivation {
-    name = "my-nvim-config";
-    src = ./my-config;
+  nvimConfig = pkgs.stdenv.mkDerivation {
+    name = "nvim-config";
+    src = ./config;
     installPhase = ''
       mkdir -p $out
       cp -r * $out/
@@ -35,22 +35,59 @@ in
 
       {
         plugin = nvim-lspconfig;
-        config = toLuaFile ./lsp.lua;
+        config = toLuaFile ./plugins/lsp.lua;
       }
 
       {
-        plugin = gruvbox-nvim;
-        config = "colorscheme gruvbox";
+        plugin = onedark-nvim;
+        config = toLuaFile ./plugins/onedark.lua;
       }
 
       {
         plugin = telescope-nvim;
-        config = toLuaFile ./telescope.lua;
+        config = toLuaFile ./plugins/telescope.lua;
       }
 
       # telescope-fzf-native provides the sorter; it is loaded *from telescope.lua*
       # so no separate config block is needed here. Just ensure it’s built.
       telescope-fzf-native-nvim
+
+      {
+        plugin = vim-fugitive;
+        config = toLuaFile ./plugins/fugitive.lua;
+      }
+
+      {
+        plugin = undotree;
+        config = toLuaFile ./plugins/undotree.lua;
+      }
+
+      # Status line with git info and file stats  
+      {
+        plugin = lualine-nvim;
+        config = toLuaFile ./plugins/lualine.lua;
+      }
+
+      # Git signs in gutter
+      {
+        plugin = gitsigns-nvim;
+        config = toLuaFile ./plugins/gitsigns.lua;
+      }
+
+      # Better syntax highlighting
+      {
+        plugin = nvim-treesitter.withAllGrammars;
+        config = toLuaFile ./plugins/treesitter.lua;
+      }
+
+      # Icons for file explorer and status line
+      nvim-web-devicons
+
+      # Formatting with ESLint and Prettier
+      {
+        plugin = conform-nvim;
+        config = toLuaFile ./plugins/conform.lua;
+      }
 
       # completion engine + sources
       nvim-cmp
@@ -62,7 +99,7 @@ in
 
       {
         plugin = nvim-cmp;
-        config = toLuaFile ./cmp.lua;
+        config = toLuaFile ./plugins/completion.lua;
       }
     ];
 
@@ -70,7 +107,7 @@ in
       vim.g.mapleader = " "
 
       -- Make the Lua config directory discoverable by `require()`
-      package.path = package.path .. ";" .. "${myConfig}/?.lua"
+      package.path = package.path .. ";" .. "${nvimConfig}/?.lua"
 
       require("init")
     '';
@@ -86,6 +123,12 @@ in
 
       # Nix LSP
       nixd
+
+      # Formatting tools
+      nodePackages.prettier
+      nodePackages.eslint
+      stylua     # Lua formatter
+      nixfmt-rfc-style  # Nix formatter
     ];
 
   };
