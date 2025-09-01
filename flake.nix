@@ -125,7 +125,11 @@
 
       homeConfigurations = {
         "wes@thinkpad" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            overlays = overlays;
+            config.allowUnfree = true;
+          };
 
           extraSpecialArgs = { inherit inputs outputs overlays; };
 
