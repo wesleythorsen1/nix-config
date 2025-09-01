@@ -1,10 +1,16 @@
 {
-  pkgs,
   lib,
+  overlays,
+  pkgs,
   ...
 }:
 
 {
+  nixpkgs = {
+    overlays = overlays; # unify pkgs at the system level too
+    config.allowUnfree = true; # Allow unfree packages (for NVIDIA if you later want it)
+  };
+
   imports = [
     ./hardware-configuration.nix
     # ./nvidia.nix
@@ -76,9 +82,6 @@
   # Optional: get rid of those noisy dbus/acpid errors
   services.resolved.enable = true;
   services.acpid.enable = true;
-
-  # Allow unfree packages (for NVIDIA if you later want it)
-  nixpkgs.config.allowUnfree = true;
 
   # Packages
   environment.systemPackages = with pkgs; [
