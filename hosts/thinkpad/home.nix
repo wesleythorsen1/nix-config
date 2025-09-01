@@ -1,6 +1,4 @@
 {
-  inputs,
-  config,
   pkgs,
   overlays,
   ...
@@ -20,8 +18,8 @@
 
   imports = [
     ../../home
-    ../../home/hyprland
-    ../../home/waybar
+    # ../../home/hyprland
+    # ../../home/waybar
   ];
 
   home.packages = with pkgs; [
