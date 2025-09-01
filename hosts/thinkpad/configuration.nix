@@ -66,10 +66,15 @@
     enable = true;
     package = pkgs.kdePackages.sddm;
     extraPackages = with pkgs; [ qt6.qt5compat ];
-    theme = "where_is_my_sddm_theme";
+    # theme = "where_is_my_sddm_theme";
   };
-  services.desktopManager.plasma6.enable = false;
+
+  # 2025-09-01 trying to fix thinkpad crash at login issue:
+  services.displayManager.defaultSession = "hyprland";
   programs.hyprland.enable = true;
+  services.xserver.displayManager.lightdm.enable = false;
+
+  services.desktopManager.plasma6.enable = false;
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [
     pkgs.xdg-desktop-portal-hyprland
