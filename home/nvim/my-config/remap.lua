@@ -1,4 +1,4 @@
-vim.g.mapleader = " "
+-- General keymaps that are NOT specific to a plugin live here
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex);
-
+-- Explore (netrw) as you had it
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)

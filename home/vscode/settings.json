@@ -121,6 +121,7 @@
     "nixos",
     "nixpkgs",
     "nodemon",
+    "nvim",
     "omnisharp",
     "ondemand",
     "pkgs",

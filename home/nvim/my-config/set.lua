@@ -1,7 +1,9 @@
-vim.g.mapleader = " "
+-- Core editor options
 
-vim.opt.nu = true
+vim.opt.number = true
 vim.opt.relativenumber = true
+
+vim.opt.clipboard = "unnamedplus"
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -29,4 +31,3 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
-

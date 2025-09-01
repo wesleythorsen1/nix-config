@@ -1,4 +1,7 @@
-{ config, pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 let
   toLua = str: "lua << EOF\n${str}\nEOF\n";
@@ -27,7 +30,7 @@ in
     plugins = with pkgs.vimPlugins; [
       {
         plugin = comment-nvim;
-        config = toLua "require(\"Comment\").setup()";
+        config = toLua ''require("Comment").setup()'';
       }
 
       {
@@ -45,17 +48,45 @@ in
         config = toLuaFile ./telescope.lua;
       }
 
+      # telescope-fzf-native provides the sorter; it is loaded *from telescope.lua*
+      # so no separate config block is needed here. Just ensure it’s built.
+      telescope-fzf-native-nvim
+
+      # completion engine + sources
+      nvim-cmp
+      cmp-nvim-lsp
+      cmp-buffer
+      cmp-path
+      luasnip
+      cmp_luasnip
+
       {
-        plugin = telescope-fzf-native-nvim;
-        config = toLuaFile ./telescope.lua;
+        plugin = nvim-cmp;
+        config = toLuaFile ./cmp.lua;
       }
     ];
 
     extraLuaConfig = ''
+      vim.g.mapleader = " "
+
       -- Make the Lua config directory discoverable by `require()`
       package.path = package.path .. ";" .. "${myConfig}/?.lua"
 
       require("init")
     '';
+
+    extraPackages = with pkgs; [
+      # Lua LSP
+      lua-language-server
+
+      # TypeScript/JS LSP
+      nodejs_20
+      nodePackages.typescript
+      nodePackages.typescript-language-server
+
+      # Nix LSP
+      nixd
+    ];
+
   };
 }
