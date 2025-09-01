@@ -1,7 +1,10 @@
-{ config, pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
-  programs.chromium = {
+  programs.brave = {
     enable = true;
 
     package = pkgs.brave;
@@ -12,19 +15,8 @@
     ];
 
     commandLineArgs = [
-      "--disable-component-update" # disables auto update check
+      "--disable-component-update"
       "--disable-features=WebRtcAllowInputVolumeAdjustment"
-    ];
-  };
-
-  programs.brave = {
-    enable = true;
-
-    package = pkgs.brave;
-
-    extensions = [
-      { id = "nngceckbapebfimnlniiiahkandclblb"; } # bitwarden
-      { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium
     ];
   };
 }
