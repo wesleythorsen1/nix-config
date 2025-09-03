@@ -62,7 +62,7 @@ in
         config = toLuaFile ./plugins/undotree.lua;
       }
 
-      # Status line with git info and file stats  
+      # Status line with git info and file stats
       {
         plugin = lualine-nvim;
         config = toLuaFile ./plugins/lualine.lua;
@@ -101,6 +101,11 @@ in
         plugin = nvim-cmp;
         config = toLuaFile ./plugins/completion.lua;
       }
+
+      {
+        plugin = snacks-nvim;
+        config = toLuaFile ./plugins/snacks.lua;
+      }
     ];
 
     extraLuaConfig = ''
@@ -127,8 +132,8 @@ in
       # Formatting tools
       nodePackages.prettier
       nodePackages.eslint
-      stylua     # Lua formatter
-      nixfmt-rfc-style  # Nix formatter
+      stylua # Lua formatter
+      nixfmt-rfc-style # Nix formatter
     ];
 
   };

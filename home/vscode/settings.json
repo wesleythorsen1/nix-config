@@ -273,5 +273,7 @@
   "markdown-preview-enhanced.previewTheme": "solarized-dark.css",
   "markdown-preview-enhanced.enablePreviewZenMode": true,
   "markdown-preview-enhanced.revealjsTheme": "none.css",
-  "markdown-preview-enhanced.codeBlockTheme": "funky.css"
+  "markdown-preview-enhanced.codeBlockTheme": "funky.css",
+  "timing.hoverDuration.useISOTargetFormat": true,
+  "timing.insertConvertedTime": true
 }

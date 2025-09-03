@@ -64,17 +64,17 @@ vim.keymap.set("n", "<leader>f", function()
   })
 end, { desc = "Format buffer with conform (prettier/eslint)" })
 
--- Additional keymaps for specific formatters
-vim.keymap.set("n", "<leader>lf", function()
-  require("conform").format({
-    formatters = { "eslint" },
-    async = true,
-  })
-end, { desc = "Fix with ESLint only" })
+-- -- Additional keymaps for specific formatters
+-- vim.keymap.set("n", "<leader>lf", function()
+--   require("conform").format({
+--     formatters = { "eslint" },
+--     async = true,
+--   })
+-- end, { desc = "Fix with ESLint only" })
 
-vim.keymap.set("n", "<leader>pf", function()
-  require("conform").format({
-    formatters = { "prettier" },
-    async = true,
-  })
-end, { desc = "Format with Prettier only" })
+-- vim.keymap.set("n", "<leader>pf", function()
+--   require("conform").format({
+--     formatters = { "prettier" },
+--     async = true,
+--   })
+-- end, { desc = "Format with Prettier only" })
