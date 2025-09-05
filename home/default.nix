@@ -52,6 +52,7 @@
       packages = with pkgs; [
         awscli2
         btop
+        bun
         # burpsuite
         claude-code
         # davinci-resolve

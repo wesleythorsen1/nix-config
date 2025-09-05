@@ -36,7 +36,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "file:///Users/wes/.vscode/extensions/continue.continue-1.2.1-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/wes/.vscode/extensions/continue.continue-1.2.2-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
@@ -268,12 +268,12 @@
   "terminal.integrated.automationProfile.osx": {
     "path": "/bin/bash"
   },
-  "workbench.editor.enablePreview": false,
   "hediet.vscode-drawio.resizeImages": null,
-  "markdown-preview-enhanced.previewTheme": "solarized-dark.css",
+  "markdown-preview-enhanced.previewTheme": "github-light.css",
   "markdown-preview-enhanced.enablePreviewZenMode": true,
-  "markdown-preview-enhanced.revealjsTheme": "none.css",
-  "markdown-preview-enhanced.codeBlockTheme": "funky.css",
+  "markdown-preview-enhanced.revealjsTheme": "sky.css",
+  "markdown-preview-enhanced.codeBlockTheme": "default.css",
   "timing.hoverDuration.useISOTargetFormat": true,
-  "timing.insertConvertedTime": true
+  "timing.insertConvertedTime": true,
+  "workbench.editor.enablePreview": false
 }

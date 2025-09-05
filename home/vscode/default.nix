@@ -69,6 +69,7 @@ in
         # ms-vscode-remote.remote-containers
         naumovs.color-highlight
         orta.vscode-jest
+        oven.bun-vscode
         # redhat.java
         # redhat.vscode-xml
         redhat.vscode-yaml
