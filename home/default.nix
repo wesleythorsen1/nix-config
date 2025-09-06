@@ -50,7 +50,9 @@
       stateVersion = "25.05";
 
       packages = with pkgs; [
+        auth0-cli
         awscli2
+        bat
         btop
         bun
         # burpsuite
@@ -84,6 +86,7 @@
         rsclock
         slack
         # terraform
+        watch
         wget
         yank
         yazi
