@@ -23,8 +23,7 @@
     ./dotnet
     ./fd
     ./fzf
-    ./ghq # Git HQ
-    ./gcd # Git HQ CD
+    ./gh
     ./git
     ./nodejs
     ./nvim
@@ -64,7 +63,6 @@
         doppler
         eza
         ffmpeg_6-headless
-        gh
         glow
         gnupg
         goose-cli
@@ -79,6 +77,7 @@
         nixd
         nixfmt-rfc-style
         # nodejs_20
+        openai
         pipes-rs
         pnpm
         postman
@@ -97,16 +96,32 @@
       ];
     };
 
-    ghq.enable = true;
-    gcd = {
+    gh = {
       enable = true;
-      key = "^g";
-      fzfOptions = [
-        "--height=50%"
-        "--reverse"
-        "--border"
-      ];
-      addCodeHelper = true;
+
+      settings = {
+        git_protocol = "https";
+        editor = "code --wait";
+        prompt = "enabled";
+        prefer_editor_prompt = "disabled";
+      };
+
+      aliases = {
+        prco = "pr checkout";
+        prv = "pr view";
+        prc = "pr create";
+      };
+
+      ghq = {
+        enable = true;
+        root = "${config.home.homeDirectory}/repos";
+        useEnvVar = true;
+      };
+
+      gcd = {
+        enable = true;
+        addCodeHelper = true;
+      };
     };
   };
 }

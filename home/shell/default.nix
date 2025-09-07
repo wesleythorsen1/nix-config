@@ -27,37 +27,51 @@ in
       l = "eza -la";
       lt = "eza -laT -I=.git";
       v = "nvim";
-      na = "nix-activate"; # see "bin/nix-activate" script below
+      na = "nix-activate ."; # see "bin/nix-activate" script below
     };
 
-    file =
-      {
-        "nix" = {
-          # symlink "~/nix" to physical repo location
-          source = config.lib.file.mkOutOfStoreSymlink "${config.homeConfig.nixConfigPath}";
-          recursive = true;
-        };
-        "bin/nix-activate" = {
-          # usage:
-          #   `nix-activate`                            - defaults to $NIX_ACTIVE_CONFIG_DIR if set, otherwise "~/nix"
-          #   `nix-activate ./nix/config/dir#host@user` - with path (hostname and username optional, default to current)
+    file = {
+      "nix" = {
+        # symlink "~/nix" to physical repo location
+        source = config.lib.file.mkOutOfStoreSymlink "${config.homeConfig.nixConfigPath}";
+        recursive = true;
+      };
+      "bin/nix-activate" = {
+        # usage:
+        #   `nix-activate`                            - defaults to $NIX_ACTIVE_CONFIG_DIR if set, otherwise "~/nix"
+        #   `nix-activate .`                          - uses current directory and auto-detects hostname/username
+        #   `nix-activate ./nix/config/dir#host@user` - with path (hostname and username optional, default to current)
+        executable = true;
+        text = ''
+          #!/usr/bin/env bash
+          flakePath="''${1:-''${NIX_ACTIVE_CONFIG_DIR:-"${config.home.homeDirectory}/nix"}}"
+          
+          # If flakePath doesn't contain a fragment (#), auto-detect hostname and username
+          if [[ "$flakePath" != *"#"* ]]; then
+            hostname=$(hostname -s)
+            username="${config.home.username}"
+            
+            # Check if username is configured and not empty
+            if [[ -n "$username" && "$username" != "$(whoami)" ]]; then
+              flakePath="$flakePath#$username@$hostname"
+            else
+              flakePath="$flakePath#$hostname"
+            fi
+          fi
+          
+          exec sudo ${activationCommand} --flake "$flakePath" --verbose
+        '';
+      };
+    }
+    // builtins.listToAttrs (
+      map (name: {
+        name = "bin/${name}";
+        value = {
+          source = "${./bin}/${name}";
           executable = true;
-          text = ''
-            #!/usr/bin/env bash
-            flakePath="''${1:-''${NIX_ACTIVE_CONFIG_DIR:-"${config.home.homeDirectory}/nix"}}"
-            exec sudo ${activationCommand} --flake "$flakePath"
-          '';
         };
-      }
-      // builtins.listToAttrs (
-        map (name: {
-          name = "bin/${name}";
-          value = {
-            source = "${./bin}/${name}";
-            executable = true;
-          };
-        }) (builtins.attrNames (builtins.readDir ./bin))
-      );
+      }) (builtins.attrNames (builtins.readDir ./bin))
+    );
 
   };
 }

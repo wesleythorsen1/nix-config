@@ -39,7 +39,7 @@ in
 
     programs.zsh = {
       enable = true;
-      initContent = ''
+      initExtra = ''
         # gcd = "ghq cd": fuzzy-pick a repo, then cd
         gcd() {
           local dir

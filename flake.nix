@@ -105,6 +105,7 @@
               home-manager.useUserPackages = true;
               home-manager.users.wes = import ./hosts/crackbookpro/home.nix;
               home-manager.extraSpecialArgs = { inherit overlays inputs; };
+              home-manager.backupFileExtension = "backup";
               home-manager.sharedModules = [
                 mac-app-util.homeManagerModules.default
               ];
