@@ -84,6 +84,7 @@
         postman
         ripgrep
         rsclock
+        sbcl
         slack
         # terraform
         watch
