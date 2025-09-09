@@ -27,6 +27,7 @@
     ./git
     ./nodejs
     ./nvim
+    ./openai
     # ./podman
     ./python3
     ./shell
@@ -63,6 +64,7 @@
         doppler
         eza
         ffmpeg_6-headless
+        getoptions
         glow
         gnupg
         goose-cli
@@ -77,7 +79,6 @@
         nixd
         nixfmt-rfc-style
         # nodejs_20
-        openai
         pipes-rs
         pnpm
         postman
@@ -122,6 +123,13 @@
         enable = true;
         addCodeHelper = true;
       };
+    };
+
+    openai = {
+      enable = true;
+      voiceCommands.enable = true;
+      voiceToText.enable = true;
+      apiKeyFile = "${config.home.homeDirectory}/.config/openai/keys/default.key";
     };
   };
 }

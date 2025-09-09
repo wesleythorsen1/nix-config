@@ -185,13 +185,6 @@
       "icon": "eye",
       "type": "tag"
     },
-    "HACK": {
-      "foreground": "#E5C07B",
-      "background": "#3A3A2A",
-      "iconColour": "#D19A66",
-      "icon": "alert",
-      "type": "tag"
-    },
     "REF": {
       "foreground": "#ABB2BF",
       "background": "#333333",
@@ -205,8 +198,22 @@
       "iconColour": "#C73E1D",
       "icon": "trash",
       "type": "tag"
+    },
+    // depreciated       : // TODO: test // test
+    // TODO: first 
+    // sub comment
+    "depreciated": {
+      "foreground": "editorWarning.foreground",
+      // "background": "editorError.background",
+      "border": "editorError.border",
+      "borderRadius": 1,
+      // "background": "inputValidation.errorBackground",
+      // "iconColour": "",
+      "icon": "trash",
+      "type": "tag"
     }
   },
+  // "todo-tree.regex.regex": "((//|#|<!--|;|/\\*|^)((\\s+(!|\\?|\\*|\\-))?(\\s+\\[ \\])?|(\\s+(!|\\?|\\*)\\s+\\[.\\])?)\\s*($TAGS)\\s*\\:)",
   "todo-tree.highlights.defaultHighlight": {
     "type": "text-and-comment"
   },
@@ -217,7 +224,8 @@
     "HACK",
     "REF",
     "WARN",
-    "DELETEME"
+    "DELETEME",
+    "depreciated"
   ],
   "security.workspace.trust.untrustedFiles": "open",
   "nix.enableLanguageServer": true,

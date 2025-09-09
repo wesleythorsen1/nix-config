@@ -1,0 +1,118 @@
+# depreciated: I had chat gpt write this for me before I discovered `getoptions`. Use 
+# TODO: I had chat gpt write this for me before I discovered `getoptions`. Use 
+# DELETEME: I had chat gpt write this for me before I discovered `getoptions`. Use 
+# DEPRECIATED: I had chat gpt write this for me before I discovered `getoptions`. Use 
+
+# ---- init & helpers ----------------------------------------------------------
+
+# Initialize the internal args buffer from "$@"
+args_init() {
+  __ARGV=("$@")
+}
+
+# Copy remaining (unconsumed) args into a variable by ref (array)
+args_rest() {
+  local -n __dest="$1"
+  __dest=("${__ARGV[@]}")
+}
+
+# ---- get_arg -----------------------------------------------------------------
+# Usage:
+#   get_arg OUTVAR [ALIASES ...] [flag|single|multi]
+# Notes:
+#   - OUTVAR is a *name* of a variable to receive the value.
+#   - ALIASES like: --debug -d  --api-key  -k
+#   - If the last argument is one of {flag|single|multi}, that's the type.
+#     Otherwise default type is "single".
+#   - Supports "--opt value" and "--opt=value" (and short "-k value"/"-k=value").
+#   - For multi, OUTVAR should be declared as an array: `declare -a TAGS=()`.
+get_arg() {
+  local -n __out="$1"; shift
+
+  local type="single"
+  if [[ "$#" -ge 1 ]]; then
+    case "${!#}" in flag|single|multi) type="${!#}"; set -- "${@:1:$(($#-1))}";; esac
+  fi
+
+  # Build a quick lookup of aliases
+  local aliases=("$@")
+
+  # New list of args after consuming matches
+  local new=()
+  local token matched kind value alias
+
+  while ((${#__ARGV[@]})); do
+    token="${__ARGV[0]}"
+    __ARGV=("${__ARGV[@]:1}")
+
+    matched=""
+    value=""
+
+    # Check exact alias match first (e.g., "--debug", "-k")
+    for alias in "${aliases[@]}"; do
+      if [[ "$token" == "$alias" ]]; then
+        matched="sep"   # separated value may follow
+        break
+      fi
+    done
+
+    # Check "--alias=value" or "-k=value"
+    if [[ -z "$matched" ]]; then
+      for alias in "${aliases[@]}"; do
+        if [[ "$alias" == -* ]] && [[ "$token" == "$alias="* ]]; then
+          matched="eq"
+          value="${token#*=}"
+          break
+        fi
+      done
+    fi
+
+    if [[ -n "$matched" ]]; then
+      case "$type" in
+        flag)
+          __out=true
+          # nothing else to consume
+          ;;
+
+        single)
+          if [[ "$matched" == "eq" ]]; then
+            __out="$value"
+          else
+            if ((${#__ARGV[@]})); then
+              __out="${__ARGV[0]}"
+              __ARGV=("${__ARGV[@]:1}")
+            else
+              __out=""
+            fi
+          fi
+          ;;
+
+        multi)
+          # Ensure caller declared OUTVAR as array for multi:
+          #   declare -a OUTVAR=()
+          if [[ "$matched" == "eq" ]]; then
+            __out+=("$value")
+          else
+            if ((${#__ARGV[@]})); then
+              __out+=("${__ARGV[0]}")
+              __ARGV=("${__ARGV[@]:1}")
+            fi
+          fi
+          ;;
+      esac
+      # consumed; do not push token to new[]
+      continue
+    fi
+
+    new+=("$token")
+  done
+
+  __ARGV=("${new[@]}")
+
+  # Set sensible defaults if never seen
+  case "$type" in
+    flag)   : "${__out:=false}" ;;
+    single) : "${__out:=}" ;;
+    multi)  : ;;  # leave as-is; caller should declare as array
+  esac
+}
