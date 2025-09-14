@@ -72,7 +72,7 @@
         jq
         jwt-cli
         kubernetes-helm
-        # mysql80
+        mysql80
         fastfetch
         ngrok
         nix-tree
