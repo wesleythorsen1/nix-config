@@ -25,11 +25,44 @@ in
     description = "Reusable shell functions available across modules";
   };
 
+  imports = [
+    ./fd
+    ./fzf
+    ./gh
+    ./git
+    ./nvim
+    ./openai
+    ./tree
+    ./zsh
+  ];
+
   config = {
     shell.functions = shellFunctions;
 
     home = {
       shell.enableShellIntegration = true;
+
+      packages = with pkgs; [
+        bat
+        btop
+        eza
+        ffmpeg_6-headless
+        getoptions
+        glow
+        gnupg
+        gum
+        jq
+        jwt-cli
+        fastfetch
+        pipes-rs
+        ripgrep
+        rsclock
+        watch
+        wget
+        yank
+        yazi
+        zip
+      ];
 
       sessionVariables = {
         EDITOR = "code";

@@ -10,8 +10,8 @@ let
 in
 {
   imports = [
-    ./gcd.nix
-    ./ghq.nix
+    ./gcd
+    ./ghq
   ];
 
   options.gh = {

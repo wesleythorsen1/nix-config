@@ -21,21 +21,13 @@
 
     ./chromium
     ./dotnet
-    ./fd
-    ./fzf
-    ./gh
-    ./git
     ./nodejs
-    ./nvim
-    ./openai
     # ./podman
     ./python3
     ./shell
     # ./thunderbird
-    ./tree
     ./vscode
     ./wezterm
-    ./zsh
   ];
 
   config = {
@@ -52,8 +44,6 @@
       packages = with pkgs; [
         auth0-cli
         awscli2
-        bat
-        btop
         bun
         # burpsuite
         claude-code
@@ -62,36 +52,19 @@
         deno
         docker
         doppler
-        eza
-        ffmpeg_6-headless
-        getoptions
-        glow
-        gnupg
         goose-cli
-        gum
-        jq
-        jwt-cli
         kubernetes-helm
         mysql80
-        fastfetch
         ngrok
         nix-tree
         nixd
         nixfmt-rfc-style
         # nodejs_20
-        pipes-rs
         pnpm
         postman
-        ripgrep
-        rsclock
         sbcl
         slack
         # terraform
-        watch
-        wget
-        yank
-        yazi
-        zip
         # zoom-us
         zulu24
       ];
