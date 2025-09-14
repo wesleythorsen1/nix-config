@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   ...
 }:
@@ -7,7 +6,9 @@
 {
   home = {
     packages = with pkgs; [
-      nodejs_20
+      # nodejs_20
+      # nodejs_22
+      nodejs_24
     ];
 
     shellAliases = {

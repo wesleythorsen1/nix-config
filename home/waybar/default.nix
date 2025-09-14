@@ -1,8 +1,6 @@
 # https://raw.githubusercontent.com/georgewhewell/nixos-host/refs/heads/master/home/waybar.nix
 {
-  config,
   pkgs,
-  lib,
   ...
 }:
 

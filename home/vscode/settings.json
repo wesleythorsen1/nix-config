@@ -10,16 +10,16 @@
   "debug.onTaskErrors": "debugAnyway",
   // Language-specific editor settings
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
