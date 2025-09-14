@@ -57,6 +57,7 @@ in
         pipes-rs
         ripgrep
         rsclock
+        sd
         watch
         wget
         yank
