@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(nix flake check:*)"
+      "Bash(nix:*)",
+      "Read(//Users/wes/Applications/**)",
+      "Read(//nix/**)",
+      "WebSearch",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,207 @@
+#!/usr/bin/env bash
+# fix-permissions - Comprehensive script to fix macOS permissions for Nix-installed apps
+
+set -e
+
+# Color codes for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
+print_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+print_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
+print_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+# Check if running on macOS
+if [[ "$OSTYPE" != "darwin"* ]]; then
+    print_error "This script is only for macOS"
+    exit 1
+fi
+
+print_info "macOS Permission Fixer for Nix Applications"
+print_info "============================================"
+
+# Request sudo upfront
+print_info "This script requires administrator privileges"
+sudo -v
+
+# Keep sudo alive
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+# Step 1: Install/Update the TCC Profile
+install_tcc_profile() {
+    print_info "Installing TCC configuration profile..."
+    
+    PROFILE_PATH="${HOME}/repos/github.com/wesleythorsen1/nix-config/hosts/crackbookpro/etc/tcc-pppc.mobileconfig"
+    
+    if [ -f "$PROFILE_PATH" ]; then
+        # Remove old profile if exists
+        sudo profiles remove -identifier "com.yourorg.tcc-pppc" 2>/dev/null || true
+        
+        # Install the profile
+        sudo profiles install -type configuration -path "$PROFILE_PATH"
+        print_success "TCC profile installed"
+    else
+        print_warning "TCC profile not found at $PROFILE_PATH"
+    fi
+}
+
+# Step 2: Create App Aliases in Applications folder
+create_app_aliases() {
+    print_info "Creating application aliases..."
+    
+    # Ensure Home Manager Apps directory exists
+    mkdir -p "${HOME}/Applications/Home Manager Apps"
+    
+    # Function to create alias for an app
+    create_alias() {
+        local app_name="$1"
+        local bundle_id="$2"
+        local search_name="$3"
+        
+        # Find the app in nix store
+        local app_path=$(find /nix/store -maxdepth 3 -name "${search_name}.app" -type d 2>/dev/null | head -n1)
+        
+        if [ -n "$app_path" ]; then
+            # Create alias in Home Manager Apps
+            osascript -e "tell application \"Finder\" to make alias file to POSIX file \"$app_path\" at POSIX file \"${HOME}/Applications/Home Manager Apps\"" 2>/dev/null || true
+            print_success "Created alias for $app_name"
+        else
+            print_warning "Could not find $app_name in Nix store"
+        fi
+    }
+    
+    # Create aliases for common apps
+    create_alias "Brave Browser" "com.brave.Browser" "Brave Browser"
+    create_alias "Slack" "com.tinyspeck.slackmacgap" "Slack"
+    create_alias "Zoom" "us.zoom.xos" "zoom.us"
+    create_alias "Visual Studio Code" "com.microsoft.VSCode" "Visual Studio Code"
+}
+
+# Step 3: Reset and Re-grant Permissions
+reset_permissions() {
+    print_info "Resetting application permissions..."
+    
+    # Reset permissions for each app and service
+    reset_app_permissions() {
+        local bundle_id="$1"
+        local app_name="$2"
+        
+        print_info "Resetting permissions for $app_name..."
+        
+        # Reset all permissions for the app
+        for service in Microphone Camera ScreenCapture; do
+            sudo tccutil reset $service "$bundle_id" 2>/dev/null || true
+        done
+    }
+    
+    reset_app_permissions "com.brave.Browser" "Brave Browser"
+    reset_app_permissions "com.tinyspeck.slackmacgap" "Slack"
+    reset_app_permissions "us.zoom.xos" "Zoom"
+    reset_app_permissions "com.microsoft.VSCode" "VS Code"
+    
+    print_success "Permissions reset completed"
+}
+
+# Step 4: Trigger Permission Prompts
+trigger_permission_prompts() {
+    print_info "Triggering permission prompts..."
+    print_warning "You will need to manually grant permissions when prompted"
+    
+    # Open System Preferences to Privacy & Security
+    print_info "Opening System Preferences > Privacy & Security..."
+    open "x-apple.systempreferences:com.apple.preference.security?Privacy"
+    
+    cat << 'EOF'
+
+============================================================
+MANUAL STEPS REQUIRED:
+============================================================
+
+1. In System Preferences > Privacy & Security:
+   - Click on Camera, Microphone, and Screen Recording tabs
+   - Look for your applications in the list
+   - Toggle them ON to grant permissions
+
+2. If applications don't appear in the list:
+   - Launch each application once
+   - Try to use the feature (camera/mic/screen share)
+   - Return to System Preferences to grant permission
+
+3. For Screen Recording specifically:
+   - You may need to quit and relaunch the app
+   - Some apps require a system restart
+
+4. Alternative method:
+   - Use the apps from: ~/Applications/Home Manager Apps/
+   - These aliases maintain consistent paths
+
+============================================================
+EOF
+}
+
+# Step 5: Backup current permissions
+backup_permissions() {
+    print_info "Backing up current permissions..."
+    
+    if command -v tcc-backup &> /dev/null; then
+        tcc-backup
+        print_success "Permissions backed up"
+    else
+        print_warning "tcc-backup command not found, skipping backup"
+    fi
+}
+
+# Step 6: Check permission status
+check_permissions() {
+    print_info "Checking current permission status..."
+    
+    if command -v tcc-status &> /dev/null; then
+        tcc-status
+    else
+        # Fallback to basic check
+        print_info "Checking TCC database directly..."
+        sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" <<EOF 2>/dev/null || print_warning "Unable to read TCC database"
+.mode column
+.headers on
+SELECT service, client, auth_value FROM access 
+WHERE client IN ('com.brave.Browser', 'com.tinyspeck.slackmacgap', 'us.zoom.xos', 'com.microsoft.VSCode')
+  AND service IN ('kTCCServiceCamera', 'kTCCServiceMicrophone', 'kTCCServiceScreenCapture');
+EOF
+    fi
+}
+
+# Main execution
+main() {
+    print_info "Starting permission fix process..."
+    echo
+    
+    # Run all steps
+    install_tcc_profile
+    echo
+    
+    create_app_aliases
+    echo
+    
+    backup_permissions
+    echo
+    
+    reset_permissions
+    echo
+    
+    check_permissions
+    echo
+    
+    trigger_permission_prompts
+    echo
+    
+    print_success "Permission fix process completed!"
+    print_info "Please follow the manual steps above to complete the setup"
+}
+
+# Run main function
+main "$@"

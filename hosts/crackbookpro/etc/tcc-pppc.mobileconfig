@@ -11,9 +11,45 @@
   <key>PayloadUUID</key>
   <string>01234567-89AB-CDEF-0123-456789ABCDEF</string>
   <key>PayloadDisplayName</key>
-  <string>Allow Screen Recording for Brave & Slack</string>
+  <string>Allow Camera, Microphone & Screen Recording for Apps</string>
   <key>Services</key>
   <dict>
+    <key>Camera</key>
+    <array>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>com.brave.Browser</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>com.tinyspeck.slackmacgap</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>us.zoom.xos</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+    </array>
+    <key>Microphone</key>
+    <array>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>com.brave.Browser</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>com.tinyspeck.slackmacgap</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>us.zoom.xos</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+    </array>
     <key>ScreenCapture</key>
     <array>
       <dict>
@@ -24,6 +60,11 @@
       <dict>
         <key>IdentifierType</key><string>bundleID</string>
         <key>Identifier</key><string>com.tinyspeck.slackmacgap</string>
+        <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
+      </dict>
+      <dict>
+        <key>IdentifierType</key><string>bundleID</string>
+        <key>Identifier</key><string>us.zoom.xos</string>
         <key>Authorization</key><string>AllowStandardUserToSetSystemService</string>
       </dict>
     </array>

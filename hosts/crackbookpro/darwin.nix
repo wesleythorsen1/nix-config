@@ -5,6 +5,10 @@
 }:
 
 {
+  imports = [
+    ../../modules/darwin-tcc-permissions.nix
+    ../../modules/mac-app-wrappers.nix
+  ];
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -41,33 +45,39 @@
     };
 
     keyboard = {
-      enableKeyMapping = true; # Turn on nix-darwin’s key-mapping support
+      enableKeyMapping = true; # Turn on nix-darwin's key-mapping support
       # swapLeftCommandAndLeftAlt = true;  # Swap the left Command (⌘) and left Option (⌥) keys
       # remapCapsLockToControl    = true;  # Remap Caps Lock to Control
       # swapLeftCtrlAndFn         = false; # Swap left Control and Fn/Globe
     };
 
-    # activationScripts = {
-    #   # Apply any changed defaults immediately (no login/logout)
-    #   postUserActivation.text = ''
-    #     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-    #   '';
-
-    #   # podmanMachineInit = {
-    #   #   deps = [ pkgs.podman pkgs.grep ];
-    #   #   text = ''
-    #   #     # if no default machine exists yet, create it
-    #   #     if ! podman machine list --format "{{.Name}}" \
-    #   #       | grep -q "^default$"; then
-    #   #       podman machine init
-    #   #     fi
-    #   #   '';
-    #   # };
-
-    #   # postUserActivation.text = ''
-    #   #   profiles install -type configuration -path ${config.environment.etc."tcc-pppc.mobileconfig".source}
-    #   # '';
-    # };
+    activationScripts = {
+      # Apply any changed defaults immediately (no login/logout)
+      postActivation.text = ''
+        /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+        
+        # Install TCC profile
+        if [ -f "${./etc/tcc-pppc.mobileconfig}" ]; then
+          echo "Installing TCC configuration profile..."
+          profiles remove -identifier "com.yourorg.tcc-pppc" 2>/dev/null || true
+          profiles install -type configuration -path "${./etc/tcc-pppc.mobileconfig}"
+        fi
+      '';
+    };
+  };
+  
+  # Enable TCC permission management
+  services.tccPermissions = {
+    enable = true;
+    autoBackup = true;
+    autoRestore = true;
+    applications = [ "brave" "slack" "zoom" "vscode" ];
+  };
+  
+  # Enable stable app wrappers
+  services.macAppWrappers = {
+    enable = true;
+    applications = [ "brave" "slack" "zoom" "vscode" ];
   };
 
   users.users = {
@@ -112,12 +122,11 @@
   };
 
   environment = {
-    # etc = {
-    #   "tcc-pppc.mobileconfig" = {
-    #     source = ./tcc-pppc.mobileconfig;
-    #     mode   = "0644";
-    #   };
-    # };
+    etc = {
+      "tcc-pppc.mobileconfig" = {
+        source = ./etc/tcc-pppc.mobileconfig;
+      };
+    };
 
     systemPackages = with pkgs; [
       git
