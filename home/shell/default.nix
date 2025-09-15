@@ -44,6 +44,8 @@ in
 
       packages = with pkgs; [
         bat
+        # bitwarden-cli # broken: https://github.com/NixOS/nixpkgs/issues/339576 https://github.com/bitwarden/clients/issues/16234
+        bws
         btop
         eza
         ffmpeg_6-headless
