@@ -51,6 +51,22 @@ in
     syntaxHighlighting = {
       enable = true;
     };
+    
+    initExtra = ''
+      # Add nix-config bin directory to PATH
+      export PATH="${config.homeConfig.nixConfigPath}/bin:$PATH"
+      
+      # Platform-specific environment variables
+      ${if pkgs.stdenv.isDarwin then ''
+        # macOS specific settings
+        export PATH="/usr/local/bin:$PATH"
+      '' else ''
+        # Linux specific settings
+        export PATH="$HOME/.local/bin:$PATH"
+        # Enable Wayland support for Electron apps
+        export NIXOS_OZONE_WL=1
+      ''}
+    '';
 
     plugins = [
       {

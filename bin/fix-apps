@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# fix-apps - Universal script to fix application issues on both macOS and Linux
+
+set -e
+
+# Detect platform and run appropriate fixer
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    if [ -f "$(dirname "$0")/fix-permissions" ]; then
+        exec "$(dirname "$0")/fix-permissions" "$@"
+    else
+        echo "Error: fix-permissions script not found for macOS"
+        exit 1
+    fi
+elif [[ "$OSTYPE" == "linux"* ]]; then
+    # Linux/NixOS
+    if [ -f "$(dirname "$0")/fix-linux-apps" ]; then
+        exec "$(dirname "$0")/fix-linux-apps" "$@"
+    else
+        echo "Error: fix-linux-apps script not found for Linux"
+        exit 1
+    fi
+else
+    echo "Error: Unsupported platform: $OSTYPE"
+    echo "This script only supports macOS (darwin) and Linux"
+    exit 1
+fi

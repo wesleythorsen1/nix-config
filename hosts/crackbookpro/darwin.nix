@@ -8,6 +8,7 @@
   imports = [
     ../../modules/darwin-tcc-permissions.nix
     ../../modules/mac-app-wrappers.nix
+    ../../modules/cross-platform-apps.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"
@@ -78,6 +79,14 @@
   services.macAppWrappers = {
     enable = true;
     applications = [ "brave" "slack" "zoom" "vscode" ];
+  };
+  
+  # Enable cross-platform app management
+  services.crossPlatformApps = {
+    enable = true;
+    applications = [ "brave" "slack" "vscode" "firefox" ];
+    createWrappers = true;
+    persistentPaths = true;
   };
 
   users.users = {

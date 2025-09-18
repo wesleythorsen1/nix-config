@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 
@@ -17,6 +18,10 @@
     commandLineArgs = [
       "--disable-component-update"
       "--disable-features=WebRtcAllowInputVolumeAdjustment"
+    ] ++ lib.optionals pkgs.stdenv.isLinux [
+      # Linux-specific flags
+      "--enable-features=UseOzonePlatform"
+      "--ozone-platform=wayland"
     ];
   };
 }
