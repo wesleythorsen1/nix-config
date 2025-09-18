@@ -14,6 +14,7 @@
   imports = [
     ./hardware-configuration.nix
     # ./nvidia.nix
+    ../../modules/cross-platform-apps.nix
   ];
 
   # # Bootloader - Basic system settings
@@ -98,6 +99,15 @@
 
     # Disable Hyprland for now to avoid crashes
     hyprland.enable = lib.mkForce false;
+  };
+  
+  # Enable cross-platform app management for Linux
+  services.crossPlatformApps = {
+    enable = true;
+    applications = [ "brave" "slack" "vscode" "firefox" ];
+    createWrappers = true;
+    createDesktopEntries = true;
+    persistentPaths = false;  # Not needed on Linux
   };
 
   system.stateVersion = "25.05"; # Did you read the comment?

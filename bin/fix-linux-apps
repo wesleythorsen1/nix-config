@@ -1,0 +1,252 @@
+#!/usr/bin/env bash
+# fix-linux-apps - Helper script to fix application issues on NixOS/Linux
+
+set -e
+
+# Color codes for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
+print_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+print_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
+print_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+# Check if running on Linux
+if [[ "$OSTYPE" != "linux"* ]]; then
+    print_error "This script is only for Linux/NixOS"
+    exit 1
+fi
+
+print_info "Linux Application Fixer for Nix"
+print_info "================================"
+
+# Function to fix desktop entries
+fix_desktop_entries() {
+    print_info "Fixing desktop entries..."
+    
+    # Ensure XDG directories exist
+    mkdir -p "$HOME/.local/share/applications"
+    mkdir -p "$HOME/.local/bin"
+    mkdir -p "$HOME/.config/autostart"
+    
+    # Update desktop database
+    if command -v update-desktop-database &> /dev/null; then
+        update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
+        print_success "Desktop database updated"
+    fi
+    
+    # Update icon cache
+    if command -v gtk-update-icon-cache &> /dev/null; then
+        gtk-update-icon-cache -f -t "$HOME/.local/share/icons" 2>/dev/null || true
+        gtk-update-icon-cache -f -t "$HOME/.icons" 2>/dev/null || true
+    fi
+    
+    # Fix mimeapps
+    if [ ! -f "$HOME/.config/mimeapps.list" ]; then
+        cat > "$HOME/.config/mimeapps.list" << 'EOF'
+[Default Applications]
+x-scheme-handler/http=brave.desktop
+x-scheme-handler/https=brave.desktop
+text/html=brave.desktop
+application/pdf=org.gnome.Evince.desktop
+
+[Added Associations]
+x-scheme-handler/http=brave.desktop;firefox.desktop;
+x-scheme-handler/https=brave.desktop;firefox.desktop;
+text/html=brave.desktop;firefox.desktop;
+EOF
+        print_success "Created default mimeapps.list"
+    fi
+}
+
+# Function to fix Wayland/X11 issues
+fix_display_server_issues() {
+    print_info "Fixing display server issues..."
+    
+    # Check if running Wayland
+    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+        print_info "Detected Wayland session"
+        
+        # Set Wayland-specific environment variables
+        cat > "$HOME/.config/environment.d/wayland.conf" << 'EOF'
+# Enable Wayland support for Electron apps
+NIXOS_OZONE_WL=1
+# Enable native Wayland for Firefox
+MOZ_ENABLE_WAYLAND=1
+# QT Wayland support
+QT_QPA_PLATFORM=wayland
+QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+# SDL Wayland support
+SDL_VIDEODRIVER=wayland
+# Java Wayland support
+_JAVA_AWT_WM_NONREPARENTING=1
+EOF
+        print_success "Wayland environment configured"
+    else
+        print_info "Detected X11 session"
+        
+        # Set X11-specific environment variables
+        cat > "$HOME/.config/environment.d/x11.conf" << 'EOF'
+# X11 specific settings
+QT_QPA_PLATFORM=xcb
+# Fix HiDPI issues
+QT_AUTO_SCREEN_SCALE_FACTOR=1
+GDK_SCALE=1
+GDK_DPI_SCALE=1
+EOF
+        print_success "X11 environment configured"
+    fi
+}
+
+# Function to create application shortcuts
+create_app_shortcuts() {
+    print_info "Creating application shortcuts..."
+    
+    # Create shortcuts for common Nix apps
+    for app in brave slack code firefox zoom; do
+        if command -v "nix-$app" &> /dev/null; then
+            # Create desktop entry if it doesn't exist
+            if [ ! -f "$HOME/.local/share/applications/nix-$app.desktop" ]; then
+                cat > "$HOME/.local/share/applications/nix-$app.desktop" << EOF
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=$app (Nix)
+Comment=$app installed via Nix
+Exec=nix-$app %U
+Icon=$app
+Categories=Network;Office;
+Terminal=false
+StartupNotify=true
+MimeType=text/html;text/xml;application/xhtml+xml;
+EOF
+                chmod +x "$HOME/.local/share/applications/nix-$app.desktop"
+                print_success "Created desktop entry for $app"
+            fi
+            
+            # Create symlink in .local/bin
+            if [ ! -L "$HOME/.local/bin/$app" ]; then
+                ln -sf "$(which nix-$app)" "$HOME/.local/bin/$app"
+                print_success "Created shortcut for $app"
+            fi
+        fi
+    done
+}
+
+# Function to fix common permission issues
+fix_permissions() {
+    print_info "Fixing common permission issues..."
+    
+    # Fix Chrome/Brave sandbox issues
+    if [ -d "$HOME/.config/BraveSoftware" ]; then
+        chmod -R u+rw "$HOME/.config/BraveSoftware" 2>/dev/null || true
+    fi
+    
+    # Fix Slack config permissions
+    if [ -d "$HOME/.config/Slack" ]; then
+        chmod -R u+rw "$HOME/.config/Slack" 2>/dev/null || true
+    fi
+    
+    # Ensure XDG runtime directory exists and has correct permissions
+    if [ -n "$XDG_RUNTIME_DIR" ]; then
+        chmod 700 "$XDG_RUNTIME_DIR" 2>/dev/null || true
+    fi
+    
+    print_success "Permissions fixed"
+}
+
+# Function to setup systemd user services
+setup_user_services() {
+    print_info "Setting up systemd user services..."
+    
+    # Ensure systemd user directory exists
+    mkdir -p "$HOME/.config/systemd/user"
+    
+    # Reload systemd user daemon
+    if command -v systemctl &> /dev/null; then
+        systemctl --user daemon-reload 2>/dev/null || true
+        print_success "Systemd user services reloaded"
+    fi
+}
+
+# Function to check app status
+check_app_status() {
+    print_info "Checking application status..."
+    echo
+    
+    for app in brave slack code firefox zoom; do
+        if command -v "nix-$app" &> /dev/null; then
+            echo -e "${GREEN}✓${NC} $app is available at: $(which nix-$app)"
+        else
+            echo -e "${RED}✗${NC} $app is not installed"
+        fi
+    done
+    echo
+}
+
+# Main execution
+main() {
+    print_info "Starting Linux application fix process..."
+    echo
+    
+    fix_desktop_entries
+    echo
+    
+    fix_display_server_issues
+    echo
+    
+    create_app_shortcuts
+    echo
+    
+    fix_permissions
+    echo
+    
+    setup_user_services
+    echo
+    
+    check_app_status
+    
+    print_success "Linux application fix process completed!"
+    
+    cat << 'EOF'
+
+============================================================
+TIPS FOR LINUX/NIXOS:
+============================================================
+
+1. If applications don't appear in your menu:
+   - Log out and log back in
+   - Or run: killall -HUP gnome-shell (for GNOME)
+   - Or run: kquitapp5 plasmashell && kstart5 plasmashell (for KDE)
+   - Or run: xfce4-panel -r (for XFCE)
+
+2. For Wayland issues with Electron apps:
+   - Apps should now use native Wayland (NIXOS_OZONE_WL=1)
+   - If an app has issues, try: app --ozone-platform=x11
+
+3. For audio/video in browsers:
+   - Ensure pipewire is running: systemctl --user status pipewire
+   - Check wireplumber: systemctl --user status wireplumber
+
+4. For screen sharing on Wayland:
+   - Ensure xdg-desktop-portal is installed
+   - For GNOME: xdg-desktop-portal-gnome
+   - For KDE: xdg-desktop-portal-kde
+   - For wlroots: xdg-desktop-portal-wlr
+
+5. Application shortcuts are available at:
+   - Menu: Look for "AppName (Nix)"
+   - Terminal: nix-appname or just appname
+   - ~/.local/bin/ directory
+
+============================================================
+EOF
+}
+
+# Run main function
+main "$@"

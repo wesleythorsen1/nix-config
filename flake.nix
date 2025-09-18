@@ -116,7 +116,7 @@
 
       nixosConfigurations = {
         "thinkpad" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit inputs outputs overlays; };
 
           modules = [
             ./hosts/thinkpad/configuration.nix
