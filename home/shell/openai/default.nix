@@ -7,21 +7,6 @@
 
 let
   cfg = config.openai;
-
-  # debug = ''
-  #   [[ " $* " == *" --debug "* ]] && DEBUG=true
-
-  #   debug() {
-  #     [[ "''${DEBUG:-}" == true ]] && echo "$*" >&2
-  #   }
-  # '';
-  # error = ''
-  #   [[ " $* " == *" --silent "* ]] && SILENT=true
-
-  #   error() {
-  #     [[ "${"SILENT:-false"}" != true ]] && echo "$*" >&2
-  #   }
-  # '';
 in
 {
   options.openai = {
@@ -34,39 +19,43 @@ in
       example = "/run/secrets/openai-api-key";
     };
 
-    voiceCommands = {
-      enable = lib.mkEnableOption "Voice-to-command terminal tools";
+    # voiceCommands = {
+    #   enable = lib.mkEnableOption "Voice-to-command terminal tools";
 
-      confirmBeforeExec = lib.mkOption {
-        type = lib.types.bool;
-        default = true;
-        description = "Confirm transcribed commands before execution";
-      };
+    #   confirmBeforeExec = lib.mkOption {
+    #     type = lib.types.bool;
+    #     default = true;
+    #     description = "Confirm transcribed commands before execution";
+    #   };
 
-      model = lib.mkOption {
-        type = lib.types.str;
-        default = "whisper-1";
-        description = "OpenAI model to use for transcription";
-      };
-    };
+    #   model = lib.mkOption {
+    #     type = lib.types.str;
+    #     default = "whisper-1";
+    #     description = "OpenAI model to use for transcription";
+    #   };
+    # };
 
-    voiceToText = {
-      enable = lib.mkEnableOption "Voice-to-text input for any application";
+    # voiceToText = {
+    #   enable = lib.mkEnableOption "Voice-to-text input for any application";
 
-      hotkey = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "Global hotkey to start voice transcription";
-        example = "cmd+shift+space";
-      };
-    };
+    #   hotkey = lib.mkOption {
+    #     type = lib.types.nullOr lib.types.str;
+    #     default = null;
+    #     description = "Global hotkey to start voice transcription";
+    #     example = "cmd+shift+space";
+    #   };
+    # };
+
+    # aiChat = {
+    #   enable = lib.mkEnableOption "ai-chat tool";
+    # };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       openai
-      sox # for audio recording
-      ffmpeg_6-headless # for audio processing
+      # sox # for audio recording
+      # ffmpeg_6-headless # for audio processing
     ];
 
     # Set OpenAI API key if provided
@@ -74,229 +63,227 @@ in
       OPENAI_API_KEY = "$(cat ${cfg.apiKeyFile})";
     };
 
-    home.file = lib.mkMerge [
-      # Voice command script
-      (lib.mkIf cfg.voiceCommands.enable {
-        "bin/voice-cmd" = {
-          executable = true;
-          text = ''
-            #!/usr/bin/env bash
+    # home.file = lib.mkMerge [
+    #   # Voice command script
+    #   (lib.mkIf cfg.voiceCommands.enable {
+    #     "bin/voice-cmd" = {
+    #       executable = true;
+    #       text = ''
+    #         #!/usr/bin/env bash
 
-            VERSION="0.1"
+    #         VERSION="0.1"
 
-            set -euo pipefail
+    #         set -euo pipefail
 
-            parser_definition() {
-              setup   REST help:usage -- "Usage: voice-cmd [options]... [arguments]..." \'\'
-              msg -- 'Options:'
-              flag    DEBUG    -d --debug                -- "enables debug level log messages"
-              flag    SILENT   -s --silent               -- "silences all output"
-              param   DURATION -t --duration on:5        -- "sets the amount of time to listen for user input"
-              disp    :usage      --help
-              disp    VERSION     --version
-            }
+    #         parser_definition() {
+    #           setup   REST help:usage -- "Usage: voice-cmd [options]... [arguments]..." \'\'
+    #           msg -- 'Options:'
+    #           flag    DEBUG    -d --debug                -- "enables debug level log messages"
+    #           flag    SILENT   -s --silent               -- "silences all output"
+    #           param   DURATION -t --duration on:5        -- "sets the amount of time to listen for user input"
+    #           disp    :usage      --help
+    #           disp    VERSION     --version
+    #         }
 
-            eval "$(getoptions parser_definition) exit 1"
+    #         eval "$(getoptions parser_definition) exit 1"
 
-            debug() { [[ ''${DEBUG-} ]] && printf '%s\n' "$*" >&2; }
-            error() { [[ ''${SILENT-} ]] || printf '%s\n' "$*" >&2; }
+    #         debug() { [[ ''${DEBUG-} ]] && printf '%s\n' "$*" >&2; }
+    #         error() { [[ ''${SILENT-} ]] || printf '%s\n' "$*" >&2; }
 
-            error "function not done"
-            exit 1
+    #         error "function not done"
+    #         exit 1
 
-            # Check if OpenAI API key is set
-            if [[ -z "''${OPENAI_API_KEY:-}" ]]; then
-              error "Error: OPENAI_API_KEY not set"
-              exit 1
-            fi
+    #         # Check if OpenAI API key is set
+    #         if [[ -z "''${OPENAI_API_KEY:-}" ]]; then
+    #           error "Error: OPENAI_API_KEY not set"
+    #           exit 1
+    #         fi
 
-            # Record audio
-            TEMP_AUDIO="/tmp/voice-cmd-$(date +%s).wav"
+    #         # Record audio
+    #         TEMP_AUDIO="/tmp/voice-cmd-$(date +%s).wav"
 
-            debug "🎤 Recording for $DURATION seconds... (Press Ctrl+C to stop early)"
+    #         debug "🎤 Recording for $DURATION seconds... (Press Ctrl+C to stop early)"
 
-            # Record audio using sox
-            timeout "$DURATION" sox -d "$TEMP_AUDIO" rate 16k channels 1 2>/dev/null || true
+    #         # Record audio using sox
+    #         timeout "$DURATION" sox -d "$TEMP_AUDIO" rate 16k channels 1 2>/dev/null || true
 
-            if [[ ! -f "$TEMP_AUDIO" ]]; then
-              error "❌ No audio recorded"
-              exit 1
-            fi
+    #         if [[ ! -f "$TEMP_AUDIO" ]]; then
+    #           error "❌ No audio recorded"
+    #           exit 1
+    #         fi
 
-            debug "🔄 Transcribing..."
+    #         debug "🔄 Transcribing..."
 
-            # Transcribe using OpenAI
-            TRANSCRIPTION=$(openai api audio.transcriptions.create \
-              --model "${cfg.voiceCommands.model}" \
-              --file "$TEMP_AUDIO" \
-              --response-format text 2>/dev/null || echo "")
+    #         # Transcribe using OpenAI
+    #         TRANSCRIPTION=$(openai api audio.transcriptions.create \
+    #           --model "${cfg.voiceCommands.model}" \
+    #           --file "$TEMP_AUDIO" \
+    #           --response-format text 2>/dev/null || echo "")
 
-            # Clean up temp file
-            rm -f "$TEMP_AUDIO"
+    #         # Clean up temp file
+    #         rm -f "$TEMP_AUDIO"
 
-            if [[ -z "$TRANSCRIPTION" ]]; then
-              error "❌ Failed to transcribe audio"
-              exit 1
-            fi
+    #         if [[ -z "$TRANSCRIPTION" ]]; then
+    #           error "❌ Failed to transcribe audio"
+    #           exit 1
+    #         fi
 
-            echo "📝 Transcribed: $TRANSCRIPTION"
+    #         echo "📝 Transcribed: $TRANSCRIPTION"
 
-            ${lib.optionalString cfg.voiceCommands.confirmBeforeExec ''
-              # Ask for confirmation
-              echo -n "🤔 Execute this command? [y/N]: "
-              read -r CONFIRM
+    #         ${lib.optionalString cfg.voiceCommands.confirmBeforeExec ''
+    #           # Ask for confirmation
+    #           echo -n "🤔 Execute this command? [y/N]: "
+    #           read -r CONFIRM
 
-              if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
-                error "❌ Command cancelled"
-                exit 0
-              fi
-            ''}
+    #           if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
+    #             error "❌ Command cancelled"
+    #             exit 0
+    #           fi
+    #         ''}
 
-            debug "🚀 Executing: $TRANSCRIPTION"
-            eval "$TRANSCRIPTION"
-          '';
-        };
-      })
+    #         debug "🚀 Executing: $TRANSCRIPTION"
+    #         eval "$TRANSCRIPTION"
+    #       '';
+    #     };
+    #   })
 
-      # Voice-to-text script
-      (lib.mkIf cfg.voiceToText.enable {
-        "bin/voice-to-text" = {
-          executable = true;
-          text = ''
-            #!/usr/bin/env bash
+    #   # Voice-to-text script
+    #   (lib.mkIf cfg.voiceToText.enable {
+    #     "bin/voice-to-text" = {
+    #       executable = true;
+    #       text = ''
+    #         #!/usr/bin/env bash
 
-            VERSION="0.1"
+    #         VERSION="0.1"
 
-            set -euo pipefail
+    #         set -euo pipefail
 
-            parser_definition() {
-              setup   REST help:usage -- "Usage: voice-cmd [options]... [arguments]..." \'\'
-              msg -- 'Options:'
-              flag    DEBUG    -d --debug                -- "enables debug level log messages"
-              flag    SILENT   -s --silent               -- "silences all output"
-              param   DURATION -t --duration on:5        -- "sets the amount of time to listen for user input"
-              disp    :usage      --help
-              disp    VERSION     --version
-            }
+    #         parser_definition() {
+    #           setup   REST help:usage -- "Usage: voice-cmd [options]... [arguments]..." \'\'
+    #           msg -- 'Options:'
+    #           flag    DEBUG    -d --debug                -- "enables debug level log messages"
+    #           flag    SILENT   -s --silent               -- "silences all output"
+    #           param   DURATION -t --duration on:5        -- "sets the amount of time to listen for user input"
+    #           disp    :usage      --help
+    #           disp    VERSION     --version
+    #         }
 
-            eval "$(getoptions parser_definition) exit 1"
+    #         eval "$(getoptions parser_definition) exit 1"
 
-            debug() { [[ ''${DEBUG-} ]] && printf '%s\n' "$*" >&2; }
-            error() { [[ ''${SILENT-} ]] || printf '%s\n' "$*" >&2; }
+    #         debug() { [[ ''${DEBUG-} ]] && printf '%s\n' "$*" >&2; }
+    #         error() { [[ ''${SILENT-} ]] || printf '%s\n' "$*" >&2; }
 
-            error "function not done"
-            exit 1
+    #         error "function not done"
+    #         exit 1
 
-            # Check if OpenAI API key is set
-            if [[ -z "''${OPENAI_API_KEY:-}" ]]; then
-              error "Error: OPENAI_API_KEY not set"
-              exit 1
-            fi
+    #         # Check if OpenAI API key is set
+    #         if [[ -z "''${OPENAI_API_KEY:-}" ]]; then
+    #           error "Error: OPENAI_API_KEY not set"
+    #           exit 1
+    #         fi
 
-            # Record audio
-            TEMP_AUDIO="/tmp/voice-to-text-$(date +%s).wav"
+    #         # Record audio
+    #         TEMP_AUDIO="/tmp/voice-to-text-$(date +%s).wav"
 
-            debug "🎤 Recording for $DURATION seconds..."
+    #         debug "🎤 Recording for $DURATION seconds..."
 
-            # Record audio using sox  
-            timeout "$DURATION" sox -d "$TEMP_AUDIO" rate 16k channels 1 2>/dev/null || true
+    #         # Record audio using sox
+    #         timeout "$DURATION" sox -d "$TEMP_AUDIO" rate 16k channels 1 2>/dev/null || true
 
-            if [[ ! -f "$TEMP_AUDIO" ]]; then
-              error "❌ No audio recorded"
-              exit 1
-            fi
+    #         if [[ ! -f "$TEMP_AUDIO" ]]; then
+    #           error "❌ No audio recorded"
+    #           exit 1
+    #         fi
 
-            debug "🔄 Transcribing..."
+    #         debug "🔄 Transcribing..."
 
-            # Transcribe using OpenAI
-            TRANSCRIPTION=$(openai api audio.transcriptions.create \
-              --model "${cfg.voiceCommands.model}" \
-              --file "$TEMP_AUDIO" \
-              --response-format text 2>/dev/null || echo "")
+    #         # Transcribe using OpenAI
+    #         TRANSCRIPTION=$(openai api audio.transcriptions.create \
+    #           --model "${cfg.voiceCommands.model}" \
+    #           --file "$TEMP_AUDIO" \
+    #           --response-format text 2>/dev/null || echo "")
 
-            # Clean up temp file
-            rm -f "$TEMP_AUDIO"
+    #         # Clean up temp file
+    #         rm -f "$TEMP_AUDIO"
 
-            if [[ -z "$TRANSCRIPTION" ]]; then
-              error "❌ Failed to transcribe audio"
-              exit 1
-            fi
+    #         if [[ -z "$TRANSCRIPTION" ]]; then
+    #           error "❌ Failed to transcribe audio"
+    #           exit 1
+    #         fi
 
-            debug "📝 Transcribed: $TRANSCRIPTION"
+    #         debug "📝 Transcribed: $TRANSCRIPTION"
 
-            # Copy to clipboard and optionally type it
-            echo -n "$TRANSCRIPTION" | pbcopy
-            debug "📋 Copied to clipboard!"
+    #         # Copy to clipboard and optionally type it
+    #         echo -n "$TRANSCRIPTION" | pbcopy
+    #         debug "📋 Copied to clipboard!"
 
-            # Ask if user wants to type it automatically
-            echo -n "⌨️  Type this text automatically? [y/N]: "
-            read -r AUTO_TYPE
+    #         # Ask if user wants to type it automatically
+    #         echo -n "⌨️  Type this text automatically? [y/N]: "
+    #         read -r AUTO_TYPE
 
-            if [[ "$AUTO_TYPE" == "y" || "$AUTO_TYPE" == "Y" ]]; then
-              # Give user time to switch windows
-              debug "⏱️  Switching to target window in 3 seconds..."
-              sleep 3
-              
-              # Type the text (using osascript on macOS)
-              osascript -e "tell application \"System Events\" to keystroke \"$TRANSCRIPTION\""
-            fi
-          '';
-        };
-      })
+    #         if [[ "$AUTO_TYPE" == "y" || "$AUTO_TYPE" == "Y" ]]; then
+    #           # Give user time to switch windows
+    #           debug "⏱️  Switching to target window in 3 seconds..."
+    #           sleep 3
 
-      # Quick OpenAI chat script
-      {
-        "bin/ai-chat" = {
-          executable = true;
-          text = ''
-            #!/usr/bin/env bash
+    #           # Type the text (using osascript on macOS)
+    #           osascript -e "tell application \"System Events\" to keystroke \"$TRANSCRIPTION\""
+    #         fi
+    #       '';
+    #     };
+    #   })
 
-            VERSION="0.1"
+    #   # Quick OpenAI chat script
+    #   (lib.mkIf cfg.aiChat.enable {
+    #     "bin/ai-chat" = {
+    #       executable = true;
+    #       text = ''
+    #         #!/usr/bin/env bash
 
-            set -euo pipefail
+    #         VERSION="0.1"
 
-            parser_definition() {
-              setup   REST help:usage -- "Usage: voice-cmd [options]... [arguments]..." \'\'
-              msg -- 'Options:'
-              flag    DEBUG    -d --debug                -- "enables debug level log messages"
-              flag    SILENT   -s --silent               -- "silences all output"
-              param   MODEL    -m --model on:"gpt-4"     -- "sets model that the ai uses"
-              flag    STREAM   --stream                  -- "outputs partially streamed responses from the model"      
-              disp    :usage   --help
-              disp    VERSION  --version
-            }
+    #         set -euo pipefail
 
-            eval "$(getoptions parser_definition) exit 1"
+    #         parser_definition() {
+    #           setup   REST help:usage -- "Usage: ai [options] chat-prompt"
+    #           msg -- 'Options:'
+    #           flag    DEBUG      -d --debug                -- "enables debug level log messages"
+    #           flag    SILENT     -s --silent               -- "silences all output"
+    #           param   MODEL      -m --model on:"gpt-4"     -- "sets model that the ai uses"
+    #           flag    NO_STREAM  --no-stream               -- "outputs complete responses from the model, does not stream results"
+    #           disp    :usage     --help
+    #           disp    VERSION    --version
+    #         }
 
-            MODEL=''${MODEL:-gpt-4}
+    #         eval "$(getoptions parser_definition) exit 1"
 
-            debug() { [[ ''${DEBUG-} ]] && printf '%s\n' "$*" >&2; }
-            error() { [[ ''${SILENT-} ]] || printf '%s\n' "$*" >&2; }
+    #         MODEL=''${MODEL:-"gpt-4"}
 
-            if [[ ''${STREAM-} ]]; then
-              openai api chat.completions.create \
-                --model "$MODEL" \
-                --max-tokens 1000 \
-                --stream \
-                --message system "You are a helpful assistant running in the command line interface." \
-                --message user "''${REST[*]-}"
-            else
-              openai api chat.completions.create \
-                --model "$MODEL" \
-                --max-tokens 1000 \
-                --message system "You are a helpful assistant running in the command line interface." \
-                --message user "''${REST[*]-}"
-            fi
-          '';
-        };
-      }
-    ];
+    #         debug() { [[ ''${SILENT-} ]] || ([[ ''${DEBUG-} ]] && printf '%s\n' "$*" >&2;) }
+    #         error() { [[ ''${SILENT-} ]] || printf '%s\n' "$*" >&2; }
 
-    # Shell aliases
-    programs.zsh.shellAliases = {
-      ai = "ai-chat";
-    }
-    // lib.mkIf cfg.voiceCommands.enable { vc = "voice-cmd"; }
-    // lib.mkIf cfg.voiceToText.enable { vt = "voice-to-text"; };
+    #         debug "Creating openai chat completion..."
+    #         debug " * model: $MODEL"
+    #         debug " * prompt: $@"
+
+    #         echo "$@"
+
+    #         openai api chat.completions.create \
+    #           --model "$MODEL" \
+    #           --max-tokens 1000 \
+    #           --stream \
+    #           --message system "You are a helpful assistant running in the command line interface." \
+    #           --message user "$@"
+    #       '';
+    #     };
+    #   })
+    # ];
+
+    # # Shell aliases
+    # programs.zsh.shellAliases = {
+    #   ai = "ai-chat";
+    # }
+    # // lib.mkIf cfg.voiceCommands.enable { vc = "voice-cmd"; }
+    # // lib.mkIf cfg.voiceToText.enable { vt = "voice-to-text"; };
   };
 }

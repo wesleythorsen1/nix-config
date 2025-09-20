@@ -26,6 +26,7 @@ in
   };
 
   imports = [
+    ./charm
     ./fd
     ./fzf
     ./gh
@@ -50,9 +51,7 @@ in
         eza
         ffmpeg_6-headless
         getoptions
-        glow
         gnupg
-        gum
         jq
         jwt-cli
         fastfetch

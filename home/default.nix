@@ -100,8 +100,6 @@
 
     openai = {
       enable = true;
-      voiceCommands.enable = true;
-      voiceToText.enable = true;
       apiKeyFile = "${config.home.homeDirectory}/.config/openai/keys/default.key";
     };
   };
