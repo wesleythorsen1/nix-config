@@ -104,6 +104,7 @@
     "dotenv",
     "dropoff",
     "esbenp",
+    "faas",
     "filemode",
     "healthcheck",
     "hsts",

@@ -22,6 +22,7 @@
     ./chromium
     ./dotnet
     ./nodejs
+    ./open-faas
     # ./podman
     ./python3
     ./shell
