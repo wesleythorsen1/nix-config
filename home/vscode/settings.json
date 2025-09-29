@@ -36,7 +36,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.disableAutomaticTypeAcquisition": true,
   "yaml.schemas": {
-    "file:///Users/wes/.vscode/extensions/continue.continue-1.2.4-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/wes/.vscode/extensions/continue.continue-1.2.6-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
@@ -284,5 +284,14 @@
   "markdown-preview-enhanced.codeBlockTheme": "default.css",
   "timing.hoverDuration.useISOTargetFormat": true,
   "timing.insertConvertedTime": true,
-  "workbench.editor.enablePreview": false
+  "workbench.editor.enablePreview": false,
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  }
 }
