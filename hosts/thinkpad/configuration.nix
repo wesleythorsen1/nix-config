@@ -82,6 +82,7 @@
   # Misc services
   services.openssh.enable = true;
   services.printing.enable = true;
+  services.pcscd.enable = true;
 
   # Optional: get rid of those noisy dbus/acpid errors
   services.resolved.enable = true;
@@ -102,6 +103,11 @@
 
     # Disable Hyprland for now to avoid crashes
     hyprland.enable = lib.mkForce false;
+
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
   };
 
   system.stateVersion = "25.05"; # Did you read the comment?
