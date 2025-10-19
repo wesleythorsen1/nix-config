@@ -36,17 +36,21 @@
     keyMap = "us";
   };
 
+  services.displayManager = {
+    sddm.enable = true;
+
+    # Boot into XFCE for stability
+    defaultSession = "xfce";
+  };
+
   services.xserver = {
     enable = true;
     # Use Intel iGPU for now; comment out if you want NVIDIA PRIME later
     videoDrivers = [ "modesetting" ];
 
     displayManager = {
-      sddm.enable = true;
       # Explicitly disable LightDM
       lightdm.enable = false;
-      # Boot into XFCE for stability
-      defaultSession = "xfce";
     };
 
     desktopManager.xfce.enable = true;
@@ -54,7 +58,7 @@
 
   # Enable sound
   # sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
