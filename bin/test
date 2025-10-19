@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+nix build \
+  --impure \
+  --expr '(with import <nixpkgs> { system = "x86_64-linux"; }; runCommand "foo" {} "uname -a > $out")'

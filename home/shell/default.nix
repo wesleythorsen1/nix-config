@@ -55,6 +55,7 @@ in
         jq
         jwt-cli
         fastfetch
+        nmap
         pipes-rs
         ripgrep
         rsclock

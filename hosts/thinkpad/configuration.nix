@@ -77,10 +77,24 @@
       "audio"
     ];
     shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII2Mwvc/ia3Gtu0RQ6WmkoPVI1E+EKAd1akze0SJqA8c wes@crackbookpro" # id_thinkpad
+    ];
   };
 
   # Misc services
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PubkeyAuthentication = true;
+
+      UseDns = false;
+      UsePAM = true;
+    };
+  };
   services.printing.enable = true;
   services.pcscd.enable = true;
 
@@ -107,6 +121,12 @@
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
+    };
+
+    tmux = {
+      enable = true;
+      keyMode = "vi";
+      # TODO: update all tmux configs to use common config file
     };
   };
 

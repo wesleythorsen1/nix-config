@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+nixos-rebuild switch \
+  --flake .#thinkpad \
+  --build-host builder@linux-builder \
+  --target-host wes@thinkpad \
+  --use-remote-sudo \
+  --option builders "" \
+  --verbose
+  # --build-flags '--option builders ""' \
+
+
+# export NIX_SSHOPTS="-tt"
+
+# # Build wrapper locally
+# env NIX_BUILDERS= \
+#   nix build .#nixosConfigurations.thinkpad.config.system.build.nixos-rebuild \
+#   -L -o /tmp/nr
+
+# # Use it to build/switch ThinkPad via the linux-builder VM
+# exec /tmp/nr/bin/nixos-rebuild switch \
+#   --flake .#thinkpad \
+#   --build-host builder@linux-builder \
+#   --target-host wes@thinkpad \
+#   --use-remote-sudo \
+#   --verbose
+
+# nixos-rebuild switch \
+#   --flake .#thinkpad \
+#   --build-host builder@linux-builder \
+#   --target-host wes@thinkpad \
+#   --option builders '' \
+#   --use-remote-sudo \
+#   --verbose
+
+# env NIX_BUILDERS= \
+#   nix run nixpkgs#nixos-rebuild -- \
+#     switch \
+#     --flake .#thinkpad \
+#     --build-host builder@linux-builder \
+#     --target-host wes@thinkpad \
+#     --use-remote-sudo \
+#     --verbose
+
+# nix run nixpkgs#nixos-rebuild -- \
+#   switch \
+#   --flake .#thinkpad \
+#   --build-host builder@linux-builder \
+#   --target-host wes@thinkpad \
+#   --option builders '' \
+#   --use-remote-sudo \
+#   --verbose
+#   # --fast \
+

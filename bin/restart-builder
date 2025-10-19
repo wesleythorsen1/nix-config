@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# check to see if a builder is running
+sudo launchctl list | grep -i builder
+
+# restart it
+sudo launchctl bootout system/org.nixos.linux-builder
+sudo launchctl bootstrap system /Library/LaunchDaemons/org.nixos.linux-builder.plist
+
+# ssh into builder to confirm it's running
+sudo ssh -i /etc/nix/builder_ed25519 builder@linux-builder
