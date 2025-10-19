@@ -12,9 +12,8 @@
 
   programs.git.userName = "wesleythorsen1";
   programs.git.userEmail = "wesley.thorsen@gmail.com";
-  programs.git.extraConfig.credential.helper = "${
-    pkgs.git.override { withLibsecret = true; }
-  }/bin/git-credential-libsecret";
+  programs.git.extraConfig.credential.helper = 
+    "${pkgs.git-credential-manager}/bin/git-credential-manager";
 
   imports = [
     ../../home

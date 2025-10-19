@@ -64,8 +64,6 @@
             brave = unstable.brave;
             dbeaver-bin = unstable.dbeaver-bin;
             docker = unstable.docker;
-            goose-cli = unstable.goose-cli;
-            nodejs_20 = unstable.nodejs_20;
             postman = unstable.postman;
             slack = unstable.slack;
             thunderbird = unstable.thunderbird;
