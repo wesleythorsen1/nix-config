@@ -1,0 +1,74 @@
+~ » ip addr show | grep inet
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host noprefixroute
+    inet 192.168.1.161/24 brd 192.168.1.255 scope global dynamic noprefixroute enp0s25
+    inet6 2600:4041:5d35:8100:8b4b:d6a2:3bc8:d870/64 scope global temporary dynamic
+    inet6 2600:4041:5d35:8100:4d1d:8dc8:dac7:1b94/64 scope global dynamic mngtmpaddr noprefixroute
+    inet6 fe80::8a34:734c:d026:184b/64 scope link noprefixroute
+~ » sudo nft list ruleset | grep ssh
+# Warning: table ip filter is managed by iptables-nft, do not touch!
+# Warning: table ip6 filter is managed by iptables-nft, do not touch!
+# Warning: table ip mangle is managed by iptables-nft, do not touch!
+# Warning: table ip6 mangle is managed by iptables-nft, do not touch!
+~ » sudo systemctl status firewall
+● firewall.service - Firewall
+     Loaded: loaded (/etc/systemd/system/firewall.service; enabled; preset: ignored)
+     Active: active (exited) since Tue 2025-10-21 10:42:21 EDT; 12min ago
+ Invocation: 96e9c4ce2c2741deab9dcc45ed5757eb
+   Main PID: 533 (code=exited, status=0/SUCCESS)
+         IO: 1.6M read, 0B written
+   Mem peak: 3.7M
+        CPU: 190ms
+
+Oct 21 10:42:18 thinkpad systemd[1]: Starting Firewall...
+Oct 21 10:42:21 thinkpad systemd[1]: Finished Firewall.
+~ » sudo systemctl status sshd
+● sshd.service - SSH Daemon
+     Loaded: loaded (/etc/systemd/system/sshd.service; enabled; preset: ignored)
+     Active: active (running) since Tue 2025-10-21 10:42:22 EDT; 12min ago
+ Invocation: 8a1f19ec2be74e119b6985453172988f
+   Main PID: 991 (sshd)
+         IP: 0B in, 0B out
+         IO: 1.2M read, 0B written
+      Tasks: 1 (limit: 37969)
+     Memory: 2.3M (peak: 2.6M)
+        CPU: 17ms
+     CGroup: /system.slice/sshd.service
+             └─991 "sshd: /nix/store/h44876m5fzv3zwh7kpa96xi03f6pfpkf-openssh-10.0p2/bin/sshd -D -f /etc/ssh/sshd_config [listener] 0 of 10-100 startups"
+
+Oct 21 10:42:22 thinkpad systemd[1]: Started SSH Daemon.
+Oct 21 10:42:22 thinkpad sshd[991]: Server listening on 0.0.0.0 port 22.
+Oct 21 10:42:22 thinkpad sshd[991]: Server listening on :: port 22.
+~ » sudo systemctl restart sshd
+~ » sudo systemctl status sshd
+● sshd.service - SSH Daemon
+     Loaded: loaded (/etc/systemd/system/sshd.service; enabled; preset: ignored)
+     Active: active (running) since Tue 2025-10-21 10:54:58 EDT; 6s ago
+ Invocation: 8e1c817320154718badbc55ce1250b08
+   Main PID: 4889 (sshd)
+         IP: 0B in, 0B out
+         IO: 0B read, 0B written
+      Tasks: 1 (limit: 37969)
+     Memory: 1.2M (peak: 1.4M)
+        CPU: 16ms
+     CGroup: /system.slice/sshd.service
+             └─4889 "sshd: /nix/store/h44876m5fzv3zwh7kpa96xi03f6pfpkf-openssh-10.0p2/bin/sshd -D -f /etc/ssh/sshd_config [listener] 0 of 10-100 startups"
+
+Oct 21 10:54:58 thinkpad systemd[1]: sshd.service: Consumed 18ms CPU time, 2.6M memory peak, 1.2M read from disk.
+Oct 21 10:54:58 thinkpad systemd[1]: Started SSH Daemon.
+Oct 21 10:54:58 thinkpad sshd[4889]: Server listening on 0.0.0.0 port 22.
+Oct 21 10:54:58 thinkpad sshd[4889]: Server listening on :: port 22.
+~ » sudo ss -tlnp | grep sshd
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=4889,fd=6))
+LISTEN 0      128             [::]:22           [::]:*    users:(("sshd",pid=4889,fd=7))
+~ » ping thinkpad.local
+PING thinkpad.local (192.168.1.161) 56(84) bytes of data.
+64 bytes from thinkpad (192.168.1.161): icmp_seq=1 ttl=64 time=0.034 ms
+64 bytes from thinkpad (192.168.1.161): icmp_seq=2 ttl=64 time=0.078 ms
+64 bytes from thinkpad (192.168.1.161): icmp_seq=3 ttl=64 time=0.072 ms
+64 bytes from thinkpad (192.168.1.161): icmp_seq=4 ttl=64 time=0.109 ms
+64 bytes from thinkpad (192.168.1.161): icmp_seq=5 ttl=64 time=0.114 ms
+^C
+--- thinkpad.local ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4076ms
+rtt min/avg/max/mdev = 0.034/0.081/0.114/0.028 ms
