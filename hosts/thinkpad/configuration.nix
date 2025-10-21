@@ -2,6 +2,7 @@
   lib,
   overlays,
   pkgs,
+  self,
   ...
 }:
 
@@ -27,6 +28,10 @@
   networking.hostName = "thinkpad"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 ];
+  };
 
   time.timeZone = "America/New_York";
 
@@ -67,6 +72,14 @@
     jack.enable = true;
   };
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish.enable = true;
+    publish.addresses = true;
+    publish.domain = true;
+  };
+
   # User accounts
   users.users.wes = {
     isNormalUser = true;
@@ -82,9 +95,22 @@
     ];
   };
 
+  security.sudo.extraRules = [
+    {
+      users = [ "wes" ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   # Misc services
   services.openssh = {
     enable = true;
+    openFirewall = true;
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
@@ -102,8 +128,11 @@
   services.resolved.enable = true;
   services.acpid.enable = true;
 
+  environment.etc."nix-config".source = self.outPath;
+
   # Packages
   environment.systemPackages = with pkgs; [
+    nftables
     # vim
     # git
     wget
@@ -136,6 +165,10 @@
     experimental-features = [
       "nix-command"
       "flakes"
+    ];
+    trusted-users = [
+      "root"
+      "wes"
     ];
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];

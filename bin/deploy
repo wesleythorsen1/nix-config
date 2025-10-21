@@ -2,15 +2,13 @@
 
 set -euo pipefail
 
-nixos-rebuild switch \
+NIX_SSHOPTS="-o BatchMode=yes" nixos-rebuild build \
   --flake .#thinkpad \
-  --build-host builder@linux-builder \
+  --build-host wes@thinkpad \
   --target-host wes@thinkpad \
-  --use-remote-sudo \
-  --option builders "" \
+  --use-substitutes \
+  --sudo \
   --verbose
-  # --build-flags '--option builders ""' \
-
 
 # export NIX_SSHOPTS="-tt"
 

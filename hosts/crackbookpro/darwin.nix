@@ -11,28 +11,28 @@
       "flakes"
     ];
 
-    linux-builder = {
-      enable = true;
-      ephemeral = true;
-      protocol = "ssh";
-      systems = [
-        "aarch64-linux"
-        "x86_64-linux"
-      ];
-      maxJobs = 4;
-      config = {
-        boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
-        nix.settings.extra-platforms = [ "x86_64-linux" ];
+    # linux-builder = {
+    #   enable = true;
+    #   ephemeral = true;
+    #   protocol = "ssh";
+    #   systems = [
+    #     "aarch64-linux"
+    #     "x86_64-linux"
+    #   ];
+    #   maxJobs = 4;
+    #   config = {
+    #     boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+    #     nix.settings.extra-platforms = [ "x86_64-linux" ];
 
-        virtualisation = {
-          darwin-builder = {
-            diskSize = 40 * 1024;
-            memorySize = 8 * 1024;
-          };
-          cores = 6;
-        };
-      };
-    };
+    #     virtualisation = {
+    #       darwin-builder = {
+    #         diskSize = 40 * 1024;
+    #         memorySize = 8 * 1024;
+    #       };
+    #       cores = 6;
+    #     };
+    #   };
+    # };
   };
   nixpkgs.overlays = overlays;
   nixpkgs.config = {
