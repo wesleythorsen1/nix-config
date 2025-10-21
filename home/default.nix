@@ -100,7 +100,7 @@
     };
 
     openai = {
-      enable = true;
+      enable = false;
       apiKeyFile = "${config.home.homeDirectory}/.config/openai/keys/default.key";
     };
   };

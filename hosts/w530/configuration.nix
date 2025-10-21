@@ -1,6 +1,7 @@
 {
   overlays,
   pkgs,
+  self,
   ...
 }:
 
@@ -16,6 +17,10 @@
       "nix-command"
       "flakes"
     ];
+    trusted-users = [
+      "root"
+      "wes"
+    ];
   };
 
   nixpkgs = {
@@ -27,13 +32,15 @@
     enable = true;
     device = "/dev/sda";
     useOSProber = true;
-    showMenu = true;
-    timeout = 5;
   };
 
   networking = {
-    hostName = "w530";
+    hostName = "thinkpad";
     networkmanager.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+    };
   };
 
   time.timeZone = "America/New_York";
@@ -70,12 +77,49 @@
     };
   };
 
+  security.sudo.extraRules = [
+    {
+      users = [ "wes" ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
+  environment = {
+    systemPackages = with pkgs; [
+      btop
+      curl
+      ethtool
+      eza
+      fd
+      jq
+      lsof
+      nftables
+      nmap
+      pciutils
+      ripgrep
+      rsync
+      strace
+      unzip
+      usbutils
+      wget
+      zip
+    ];
+
+    etc."nix-config".source = self.outPath;
+  };
+
   services = {
     resolved.enable = true; # systemd-resolved
     acpid.enable = true; # power button/lid signals handled sanely on laptops
 
     openssh = {
       enable = true;
+      openFirewall = true;
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;
@@ -89,26 +133,15 @@
     iperf3 = {
       enable = true;
     };
-  };
 
-  environment.systemPackages = with pkgs; [
-    btop
-    curl
-    ethtool
-    eza
-    fd
-    jq
-    lsof
-    nmap
-    pciutils
-    ripgrep
-    rsync
-    strace
-    unzip
-    usbutils
-    wget
-    zip
-  ];
+    avahi = {
+      enable = true;
+      nssmdns = true;
+      publish.enable = true;
+      publish.addresses = true;
+      publish.domain = true;
+    };
+  };
 
   programs = {
     bat.enable = true;

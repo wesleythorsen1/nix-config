@@ -114,7 +114,14 @@
 
       nixosConfigurations = {
         "thinkpad" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs overlays; };
+          specialArgs = {
+            inherit
+              inputs
+              outputs
+              overlays
+              self
+              ;
+          };
 
           modules = [
             ./hosts/thinkpad/configuration.nix
@@ -122,7 +129,14 @@
         };
 
         "w530" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs overlays; };
+          specialArgs = {
+            inherit
+              inputs
+              outputs
+              overlays
+              self
+              ;
+          };
 
           modules = [
             ./hosts/w530/configuration.nix
