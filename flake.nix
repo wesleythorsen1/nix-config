@@ -120,6 +120,14 @@
             ./hosts/thinkpad/configuration.nix
           ];
         };
+
+        "w530" = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs overlays; };
+
+          modules = [
+            ./hosts/w530/configuration.nix
+          ];
+        };
       };
 
       homeConfigurations = {
