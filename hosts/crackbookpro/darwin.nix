@@ -111,6 +111,10 @@
   # };
 
   services = {
+    tailscale = {
+      enable = true;
+    };
+
     # nix-daemon.enable             = true; # Ensure the Nix daemon runs on startup
 
     # launchd = {

@@ -51,7 +51,28 @@
     keyMap = "us";
   };
 
-  systemd.defaultUnit = "multi-user.target";
+  systemd = {
+    defaultUnit = "multi-user.target";
+
+    services.fetch-tailscale-key = {
+      description = "Fetch Tailscale auth key from Mac (temporary bootstrap)";
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
+      requiredBy = [ "tailscaled.service" ];
+      before = [ "tailscaled.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = pkgs.writeShellScript "fetch-tailscale-key" ''
+          set -euo pipefail
+          install -d -m 700 /run/keys
+          ${pkgs.curl}/bin/curl -fsS "http://crackbookpro.local/tailscale_key" \
+            -o /run/keys/tailscale_key
+          chmod 600 /run/keys/tailscale_key
+        '';
+      };
+      wantedBy = [ "multi-user.target" ];
+    };
+  };
 
   security.sudo = {
     enable = true;
@@ -113,6 +134,19 @@
       publish.enable = true;
       publish.addresses = true;
       publish.domain = true;
+    };
+
+    tailscale = {
+      enable = true;
+      openFirewall = true;
+      authKeyFile = "/run/keys/tailscale_key";
+      useRoutingFeatures = "server";
+      extraUpFlags = [
+        "--ssh"
+      ];
+      extraSetFlags = [
+        "--advertise-exit-node"
+      ];
     };
   };
 
