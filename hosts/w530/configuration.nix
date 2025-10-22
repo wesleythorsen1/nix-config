@@ -5,6 +5,9 @@
   ...
 }:
 
+let
+  toLua = str: "lua << EOF\n${str}\nEOF\n";
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -71,6 +74,7 @@
         '';
       };
       wantedBy = [ "multi-user.target" ];
+      unitConfig.ConditionPathExists = "!/run/keys/tailscale_key";
     };
   };
 
@@ -151,7 +155,6 @@
   };
 
   programs = {
-    tmux.enable = true;
     git.enable = true;
 
     gnupg.agent = {
@@ -168,9 +171,46 @@
       '';
     };
 
+    tmux = {
+      enable = true;
+      keyMode = "vi";
+      terminal = "screen-256color";
+      shortcut = "Space";
+      baseIndex = 1;
+      newSession = true;
+      escapeTime = 1000;
+      extraConfigBeforePlugins = ''
+        set -ga terminal-overrides ",*256col*:Tc"
+        set -g set-clipboard on
+        set -g mouse on
+        set -g status-interval 2
+        set -g detach-on-destroy off
+        set -g renumber-windows on
+
+        # copy-mode-vi tweaks (no mac pbcopy here; rely on OSC52)
+        bind -T copy-mode-vi v send -X begin-selection
+        bind -T copy-mode-vi y send -X copy-selection-and-cancel
+        unbind -T copy-mode-vi MouseDragEnd1Pane
+      '';
+    };
+
     neovim = {
       enable = true;
       defaultEditor = true;
+      configure = {
+        customLuaRC = toLua ''
+          vim.g.mapleader = " "
+          require("init")
+        '';
+      };
+      runtime = {
+        "lua/settings.lua".text = builtins.readFile ../../home/shell/nvim/config/settings.lua;
+        "lua/keymaps.lua".text = builtins.readFile ../../home/shell/nvim/config/keymaps.lua;
+        "lua/init.lua".text = ''
+          require("settings")
+          require("keymaps")
+        '';
+      };
     };
   };
 
@@ -191,12 +231,18 @@
     environment = {
       systemPackages = with pkgs; [
         btop
+        cmake
         ethtool
         eza
         fd
         lsof
+        lua-language-server
         nftables
+        nixd
         nmap
+        nodejs_24
+        nodePackages.typescript
+        nodePackages.typescript-language-server
         pciutils
         ripgrep
         rsync
@@ -282,59 +328,86 @@
         };
       };
 
+      tmux = {
+        enable = true;
+        plugins = with pkgs.tmuxPlugins; [
+          tmux-powerline
+          resurrect
+          continuum
+        ];
+        extraConfig = ''
+          # load the plugin
+          # source-file #{?TMUX_PLUGIN_MANAGER_PATH,,""}${pkgs.tmuxPlugins.tmux-powerline}/share/tmux-plugins/powerline/main.tmux
+
+          # (optional) if you want to override its defaults, copy its example and source your own:
+          # run-shell "cp -n ${pkgs.tmuxPlugins.tmux-powerline}/share/tmux-plugins/powerline/powerline.conf.example ~/.tmux-powerline.conf"
+          # source-file ~/.tmux-powerline.conf
+          # source-file ${pkgs.tmuxPlugins.tmux-powerline}/share/tmux-powerline/powerline.conf
+
+          set -g @resurrect-capture-pane-contents 'on'
+          set -g @continuum-restore 'on'
+          set -g status-right '#(${pkgs.gitmux}/bin/gitmux "#{pane_current_path}")'
+        '';
+      };
+
       neovim = {
         enable = true;
         configure = {
-          customLuaRC = ''
-            -- here your custom Lua configuration goes!
-
-            vim.g.mapleader = " "
-
-            vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-            vim.opt.number = true
-            vim.opt.relativenumber = true
-
-            vim.opt.clipboard = "unnamedplus"
-
-            vim.opt.tabstop = 2
-            vim.opt.softtabstop = 2
-            vim.opt.shiftwidth = 2
-            vim.opt.expandtab = false
-
-            vim.opt.smartindent = true
-
-            vim.opt.wrap = false
-
-            vim.opt.swapfile = false
-            vim.opt.backup = false
-            vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-            vim.opt.undofile = true
-
-            vim.opt.hlsearch = false
-            vim.opt.incsearch = true
-
-            vim.opt.termguicolors = true
-
-            vim.opt.scrolloff = 8
-            vim.opt.signcolumn = "yes"
-            vim.opt.isfname:append("@-@")
-
-            vim.opt.updatetime = 50
-
-            vim.opt.colorcolumn = "80"
-          '';
           packages.myVimPackage = with pkgs.vimPlugins; {
-            # TODO: setup plugins to match home-manager
-            # loaded on launch
-            start = [ fugitive ];
-            # manually loadable by calling `:packadd $plugin-name`
+            start = [
+              nvim-lspconfig
+              nvim-treesitter.withAllGrammars
+              telescope-nvim
+              telescope-fzf-native-nvim
+              nvim-cmp
+              cmp-nvim-lsp
+              cmp-buffer
+              cmp-path
+              luasnip
+              cmp_luasnip
+              vim-fugitive
+              undotree
+              gitsigns-nvim
+              lualine-nvim
+              nvim-web-devicons
+              snacks-nvim
+            ];
             opt = [ ];
           };
+        };
+        runtime = {
+          "lua/treesitter.lua".text = builtins.readFile ../../home/shell/nvim/plugins/treesitter.lua;
+          "lua/telescope.lua".text = builtins.readFile ../../home/shell/nvim/plugins/telescope.lua;
+          "lua/completion.lua".text = builtins.readFile ../../home/shell/nvim/plugins/completion.lua;
+          "lua/lsp.lua".text = builtins.readFile ../../home/shell/nvim/plugins/lsp.lua;
+          "lua/snacks.lua".text = builtins.readFile ../../home/shell/nvim/plugins/snacks.lua;
+          "lua/init.lua".text = ''
+            require("settings")
+            require("keymaps")
+            require("treesitter")
+            require("telescope")
+            require("completion")
+            require("lsp")
+            require("snacks")
+            -- Yazi quick-open (uses tmux if present, else terminal)
+            vim.keymap.set("n","<leader>yy", function()
+              if os.getenv("TMUX") then
+                vim.fn.system('tmux split-window -v "yazi"')
+              else
+                vim.cmd("terminal yazi")
+              end
+            end, { desc = "Yazi in split/terminal" })
+          '';
         };
       };
 
       yazi = {
         enable = true;
+      };
+
+      fzf = {
+        fuzzyCompletion = true;
+        keybindings = true;
       };
     };
   };
