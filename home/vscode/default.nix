@@ -77,7 +77,6 @@ in
         shd101wyy.markdown-preview-enhanced
         streetsidesoftware.code-spell-checker
         # threadheap.serverless-ide-vscode
-        tim-koehler.helm-intellisense
         visualstudioexptteam.intellicode-api-usage-examples
         visualstudioexptteam.vscodeintellicode
         # vscjava.vscode-gradle
