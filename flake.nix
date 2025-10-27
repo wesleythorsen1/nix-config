@@ -31,6 +31,7 @@
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    nixpkgs-sbcl.url = "github:NixOS/nixpkgs/f990fa6061efa91d2b99b88b948a2e16e99b5838";
   };
 
   outputs =
@@ -44,12 +45,28 @@
       nix-vscode-extensions,
       nix-darwin,
       mac-app-util,
+      nixpkgs-sbcl,
       ...
     }@inputs:
     let
       inherit (self) outputs;
-
       overlays = [
+        (
+          final: prev:
+          let
+            pinned = nixpkgs-sbcl.legacyPackages.${prev.stdenv.hostPlatform.system};
+          in {
+            sbcl = pinned.sbcl;
+            lispPackages = pinned.lispPackages;
+            common-lisp = pinned.common-lisp;
+        })
+        
+        (final: prev: {
+          sbcl = prev.sbcl.overrideAttrs (old: {
+            doCheck = false;
+          });
+        })
+
         nix-vscode-extensions.overlays.default
 
         (
@@ -90,6 +107,12 @@
         crackbookpro = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
 
+          pkgs = import nixpkgs {
+            system = "aarch64-darwin";
+            overlays = overlays;
+            config.allowUnfree = true;
+          };
+
           specialArgs = { inherit inputs outputs overlays; };
 
           modules = [
@@ -99,6 +122,12 @@
 
             home-manager.darwinModules.home-manager
             {
+              home-manager.
+              pkgs = import nixpkgs {
+                system = "aarch64-darwin";
+                overlays = overlays;
+                config.allowUnfree = true;
+              };
               home-manager.useGlobalPkgs = false;
               home-manager.useUserPackages = true;
               home-manager.users.wes = import ./hosts/crackbookpro/home.nix;

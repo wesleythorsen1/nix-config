@@ -10,10 +10,13 @@
   home.username = "wes";
   home.homeDirectory = "/home/wes";
 
-  programs.git.userName = "wesleythorsen1";
-  programs.git.userEmail = "wesley.thorsen@gmail.com";
-  programs.git.extraConfig.credential.helper = 
-    "${pkgs.git-credential-manager}/bin/git-credential-manager";
+  programs.git.settings = {
+    user = {
+      name = "wesleythorsen1";
+      email = "wesley.thorsen@gmail.com";
+    };
+    credential.helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+  };
 
   imports = [
     ../../home

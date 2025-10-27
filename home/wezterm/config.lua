@@ -1,4 +1,3 @@
-local wezterm = require 'wezterm'
 local act = wezterm.action
 local gpus = wezterm.gui.enumerate_gpus()
 
@@ -32,6 +31,15 @@ return {
   --     width = "100%",
   --   },
   -- },
+  font = wezterm.font_with_fallback({
+		--"JetBrains Mono", -- <built-in>, wezterm default
+		"JetBrainsMono Nerd Font Mono", -- custom, for missing glyphs: { Error: "", Warn: "", Hint: "", Info: "" }
+		"Symbols Nerd Font Mono", -- <built-in>, wezterm default
+		"Apple Color Emoji", -- <built-in>, wezterm default ❌❤️😀🎶⌘
+		"Noto Color Emoji", -- <built-in>, wezterm default
+	}),
+  -- font_size = 13.0,
+  -- use_cap_height_to_scale_fallback_fonts = true,
   launch_menu = {
     {
       args = { 'btop' },
@@ -172,4 +180,3 @@ return {
     },
   },
 }
-

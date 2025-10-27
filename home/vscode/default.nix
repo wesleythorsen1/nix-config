@@ -49,6 +49,7 @@ in
         # dotjoshjohnson.xml
         # eamodio.gitlens
         esbenp.prettier-vscode
+        # golang.go
         gruntfuggly.todo-tree
         heaths.vscode-guid
         jnoortheen.nix-ide

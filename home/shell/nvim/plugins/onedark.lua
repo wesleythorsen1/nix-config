@@ -24,12 +24,12 @@ require('onedark').setup {
 
     -- Lualine options --
     lualine = {
-        transparent = false, -- lualine center bar transparency
+        transparent = true, -- lualine center bar transparency
     },
 
     -- Custom Highlights --
-    colors = {}, -- Override default colors
-    highlights = {}, -- Override highlight groups
+    -- colors = {}, -- Override default colors
+    -- highlights = {}, -- Override highlight groups
 
     -- Plugins Config --
     diagnostics = {

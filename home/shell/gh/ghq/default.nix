@@ -32,7 +32,7 @@ in
     # Prefer Git config for ghq.root
     programs.git = {
       enable = true;
-      extraConfig.ghq.root = cfg.root;
+      settings.ghq.root = cfg.root;
     };
 
     # Optional: set GHQ_ROOT (note it overrides ghq.root if present)

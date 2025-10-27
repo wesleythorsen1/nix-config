@@ -39,35 +39,37 @@
 
     systemd.user.startServices = "sd-switch";
 
+    fonts.fontconfig.enable = true;
+
     home = {
       stateVersion = "25.05";
 
       packages = with pkgs; [
         auth0-cli
         awscli2
-        bun
+        # bun
         # burpsuite
         claude-code
         # davinci-resolve
         dbeaver-bin
         deno
         docker
-        doppler
-        goose-cli
+        # doppler
+        fontconfig
+        # goose-cli
         kubernetes-helm
         mysql80
+        nerd-fonts.jetbrains-mono
         ngrok
         nix-tree
         nixd
         nixfmt-rfc-style
-        # nodejs_20
         pnpm
         postman
-        sbcl
-        slack
+        # sbcl # LISP
+        # slack
         # terraform
-        # zoom-us
-        zulu24
+        # zulu24
       ];
     };
 
@@ -99,9 +101,9 @@
       };
     };
 
-    openai = {
-      enable = false;
-      apiKeyFile = "${config.home.homeDirectory}/.config/openai/keys/default.key";
-    };
+    # openai = {
+    #   enable = false;
+    #   apiKeyFile = "${config.home.homeDirectory}/.config/openai/keys/default.key";
+    # };
   };
 }

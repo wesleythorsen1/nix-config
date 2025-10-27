@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+BRANCH=nixos-25.05
+CUTOFF="2025-10-23 23:59"   # <- your date/time (local or with TZ)
+
+# shallow clone just enough history (fast) and get the last commit before CUTOFF
+git -C nixpkgs-tmp fetch --shallow-since="${CUTOFF}" origin "$BRANCH"
+REV=$(git -C nixpkgs-tmp rev-list -n1 --before="${CUTOFF}" "origin/${BRANCH}")
+echo "$REV"

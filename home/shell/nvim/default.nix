@@ -28,6 +28,8 @@ in
 
     # search all vimPlugins: nix-env -f '<nixpkgs>' -qaP -A vimPlugins
     plugins = with pkgs.vimPlugins; [
+      vim-visual-multi
+
       {
         plugin = comment-nvim;
         config = toLua ''require("Comment").setup()'';
@@ -37,6 +39,8 @@ in
         plugin = nvim-lspconfig;
         config = toLuaFile ./plugins/lsp.lua;
       }
+
+      cmp-nvim-lsp-signature-help
 
       {
         plugin = onedark-nvim;
@@ -105,6 +109,11 @@ in
       {
         plugin = snacks-nvim;
         config = toLuaFile ./plugins/snacks.lua;
+      }
+
+      {
+        plugin = render-markdown-nvim;
+        config = toLuaFile ./plugins/render-markdown.lua;
       }
     ];
 
