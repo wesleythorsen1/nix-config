@@ -34,7 +34,6 @@ in
     ./nvim
     ./openai
     ./tree
-    ./zsh
   ];
 
   config = {
@@ -63,12 +62,11 @@ in
         watch
         wget
         yank
-        yazi
         zip
       ];
 
       sessionVariables = {
-        EDITOR = "code";
+        EDITOR = "nvim";
         NIX_ACTIVE_CONFIG_DIR = "${config.home.homeDirectory}/nix";
       };
 
@@ -126,7 +124,82 @@ in
           };
         }) (builtins.attrNames (builtins.readDir ./bin))
       );
+    };
 
+    programs = {
+      yazi = {
+        enable = true;
+        # settings = {
+        #   opener = {
+        #     vim = [
+        #       {
+        #         run = "nvim \"$@\"";
+        #         block = true;
+        #         desc = "Vim";
+        #         for = "unix";
+        #       }
+        #     ];
+        #     code = [
+        #       {
+        #         run = "code -r \"$@\"";
+        #         orphan = true;
+        #         desc = "VSCode";
+        #         for = "unix";
+        #       }
+        #     ];
+        #     open = [
+        #       {
+        #         run = "open \"$@\"";
+        #         orphan = true;
+        #         for = "macos";
+        #         desc = "Default app";
+        #       }
+        #       {
+        #         run = "xdg-open \"$@\"";
+        #         orphan = true;
+        #         for = "linux";
+        #         desc = "Default app";
+        #       }
+        #     ];
+        #     exif = [
+        #       {
+        #         run = "exiftool \"$@\"";
+        #         block = true;
+        #         desc = "Show EXIF";
+        #         for = "unix";
+        #       }
+        #     ];
+        #     reveal = [
+        #       {
+        #         run = "open $(dirname \"$0\")";
+        #         orphan = true;
+        #         for = "macos";
+        #         desc = "Reveal";
+        #       }
+        #       {
+        #         run = "xdg-open $(dirname \"$0\")";
+        #         orphan = true;
+        #         for = "linux";
+        #         desc = "Reveal";
+        #       }
+        #     ];
+        #   };
+        #   open = {
+        #     rules = [
+        #       {
+        #         name = "*";
+        #         use = [
+        #           "edit"
+        #           "code"
+        #           "open"
+        #           "exif"
+        #           "reveal"
+        #         ];
+        #       }
+        #     ];
+        #   };
+        # };
+      };
     };
   };
 }

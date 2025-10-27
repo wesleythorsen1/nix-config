@@ -132,10 +132,12 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
+    exiftool
     nftables
     # vim
     # git
     wget
+    traceroute
     # firefox
     xfce.thunar
     xfce.mousepad
@@ -161,16 +163,19 @@
 
   system.stateVersion = "25.05"; # Did you read the comment?
 
-  nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    trusted-users = [
-      "root"
-      "wes"
-    ];
-    substituters = [ "https://hyprland.cachix.org" ];
-    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+  nix = {
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "root"
+        "wes"
+      ];
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    };
+    nixPath = lib.mkForce [ ]; # not needed for flake
   };
 }

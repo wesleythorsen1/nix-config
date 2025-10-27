@@ -8,7 +8,7 @@
 }:
 
 let
-  overlayedPkgs = import inputs.nixpkgs {
+  overlayedPkgs = import inputs.nixpkgs-unstable {
     system = pkgs.system;
     overlays = overlays;
     config = {
@@ -49,6 +49,7 @@ in
         # dotjoshjohnson.xml
         # eamodio.gitlens
         esbenp.prettier-vscode
+        # golang.go
         gruntfuggly.todo-tree
         heaths.vscode-guid
         jnoortheen.nix-ide

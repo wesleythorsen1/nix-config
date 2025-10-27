@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   overlays,
   ...
@@ -6,10 +7,17 @@
 
 {
   nix = {
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "root"
+        "wes"
+      ];
+    };
+    nixPath = lib.mkForce [ ]; # not needed for flake
 
     # linux-builder = {
     #   enable = true;
@@ -34,6 +42,7 @@
     #   };
     # };
   };
+  nixpkgs.config.checkByDefault = false;
   nixpkgs.overlays = overlays;
   nixpkgs.config = {
     allowUnfree = true;
@@ -71,28 +80,6 @@
       # remapCapsLockToControl    = true;  # Remap Caps Lock to Control
       # swapLeftCtrlAndFn         = false; # Swap left Control and Fn/Globe
     };
-
-    # activationScripts = {
-    #   # Apply any changed defaults immediately (no login/logout)
-    #   postUserActivation.text = ''
-    #     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-    #   '';
-
-    #   # podmanMachineInit = {
-    #   #   deps = [ pkgs.podman pkgs.grep ];
-    #   #   text = ''
-    #   #     # if no default machine exists yet, create it
-    #   #     if ! podman machine list --format "{{.Name}}" \
-    #   #       | grep -q "^default$"; then
-    #   #       podman machine init
-    #   #     fi
-    #   #   '';
-    #   # };
-
-    #   # postUserActivation.text = ''
-    #   #   profiles install -type configuration -path ${config.environment.etc."tcc-pppc.mobileconfig".source}
-    #   # '';
-    # };
   };
 
   users.users = {
@@ -102,60 +89,85 @@
     };
   };
 
-  # launchd.user.agents.podman-machine-start = {
-  #   command = "${pkgs.podman}/bin/podman machine start";
-  #   serviceConfig = {
-  #     RunAtLoad = true;
-  #     KeepAlive = true;
-  #   };
-  # };
-
   services = {
     tailscale = {
       enable = true;
     };
-
-    # nix-daemon.enable             = true; # Ensure the Nix daemon runs on startup
-
-    # launchd = {
-    #   userAgents."remap-command-control" = {
-    #     enable = true;
-    #     runAtLoad = true;
-    #     serviceConfig = {
-    #       Label            = "remap-command-control";
-    #       Program          = "${pkgs.hidutil}/bin/hidutil";
-    #       ProgramArguments = [
-    #         "property" "--set" ''
-    #           {
-    #             "UserKeyMapping": [
-    #               # 0x7000000E0 = Left Control; 0x7000000E3 = Left Command
-    #               {"HIDKeyboardModifierMappingSrc":0x7000000E0,"HIDKeyboardModifierMappingDst":0x7000000E3},
-    #               {"HIDKeyboardModifierMappingSrc":0x7000000E3,"HIDKeyboardModifierMappingDst":0x7000000E0}
-    #             ]
-    #           }
-    #         ''
-    #       ];
-    #     };
-    #   };
-    # };
   };
 
   environment = {
-    # etc = {
-    #   "tcc-pppc.mobileconfig" = {
-    #     source = ./tcc-pppc.mobileconfig;
-    #     mode   = "0644";
-    #   };
-    # };
+    shells = [ pkgs.zsh ];
 
     systemPackages = with pkgs; [
-      git
       coreutils
+      curl
+      exiftool
+      fastfetch
+      git
+      jq
       nixos-rebuild # for building NixOS configs
+      unzip
+      wget
     ];
   };
+
   programs = {
-    zsh.enable = true; # Enable zsh system-wide
+    zsh = {
+      enable = true;
+      promptInit = ''
+        setopt prompt_subst
+        . ${./etc/posh-git.zsh}
+        PROMPT='%n@%m %1~$(git_prompt_info) » '
+      '';
+      interactiveShellInit = ''
+        autoload -U up-line-or-beginning-search
+        autoload -U down-line-or-beginning-search
+        zle -N up-line-or-beginning-search
+        zle -N down-line-or-beginning-search
+        bindkey "^[[A" up-line-or-beginning-search
+        bindkey "^[[B" down-line-or-beginning-search
+
+        show_fastfetch () {
+          # Only for interactive shells
+          case "$-" in
+            *i*) : ;;     # interactive
+            *)   return ;; # non-interactive login (e.g., ssh with a command)
+          esac
+
+          # Require a real terminal and skip "dumb"
+          [ -t 1 ] || return
+          [ "''${"TERM:-"}" = "dumb" ] && return
+
+          # Run fastfetch if present
+          if command -v fastfetch >/dev/null 2>&1; then
+            fastfetch
+          fi
+        }
+
+        show_fastfetch
+      '';
+      enableAutosuggestions = true;
+      enableBashCompletion = true;
+      enableCompletion = true;
+      enableFzfCompletion = true;
+      enableFzfGit = true;
+      enableFzfHistory = true;
+      enableSyntaxHighlighting = true;
+    };
+
+    bash = {
+      enable = true;
+      interactiveShellInit = ''
+        case "$-" in *i*) ;; *) return ;; esac
+        . ${./etc/posh-git.zsh}
+        __posh_prompt_prefix="\u@\h \W "
+        __posh_prompt_suffix=" » "
+        PROMPT_COMMAND='__posh_git_ps1 "$__posh_prompt_prefix" "$__posh_prompt_suffix"'
+
+        bind '"\e[A": history-search-backward'
+        bind '"\e[B": history-search-forward'
+      '';
+    };
 
     tmux = {
       enable = true;

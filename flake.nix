@@ -2,21 +2,14 @@
   description = "nix config";
 
   inputs = {
-    nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-25.05";
-    };
+    # nixpkgs = {
+    #   url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
+    # };
     nixpkgs-unstable = {
-      url = "github:nixos/nixpkgs/nixos-unstable";
-    };
-    nixpkgs-a71323f = {
-      url = "github:nixos/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c";
+      url = "github:nixos/nixpkgs/nixpkgs-unstable";
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     mac-app-util = {
@@ -36,11 +29,8 @@
   outputs =
     {
       self,
-      nixpkgs,
       nixpkgs-unstable,
-      nixpkgs-a71323f,
       home-manager,
-      hyprland,
       nix-vscode-extensions,
       nix-darwin,
       mac-app-util,
@@ -48,14 +38,13 @@
     }@inputs:
     let
       inherit (self) outputs;
-
       overlays = [
         nix-vscode-extensions.overlays.default
 
         (
           final: prev:
           let
-            unstable = import inputs.nixpkgs-unstable {
+            unstable = import nixpkgs-unstable {
               inherit (prev) system;
               config.allowUnfree = true;
             };
@@ -73,22 +62,18 @@
             # zoom-us = unstable.zoom-us;
           }
         )
-
-        (final: prev: {
-          nodejs_16 =
-            (import inputs.nixpkgs-a71323f {
-              inherit (prev) system;
-              config.permittedInsecurePackages = [
-                "nodejs-16.20.2"
-              ];
-            }).nodejs_16;
-        })
       ];
     in
     {
       darwinConfigurations = {
         crackbookpro = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
+
+          pkgs = import nixpkgs-unstable {
+            system = "aarch64-darwin";
+            overlays = overlays;
+            config.allowUnfree = true;
+          };
 
           specialArgs = { inherit inputs outputs overlays; };
 
@@ -108,54 +93,6 @@
                 mac-app-util.homeManagerModules.default
               ];
             }
-          ];
-        };
-      };
-
-      nixosConfigurations = {
-        "thinkpad" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit
-              inputs
-              outputs
-              overlays
-              self
-              ;
-          };
-
-          modules = [
-            ./hosts/thinkpad/configuration.nix
-          ];
-        };
-
-        "w530" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit
-              inputs
-              outputs
-              overlays
-              self
-              ;
-          };
-
-          modules = [
-            ./hosts/w530/configuration.nix
-          ];
-        };
-      };
-
-      homeConfigurations = {
-        "wes@thinkpad" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            overlays = overlays;
-            config.allowUnfree = true;
-          };
-
-          extraSpecialArgs = { inherit inputs outputs overlays; };
-
-          modules = [
-            ./hosts/thinkpad/home.nix
           ];
         };
       };

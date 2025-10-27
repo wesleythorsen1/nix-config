@@ -20,7 +20,7 @@ require("snacks").setup({
   
   -- Floating LazyGit with proper colorscheme integration
   -- Usage: :SnacksLazygit or map to keymap like <leader>gg
-  lazygit = { enabled = true },
+  lazygit = { enabled = false },
   
   -- Better file renaming with plugin support
   -- Usage: :SnacksRename <new_name> or map to keymap like <leader>rn
@@ -44,7 +44,7 @@ require("snacks").setup({
   
   -- Zen mode for distraction-free coding
   -- Usage: :SnacksZen to toggle zen mode
-  zen = { enabled = true },
+  zen = { enabled = false },
   
   -- Faster file rendering before plugins load
   -- Usage: Automatic - files load faster, especially large ones

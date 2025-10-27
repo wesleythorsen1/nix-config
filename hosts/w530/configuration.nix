@@ -110,8 +110,6 @@ in
       unzip
       wget
     ];
-
-    sessionVariables.ZDOTDIR = "/etc/zsh";
   };
 
   services = {
@@ -164,11 +162,6 @@ in
 
     zsh = {
       enable = true;
-      promptInit = "";
-      interactiveShellInit = ''
-        PROMPT='%n@%m:%~ %# '
-        setopt NO_RCS
-      '';
     };
 
     tmux = {

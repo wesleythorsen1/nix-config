@@ -8,6 +8,10 @@
   "explorer.confirmDragAndDrop": false,
   "window.title": "${rootName}",
   "debug.onTaskErrors": "debugAnyway",
+  // special symbols: { Error = "", Warn = "", Hint = "", Info = "" }
+  "editor.fontFamily": "Menlo, 'JetBrainsMono Nerd Font Mono', 'Symbols Nerd Font Mono', Monaco, 'Courier New', monospace",
+  // "editor.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrainsMono Nerd Font Mono', 'Symbols Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+  // "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrainsMono Nerd Font Mono', 'Symbols Nerd Font Mono'",
   // Language-specific editor settings
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -136,6 +140,7 @@
     "rgba",
     "thinkpad",
     "thorsen",
+    "traceroute",
     "tsyringe",
     "typebox",
     "typemoq",
@@ -285,7 +290,7 @@
   "markdown-preview-enhanced.codeBlockTheme": "default.css",
   "timing.hoverDuration.useISOTargetFormat": true,
   "timing.insertConvertedTime": true,
-  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreview": true,
   "[dockercompose]": {
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
