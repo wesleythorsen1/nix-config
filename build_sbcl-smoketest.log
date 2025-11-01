@@ -1,0 +1,4 @@
+warning: Git tree '/Users/wes/repos/github.com/wesleythorsen1/nix-config' is dirty
+this derivation will be built:
+  /nix/store/r44cxiyvzqmmb4ikd4lb4716z5gbails-sbcl-smoketest.drv
+building '/nix/store/r44cxiyvzqmmb4ikd4lb4716z5gbails-sbcl-smoketest.drv'...

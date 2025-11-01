@@ -41,7 +41,6 @@
       nixpkgs-unstable,
       nixpkgs-a71323f,
       home-manager,
-      hyprland,
       nix-vscode-extensions,
       nix-darwin,
       mac-app-util,
@@ -55,12 +54,14 @@
           final: prev:
           let
             pinned = nixpkgs-sbcl.legacyPackages.${prev.stdenv.hostPlatform.system};
-          in {
+          in
+          {
             sbcl = pinned.sbcl;
             lispPackages = pinned.lispPackages;
             common-lisp = pinned.common-lisp;
-        })
-        
+          }
+        )
+
         (final: prev: {
           sbcl = prev.sbcl.overrideAttrs (old: {
             doCheck = false;
@@ -72,7 +73,7 @@
         (
           final: prev:
           let
-            unstable = import inputs.nixpkgs-unstable {
+            unstable = import nixpkgs-unstable {
               inherit (prev) system;
               config.allowUnfree = true;
             };
@@ -93,7 +94,7 @@
 
         (final: prev: {
           nodejs_16 =
-            (import inputs.nixpkgs-a71323f {
+            (import nixpkgs-a71323f {
               inherit (prev) system;
               config.permittedInsecurePackages = [
                 "nodejs-16.20.2"
@@ -101,37 +102,54 @@
             }).nodejs_16;
         })
       ];
+
+      perSystem =
+        system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = overlays;
+            config.allowUnfree = true;
+          };
+        in
+        {
+          packages.sbcl-pinned = pkgs.sbcl;
+          packages.sbcl-smoketest = pkgs.writeShellScriptBin "sbcl-smoketest" ''
+            exec ${pkgs.sbcl}/bin/sbcl --noinform \
+              --eval '(princ (+ 1 2))' \
+              --eval '(terpri)' \
+              --quit
+          '';
+        };
     in
     {
+      packages.aarch64-darwin = (perSystem "aarch64-darwin").packages;
+
       darwinConfigurations = {
         crackbookpro = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
 
-          pkgs = import nixpkgs {
-            system = "aarch64-darwin";
-            overlays = overlays;
-            config.allowUnfree = true;
-          };
-
           specialArgs = { inherit inputs outputs overlays; };
 
           modules = [
+            # <<< apply your overlays to the system pkgs
+            (
+              { ... }:
+              {
+                nixpkgs.overlays = overlays;
+              }
+            )
+
             ./hosts/crackbookpro/darwin.nix
 
             mac-app-util.darwinModules.default
 
             home-manager.darwinModules.home-manager
             {
-              home-manager.
-              pkgs = import nixpkgs {
-                system = "aarch64-darwin";
-                overlays = overlays;
-                config.allowUnfree = true;
-              };
-              home-manager.useGlobalPkgs = false;
+              home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.wes = import ./hosts/crackbookpro/home.nix;
-              home-manager.extraSpecialArgs = { inherit overlays inputs; };
+              home-manager.extraSpecialArgs = { inherit inputs; };
               home-manager.backupFileExtension = "backup";
               home-manager.sharedModules = [
                 mac-app-util.homeManagerModules.default
