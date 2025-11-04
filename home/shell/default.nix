@@ -27,7 +27,6 @@ in
 
   imports = [
     ./charm
-    ./fd
     ./fzf
     ./gh
     ./git

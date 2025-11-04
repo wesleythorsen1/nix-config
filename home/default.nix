@@ -20,7 +20,6 @@
     ./accounts/email/take2
 
     ./chromium
-    ./dotnet
     ./nodejs
     ./open-faas
     # ./podman

@@ -103,6 +103,8 @@
                   custom.enable = true;
                   custom.modules = {
                     golang.enable = true;
+                    dotnet.enable = true;
+                    fd.enable = true;
                   };
                 };
               home-manager.extraSpecialArgs = { inherit overlays inputs; };

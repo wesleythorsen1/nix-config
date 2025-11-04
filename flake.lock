@@ -222,11 +222,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762249188,
-        "narHash": "sha256-wOw4UnUFAGp7R/M8NUKVXy2tHQH6hJbCxd7rQCQj38U=",
+        "lastModified": 1762259494,
+        "narHash": "sha256-mx9p5QU+XR0cmlxDLug35QRyfrA494pnykxUkjJsRqI=",
         "owner": "wesleythorsen1",
         "repo": "nix-modules",
-        "rev": "736195bc840e0aa33132acaa4eb12e70f15d6c4c",
+        "rev": "aa65e9449061902ecd43582e870644a627dd7071",
         "type": "github"
       },
       "original": {
