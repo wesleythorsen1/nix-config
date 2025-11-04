@@ -24,6 +24,11 @@
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    wesleythorsen1-nix-modules = {
+      url = "github:wesleythorsen1/nix-modules";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -34,6 +39,7 @@
       nix-vscode-extensions,
       nix-darwin,
       mac-app-util,
+      wesleythorsen1-nix-modules,
       ...
     }@inputs:
     let
@@ -86,7 +92,19 @@
             {
               home-manager.useGlobalPkgs = false;
               home-manager.useUserPackages = true;
-              home-manager.users.wes = import ./hosts/crackbookpro/home.nix;
+              home-manager.users.wes =
+                { ... }:
+                {
+                  imports = [
+                    wesleythorsen1-nix-modules.homeManagerModules.default
+                    ./hosts/crackbookpro/home.nix
+                  ];
+
+                  custom.enable = true;
+                  custom.modules = {
+                    golang.enable = true;
+                  };
+                };
               home-manager.extraSpecialArgs = { inherit overlays inputs; };
               home-manager.backupFileExtension = "backup";
               home-manager.sharedModules = [

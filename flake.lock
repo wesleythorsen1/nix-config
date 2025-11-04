@@ -175,7 +175,8 @@
         "mac-app-util": "mac-app-util",
         "nix-darwin": "nix-darwin",
         "nix-vscode-extensions": "nix-vscode-extensions",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "wesleythorsen1-nix-modules": "wesleythorsen1-nix-modules"
       }
     },
     "systems": {
@@ -208,6 +209,29 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "wesleythorsen1-nix-modules": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1762249188,
+        "narHash": "sha256-wOw4UnUFAGp7R/M8NUKVXy2tHQH6hJbCxd7rQCQj38U=",
+        "owner": "wesleythorsen1",
+        "repo": "nix-modules",
+        "rev": "736195bc840e0aa33132acaa4eb12e70f15d6c4c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "wesleythorsen1",
+        "repo": "nix-modules",
         "type": "github"
       }
     }
