@@ -93,7 +93,7 @@
               home-manager.useGlobalPkgs = false;
               home-manager.useUserPackages = true;
               home-manager.users.wes =
-                { ... }:
+                { pkgs, ... }:
                 {
                   imports = [
                     wesleythorsen1-nix-modules.homeManagerModules.default
@@ -106,6 +106,11 @@
                     dotnet.enable = true;
                     fd.enable = true;
                   };
+
+                  home.packages = [
+                    wesleythorsen1-nix-modules.packages.${pkgs.system}.pbfmt
+                    # inputs.self.packages.${pkgs.system}.pbfmt
+                  ];
                 };
               home-manager.extraSpecialArgs = { inherit overlays inputs; };
               home-manager.backupFileExtension = "backup";
