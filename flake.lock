@@ -59,11 +59,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762146130,
-        "narHash": "sha256-/XOEA0a61fZ45i/BpaSsyLNNbw/yKwjMbkB/IWSGLzU=",
+        "lastModified": 1762463325,
+        "narHash": "sha256-33YUsWpPyeBZEWrKQ2a1gkRZ7i0XCC/2MYpU6BVeQSU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b5ed4afc2277339bdf0e9edf59befff7350cf075",
+        "rev": "0562fef070a1027325dd4ea10813d64d2c967b39",
         "type": "github"
       },
       "original": {
@@ -97,6 +97,29 @@
         "type": "github"
       }
     },
+    "my-nix-modules": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1762419742,
+        "narHash": "sha256-YXS0kBDTX9tuQMciuwxNF2GzV3pFZir8QKGQRPPyVMk=",
+        "ref": "refs/heads/main",
+        "rev": "9df1b448c6cd27603c58295ac4c016a396063b3b",
+        "revCount": 6,
+        "type": "git",
+        "url": "file:./external/nix-modules"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:./external/nix-modules"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -104,11 +127,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762039661,
-        "narHash": "sha256-oM5BwAGE78IBLZn+AqxwH/saqwq3e926rNq5HmOulkc=",
+        "lastModified": 1762501326,
+        "narHash": "sha256-QbhsksHaIN6qU3oXhwUFbYycKX1GRxObpQSWAM5fhRY=",
         "owner": "nix-darwin",
         "repo": "nix-darwin",
-        "rev": "c3c8c9f2a5ed43175ac4dc030308756620e6e4e4",
+        "rev": "e2b82ebd0f990a5d1b68fcc761b3d6383c86ccfd",
         "type": "github"
       },
       "original": {
@@ -124,11 +147,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762135163,
-        "narHash": "sha256-gP8SCvsYSfi4olYZcrZ4P1IGMzYJSFe1FuO8RL3xpEc=",
+        "lastModified": 1762480525,
+        "narHash": "sha256-7akzuLV8uKP3ym67TJoSIT5hTeC5FG8H745Y/7/7J+8=",
         "owner": "nix-community",
         "repo": "nix-vscode-extensions",
-        "rev": "5d6525e4d5372973da1777b9ebdb01f033db1395",
+        "rev": "b8b0b207dc13cb7b004f9d0c1d2b76a85e9494c8",
         "type": "github"
       },
       "original": {
@@ -155,11 +178,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1761880412,
-        "narHash": "sha256-QoJjGd4NstnyOG4mm4KXF+weBzA2AH/7gn1Pmpfcb0A=",
+        "lastModified": 1762361079,
+        "narHash": "sha256-lz718rr1BDpZBYk7+G8cE6wee3PiBUpn8aomG/vLLiY=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "a7fc11be66bdfb5cdde611ee5ce381c183da8386",
+        "rev": "ffcdcf99d65c61956d882df249a9be53e5902ea5",
         "type": "github"
       },
       "original": {
@@ -173,10 +196,10 @@
       "inputs": {
         "home-manager": "home-manager",
         "mac-app-util": "mac-app-util",
+        "my-nix-modules": "my-nix-modules",
         "nix-darwin": "nix-darwin",
         "nix-vscode-extensions": "nix-vscode-extensions",
-        "nixpkgs-unstable": "nixpkgs-unstable",
-        "wesleythorsen1-nix-modules": "wesleythorsen1-nix-modules"
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     },
     "systems": {
@@ -209,29 +232,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "wesleythorsen1-nix-modules": {
-      "inputs": {
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1762419742,
-        "narHash": "sha256-YXS0kBDTX9tuQMciuwxNF2GzV3pFZir8QKGQRPPyVMk=",
-        "owner": "wesleythorsen1",
-        "repo": "nix-modules",
-        "rev": "9df1b448c6cd27603c58295ac4c016a396063b3b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "wesleythorsen1",
-        "repo": "nix-modules",
         "type": "github"
       }
     }

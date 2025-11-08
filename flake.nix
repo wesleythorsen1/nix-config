@@ -24,8 +24,8 @@
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    wesleythorsen1-nix-modules = {
-      url = "github:wesleythorsen1/nix-modules";
+    my-nix-modules = {
+      url = "git+file:./external/nix-modules";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.home-manager.follows = "home-manager";
     };
@@ -39,7 +39,7 @@
       nix-vscode-extensions,
       nix-darwin,
       mac-app-util,
-      wesleythorsen1-nix-modules,
+      my-nix-modules,
       ...
     }@inputs:
     let
@@ -96,7 +96,7 @@
                 { pkgs, ... }:
                 {
                   imports = [
-                    wesleythorsen1-nix-modules.homeManagerModules.default
+                    my-nix-modules.homeManagerModules.default
                     ./hosts/crackbookpro/home.nix
                   ];
 
@@ -108,7 +108,7 @@
                   };
 
                   home.packages = [
-                    wesleythorsen1-nix-modules.packages.${pkgs.system}.pbfmt
+                    my-nix-modules.packages.${pkgs.system}.pbfmt
                     # inputs.self.packages.${pkgs.system}.pbfmt
                   ];
                 };

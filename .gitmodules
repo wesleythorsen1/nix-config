@@ -1,0 +1,4 @@
+[submodule "external/nix-modules"]
+	path = external/nix-modules
+	url = https://github.com/wesleythorsen1/nix-modules
+	branch = main
