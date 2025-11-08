@@ -47,6 +47,8 @@
       overlays = [
         nix-vscode-extensions.overlays.default
 
+        my-nix-modules.overlays.default # adds pkgs.pbfmt
+
         (
           final: prev:
           let
@@ -92,15 +94,21 @@
             {
               home-manager.useGlobalPkgs = false;
               home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit overlays inputs; };
+              home-manager.backupFileExtension = "backup";
+              home-manager.sharedModules = [
+                mac-app-util.homeManagerModules.default
+              ];
               home-manager.users.wes =
-                { pkgs, ... }:
+                { ... }:
                 {
+                  nixpkgs.overlays = overlays;
+
                   imports = [
                     my-nix-modules.homeManagerModules.default
                     ./hosts/crackbookpro/home.nix
                   ];
 
-                  custom.enable = true;
                   custom.modules = {
                     dotnet.enable = true;
                     fd.enable = true;
@@ -124,18 +132,9 @@
                       credentialHelper = "osxkeychain";
                     };
                     golang.enable = true;
+                    pbfmt.enable = true;
                   };
-
-                  home.packages = [
-                    my-nix-modules.packages.${pkgs.system}.pbfmt
-                    # inputs.self.packages.${pkgs.system}.pbfmt
-                  ];
                 };
-              home-manager.extraSpecialArgs = { inherit overlays inputs; };
-              home-manager.backupFileExtension = "backup";
-              home-manager.sharedModules = [
-                mac-app-util.homeManagerModules.default
-              ];
             }
           ];
         };
