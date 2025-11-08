@@ -71,38 +71,5 @@
         # zulu24
       ];
     };
-
-    gh = {
-      enable = true;
-
-      settings = {
-        git_protocol = "https";
-        editor = "code --wait";
-        prompt = "enabled";
-        prefer_editor_prompt = "disabled";
-      };
-
-      aliases = {
-        prco = "pr checkout";
-        prv = "pr view";
-        prc = "pr create";
-      };
-
-      ghq = {
-        enable = true;
-        root = "${config.home.homeDirectory}/repos";
-        useEnvVar = true;
-      };
-
-      gcd = {
-        enable = true;
-        addCodeHelper = true;
-      };
-    };
-
-    # openai = {
-    #   enable = false;
-    #   apiKeyFile = "${config.home.homeDirectory}/.config/openai/keys/default.key";
-    # };
   };
 }

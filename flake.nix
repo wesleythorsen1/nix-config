@@ -102,9 +102,28 @@
 
                   custom.enable = true;
                   custom.modules = {
-                    golang.enable = true;
                     dotnet.enable = true;
                     fd.enable = true;
+                    fzf.enable = true;
+                    gh = {
+                      enable = true;
+                      settings.editor = "code --wait";
+                      ghq.enable = true;
+                      gcd = {
+                        enable = true;
+                        addCodeHelper = true;
+                      };
+                    };
+                    git = {
+                      enable = true;
+                      user = {
+                        name = "wesleythorsen1";
+                        email = "wesley.thorsen@gmail.com";
+                        signingkey = "FAE484F021AE49E5";
+                      };
+                      credentialHelper = "osxkeychain";
+                    };
+                    golang.enable = true;
                   };
 
                   home.packages = [

@@ -27,9 +27,6 @@ in
 
   imports = [
     ./charm
-    ./fzf
-    ./gh
-    ./git
     ./nvim
     ./openai
     ./tree
