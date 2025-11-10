@@ -38,29 +38,6 @@ in
     home = {
       shell.enableShellIntegration = true;
 
-      packages = with pkgs; [
-        bat
-        # bitwarden-cli # broken: https://github.com/NixOS/nixpkgs/issues/339576 https://github.com/bitwarden/clients/issues/16234
-        bws
-        btop
-        eza
-        ffmpeg_6-headless
-        getoptions
-        gnupg
-        jq
-        jwt-cli
-        fastfetch
-        nmap
-        pipes-rs
-        ripgrep
-        rsclock
-        sd
-        watch
-        wget
-        yank
-        zip
-      ];
-
       sessionVariables = {
         EDITOR = "nvim";
         NIX_ACTIVE_CONFIG_DIR = "${config.home.homeDirectory}/nix";

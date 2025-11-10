@@ -100,7 +100,7 @@
                 mac-app-util.homeManagerModules.default
               ];
               home-manager.users.wes =
-                { ... }:
+                { pkgs, ... }:
                 {
                   nixpkgs.overlays = overlays;
 
@@ -110,9 +110,23 @@
                   ];
 
                   custom.modules = {
+                    auth0-cli.enable = true;
+                    awscli2.enable = true;
+                    bat.enable = true;
+                    btop.enable = true;
+                    bws.enable = true;
+                    claude-code.enable = true;
+                    dbeaver-bin.enable = true;
+                    deno.enable = true;
+                    docker.enable = true;
                     dotnet.enable = true;
+                    eza.enable = true;
+                    fastfetch.enable = true;
                     fd.enable = true;
+                    ffmpeg_6-headless.enable = true;
+                    fontconfig.enable = true;
                     fzf.enable = true;
+                    getoptions.enable = true;
                     gh = {
                       enable = true;
                       settings.editor = "code --wait";
@@ -131,8 +145,50 @@
                       };
                       credentialHelper = "osxkeychain";
                     };
+                    gnupg.enable = true;
                     golang.enable = true;
+                    jq.enable = true;
+                    jwt-cli.enable = true;
+                    kubernetes-helm.enable = true;
+                    mysql80.enable = true;
+                    nerd-fonts = {
+                      enable = true;
+                      fonts = with pkgs.nerd-fonts; [
+                        jetbrains-mono
+                      ];
+                    };
+                    ngrok.enable = true;
+                    nix-tree.enable = true;
+                    nixd.enable = true;
+                    nixfmt-rfc-style.enable = true;
+                    nmap.enable = true;
                     pbfmt.enable = true;
+                    pipes-rs.enable = true;
+                    pnpm.enable = true;
+                    postman.enable = true;
+                    ripgrep.enable = true;
+                    rsclock.enable = true;
+                    sd.enable = true;
+                    watch.enable = true;
+                    wget.enable = true;
+                    yank.enable = true;
+                    zip.enable = true;
+
+                    # disabled:
+                    bitwarden-cli.enable = false;
+                    bun.enable = false;
+                    burpsuite.enable = false;
+                    davinci-resolve.enable = false;
+                    doppler.enable = false;
+                    goose-cli.enable = false;
+                    podman = {
+                      enable = false;
+                      enableDesktop = false;
+                    };
+                    sbcl.enable = false;
+                    slack.enable = false;
+                    terraform.enable = false;
+                    zulu24.enable = false;
                   };
                 };
             }
