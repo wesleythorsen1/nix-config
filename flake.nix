@@ -150,6 +150,7 @@
                     jq.enable = true;
                     jwt-cli.enable = true;
                     kubernetes-helm.enable = true;
+                    miller.enable = true;
                     mysql80.enable = true;
                     nerd-fonts = {
                       enable = true;
