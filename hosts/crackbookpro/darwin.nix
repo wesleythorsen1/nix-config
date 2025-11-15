@@ -66,6 +66,7 @@
 
       dock = {
         autohide = true; # Auto-hide the Dock
+        orientation = "right";
         mru-spaces = false; # Don’t “Automatically rearrange Spaces based on most recent use”
       };
 

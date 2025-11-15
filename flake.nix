@@ -170,6 +170,7 @@
                     ripgrep.enable = true;
                     rsclock.enable = true;
                     sd.enable = true;
+                    sqlite.enable = true;
                     watch.enable = true;
                     wget.enable = true;
                     yank.enable = true;
