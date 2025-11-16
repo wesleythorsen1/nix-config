@@ -19,21 +19,27 @@
     ./accounts/email/personal
     ./accounts/email/take2
 
+    ./charm
     ./chromium
-    ./dotnet
+    # ./dotnet
+    ./fd
+    ./fzf
+    ./gh
+    ./git
+    ./golang
     ./nodejs
+    ./nvim
     ./open-faas
-    # ./podman
+    ./openai
     ./python3
     ./shell
-    # ./thunderbird
+    ./tree
     ./vscode
     ./wezterm
+    # ./zsh
   ];
 
   config = {
-    programs.home-manager.enable = true;
-
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowUnfreePredicate = _: true;
 
@@ -41,37 +47,59 @@
 
     fonts.fontconfig.enable = true;
 
+    programs = {
+      home-manager.enable = true;
+
+      yazi = {
+        enable = true;
+      };
+    };
+
     home = {
       stateVersion = "25.05";
 
       packages = with pkgs; [
         auth0-cli
         awscli2
-        # bun
-        # burpsuite
+        bat
+        btop
+        bws
         claude-code
-        # davinci-resolve
         dbeaver-bin
         deno
         docker
-        # doppler
+        eza
+        fastfetch
+        ffmpeg_6-headless
         fontconfig
-        # goose-cli
+        getoptions
+        gnupg
+        jq
+        jwt-cli
         kubernetes-helm
+        litecli
+        miller
         mysql80
         nerd-fonts.jetbrains-mono
         ngrok
         nix-tree
         nixd
         nixfmt-rfc-style
+        nmap
+        pipes-rs
         pnpm
         postman
-        # sbcl # LISP
-        # slack
-        # terraform
-        # zulu24
+        ripgrep
+        rsclock
+        sd
+        watch
+        wget
+        yank
+        zip
       ];
     };
+
+    golang.enable = true;
 
     gh = {
       enable = true;
@@ -100,10 +128,5 @@
         addCodeHelper = true;
       };
     };
-
-    # openai = {
-    #   enable = false;
-    #   apiKeyFile = "${config.home.homeDirectory}/.config/openai/keys/default.key";
-    # };
   };
 }

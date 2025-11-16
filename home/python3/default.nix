@@ -9,6 +9,7 @@ let
       pip
       setuptools
       wheel
+      uv
     ]
   );
 in

@@ -26,14 +26,6 @@ in
   };
 
   imports = [
-    ./charm
-    ./fd
-    ./fzf
-    ./gh
-    ./git
-    ./nvim
-    ./openai
-    ./tree
   ];
 
   config = {
@@ -41,29 +33,6 @@ in
 
     home = {
       shell.enableShellIntegration = true;
-
-      packages = with pkgs; [
-        bat
-        # bitwarden-cli # broken: https://github.com/NixOS/nixpkgs/issues/339576 https://github.com/bitwarden/clients/issues/16234
-        bws
-        btop
-        eza
-        ffmpeg_6-headless
-        getoptions
-        gnupg
-        jq
-        jwt-cli
-        fastfetch
-        nmap
-        pipes-rs
-        ripgrep
-        rsclock
-        sd
-        watch
-        wget
-        yank
-        zip
-      ];
 
       sessionVariables = {
         EDITOR = "nvim";
@@ -124,82 +93,6 @@ in
           };
         }) (builtins.attrNames (builtins.readDir ./bin))
       );
-    };
-
-    programs = {
-      yazi = {
-        enable = true;
-        # settings = {
-        #   opener = {
-        #     vim = [
-        #       {
-        #         run = "nvim \"$@\"";
-        #         block = true;
-        #         desc = "Vim";
-        #         for = "unix";
-        #       }
-        #     ];
-        #     code = [
-        #       {
-        #         run = "code -r \"$@\"";
-        #         orphan = true;
-        #         desc = "VSCode";
-        #         for = "unix";
-        #       }
-        #     ];
-        #     open = [
-        #       {
-        #         run = "open \"$@\"";
-        #         orphan = true;
-        #         for = "macos";
-        #         desc = "Default app";
-        #       }
-        #       {
-        #         run = "xdg-open \"$@\"";
-        #         orphan = true;
-        #         for = "linux";
-        #         desc = "Default app";
-        #       }
-        #     ];
-        #     exif = [
-        #       {
-        #         run = "exiftool \"$@\"";
-        #         block = true;
-        #         desc = "Show EXIF";
-        #         for = "unix";
-        #       }
-        #     ];
-        #     reveal = [
-        #       {
-        #         run = "open $(dirname \"$0\")";
-        #         orphan = true;
-        #         for = "macos";
-        #         desc = "Reveal";
-        #       }
-        #       {
-        #         run = "xdg-open $(dirname \"$0\")";
-        #         orphan = true;
-        #         for = "linux";
-        #         desc = "Reveal";
-        #       }
-        #     ];
-        #   };
-        #   open = {
-        #     rules = [
-        #       {
-        #         name = "*";
-        #         use = [
-        #           "edit"
-        #           "code"
-        #           "open"
-        #           "exif"
-        #           "reveal"
-        #         ];
-        #       }
-        #     ];
-        #   };
-        # };
-      };
     };
   };
 }

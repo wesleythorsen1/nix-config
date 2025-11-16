@@ -18,29 +18,6 @@
       ];
     };
     nixPath = lib.mkForce [ ]; # not needed for flake
-
-    # linux-builder = {
-    #   enable = true;
-    #   ephemeral = true;
-    #   protocol = "ssh";
-    #   systems = [
-    #     "aarch64-linux"
-    #     "x86_64-linux"
-    #   ];
-    #   maxJobs = 4;
-    #   config = {
-    #     boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
-    #     nix.settings.extra-platforms = [ "x86_64-linux" ];
-
-    #     virtualisation = {
-    #       darwin-builder = {
-    #         diskSize = 40 * 1024;
-    #         memorySize = 8 * 1024;
-    #       };
-    #       cores = 6;
-    #     };
-    #   };
-    # };
   };
   nixpkgs.config.checkByDefault = false;
   nixpkgs.overlays = overlays;
@@ -66,6 +43,7 @@
 
       dock = {
         autohide = true; # Auto-hide the Dock
+        orientation = "right";
         mru-spaces = false; # Don’t “Automatically rearrange Spaces based on most recent use”
       };
 
@@ -76,9 +54,6 @@
 
     keyboard = {
       enableKeyMapping = true; # Turn on nix-darwin’s key-mapping support
-      # swapLeftCommandAndLeftAlt = true;  # Swap the left Command (⌘) and left Option (⌥) keys
-      # remapCapsLockToControl    = true;  # Remap Caps Lock to Control
-      # swapLeftCtrlAndFn         = false; # Swap left Control and Fn/Globe
     };
   };
 
@@ -111,6 +86,7 @@
     ];
   };
 
+  # TODO: I want to actually make these for ONLY my user, there is no need for these to owned by the darwin host
   programs = {
     zsh = {
       enable = true;
