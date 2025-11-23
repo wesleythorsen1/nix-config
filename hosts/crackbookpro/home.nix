@@ -8,7 +8,7 @@
 
   programs.git.settings = {
     user = {
-      name = "wesleythorsen1";
+      name = "wesleythorsen";
       email = "wesley.thorsen@gmail.com";
     };
     credential.helper = "osxkeychain";

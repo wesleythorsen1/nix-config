@@ -9,8 +9,8 @@
   options.homeConfig = {
     nixConfigPath = lib.mkOption {
       type = lib.types.str;
-      description = "Path to your flake-based Nix config directory (e.g. ~/repos/github.com/wesleythorsen1/nix-config)";
-      default = "${config.home.homeDirectory}/repos/github.com/wesleythorsen1/nix-config";
+      description = "Path to your flake-based Nix config directory (e.g. ~/repos/github.com/wesleythorsen/nix-config)";
+      default = "${config.home.homeDirectory}/repos/github.com/wesleythorsen/nix-config";
     };
   };
 
@@ -22,12 +22,16 @@
     ./charm
     ./chromium
     # ./dotnet
+    ./eza
+    ./fabric-ai
     ./fd
     ./fzf
     ./gh
     ./git
     ./golang
+    ./helix
     ./nodejs
+    ./nushell
     ./nvim
     ./open-faas
     ./openai
@@ -68,7 +72,6 @@
         dbeaver-bin
         deno
         docker
-        eza
         fastfetch
         ffmpeg_6-headless
         fontconfig

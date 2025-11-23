@@ -64,7 +64,7 @@ in
   home.file = {
     ".oh-my-zsh-custom/git-posh.zsh" = {
       source = pkgs.fetchurl {
-        url = "https://gist.githubusercontent.com/wesleythorsen1/6d251331f8b0f6ede7ff32d38d7d4ba8/raw/3eea77779577c64e3a251754cae50e96a3e2841d/git-posh.zsh";
+        url = "https://gist.githubusercontent.com/wesleythorsen/6d251331f8b0f6ede7ff32d38d7d4ba8/raw/3eea77779577c64e3a251754cae50e96a3e2841d/git-posh.zsh";
         sha256 = "sha256-77wsJUCO+55iwqqsfjBdX3htnscL9zz5YZClVwjVbxs=";
       };
     };

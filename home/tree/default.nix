@@ -9,6 +9,6 @@
       tree
     ];
 
-    shellAliases.tree = "tree -a";
+    shellAliases.tree = "tree -a -I '.git'";
   };
 }

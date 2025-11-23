@@ -292,7 +292,7 @@ in
         prompt.enable = true;
         config = {
           user = {
-            name = "wesleythorsen1";
+            name = "wesleythorsen";
             email = "wesley.thorsen@gmail.com";
             signingkey = "FAE484F021AE49E5";
           };

@@ -34,7 +34,7 @@
           autoSetupRemote = true;
         };
         core = {
-          editor = "nvim";
+          editor = "hx";
           repositoryformatversion = 0;
           filemode = true;
           bare = false;

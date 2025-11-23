@@ -25,9 +25,6 @@ in
     description = "Reusable shell functions available across modules";
   };
 
-  imports = [
-  ];
-
   config = {
     shell.functions = shellFunctions;
 
@@ -35,7 +32,7 @@ in
       shell.enableShellIntegration = true;
 
       sessionVariables = {
-        EDITOR = "nvim";
+        EDITOR = "hx";
         NIX_ACTIVE_CONFIG_DIR = "${config.home.homeDirectory}/nix";
       };
 
@@ -45,9 +42,9 @@ in
 
       shellAliases = {
         c = "clear";
-        l = "eza -la";
-        lt = "eza -laT -I=.git";
-        v = "nvim";
+        # l = "eza -la";
+        # lt = "eza -laT -I=.git";
+        v = "hx";
         na = "nix-activate ."; # see "bin/nix-activate" script below
       };
 
