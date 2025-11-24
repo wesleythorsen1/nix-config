@@ -21,6 +21,7 @@
 
     ./charm
     ./chromium
+    ./codex
     # ./dotnet
     ./eza
     ./fabric-ai
