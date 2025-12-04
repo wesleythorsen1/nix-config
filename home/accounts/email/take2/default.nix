@@ -28,9 +28,5 @@
     maildir = {
       path = "take2";
     };
-
-    thunderbird = {
-      enable = config.programs.thunderbird.enable;
-    };
   };
 }
