@@ -15,33 +15,7 @@
   };
 
   imports = [
-    ./accounts/email
-    ./accounts/email/personal
-    ./accounts/email/take2
-
-    ./charm
-    ./chromium
-    ./codex
-    # ./dotnet
-    ./eza
-    ./fabric-ai
-    ./fd
-    ./fzf
-    ./gh
-    ./git
-    ./golang
-    ./helix
-    ./nodejs
-    ./nushell
-    ./nvim
-    ./open-faas
-    ./openai
-    ./python3
-    ./shell
-    ./tree
-    ./vscode
-    ./wezterm
-    # ./zsh
+    # All module imports handled via dendritic aspects now.
   ];
 
   config = {
@@ -107,32 +81,5 @@
 
     golang.enable = true;
 
-    gh = {
-      enable = true;
-
-      settings = {
-        git_protocol = "https";
-        editor = "code --wait";
-        prompt = "enabled";
-        prefer_editor_prompt = "disabled";
-      };
-
-      aliases = {
-        prco = "pr checkout";
-        prv = "pr view";
-        prc = "pr create";
-      };
-
-      ghq = {
-        enable = true;
-        root = "${config.home.homeDirectory}/repos";
-        useEnvVar = true;
-      };
-
-      gcd = {
-        enable = true;
-        addCodeHelper = true;
-      };
-    };
   };
 }

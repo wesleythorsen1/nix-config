@@ -1,100 +1,37 @@
+# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# Use `nix run .#write-flake` to regenerate it.
 {
-  description = "nix config";
+
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
-    # nixpkgs = {
-    #   url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
-    # };
-    nixpkgs-unstable = {
-      url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    darwin = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-darwin/nix-darwin";
     };
-    nix-vscode-extensions = {
-      url = "github:nix-community/nix-vscode-extensions";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    den.url = "github:vic/den";
+    flake-aspects.url = "github:vic/flake-aspects";
+    flake-file.url = "github:vic/flake-file";
+    flake-parts = {
+      inputs.nixpkgs-lib.follows = "nixpkgs-lib";
+      url = "github:hercules-ci/flake-parts";
     };
     home-manager = {
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nix-darwin = {
-      url = "github:nix-darwin/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    import-tree.url = "github:vic/import-tree";
+    mac-app-util = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:hraban/mac-app-util";
     };
+    nix-vscode-extensions = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nix-vscode-extensions";
+    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-lib.follows = "nixpkgs";
+    systems.url = "github:nix-systems/default";
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs-unstable,
-      home-manager,
-      nix-vscode-extensions,
-      nix-darwin,
-      mac-app-util,
-      ...
-    }@inputs:
-    let
-      inherit (self) outputs;
-      overlays = [
-        nix-vscode-extensions.overlays.default
-
-        (
-          final: prev:
-          let
-            unstable = import nixpkgs-unstable {
-              inherit (prev) system;
-              config.allowUnfree = true;
-            };
-          in
-          {
-            brave = unstable.brave;
-            dbeaver-bin = unstable.dbeaver-bin;
-            docker = unstable.docker;
-            postman = unstable.postman;
-            slack = unstable.slack;
-            thunderbird = unstable.thunderbird;
-            vscode = unstable.vscode;
-            podman = unstable.podman;
-            podman-desktop = unstable.podman-desktop;
-            # zoom-us = unstable.zoom-us;
-          }
-        )
-      ];
-    in
-    {
-      darwinConfigurations = {
-        crackbookpro = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-
-          pkgs = import nixpkgs-unstable {
-            system = "aarch64-darwin";
-            overlays = overlays;
-            config.allowUnfree = true;
-          };
-
-          specialArgs = { inherit inputs outputs overlays; };
-
-          modules = [
-            ./hosts/crackbookpro/darwin.nix
-
-            mac-app-util.darwinModules.default
-
-            home-manager.darwinModules.home-manager
-            {
-              home-manager.useGlobalPkgs = false;
-              home-manager.useUserPackages = true;
-              home-manager.users.wes = import ./hosts/crackbookpro/home.nix;
-              home-manager.extraSpecialArgs = { inherit overlays inputs; };
-              home-manager.backupFileExtension = "backup";
-              home-manager.sharedModules = [
-                mac-app-util.homeManagerModules.default
-              ];
-            }
-          ];
-        };
-      };
-    };
 }
