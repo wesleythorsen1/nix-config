@@ -64,6 +64,7 @@
       stateVersion = "25.05";
 
       packages = with pkgs; [
+        android-tools
         auth0-cli
         awscli2
         bat
@@ -100,6 +101,7 @@
         wget
         yank
         zip
+        zstd
       ];
     };
 
